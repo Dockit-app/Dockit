@@ -27,4 +27,12 @@ public class OrderViewModel extends AndroidViewModel {
     public LiveData<Order> getLiveOrders() {
         return liveOrders;
     }
+
+    public void insertOrders(Order entity) {
+
+    }
+
+    //Update
+
+    //Delete
 }

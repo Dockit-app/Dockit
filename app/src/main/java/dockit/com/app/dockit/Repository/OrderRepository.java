@@ -19,6 +19,8 @@ public class OrderRepository {
     }
 
     public LiveData<Order> getOrders() {
+
+        //get orders from DB
         return null;
     }
 }

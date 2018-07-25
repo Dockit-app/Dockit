@@ -17,4 +17,8 @@ public interface OrderApiInterface {
     @GET("api/UserExpression")
     Call<List<Order>> getAll();
 
+    //Get by id
+
+    //Update
+
 }

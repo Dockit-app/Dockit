@@ -27,4 +27,8 @@ public class OrderApiClient extends BaseApiClient<Order> {
 
         executeGet(callback, orderApiInterface.getAll());
     }
+
+    //Create
+
+    //Update
 }

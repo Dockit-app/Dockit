@@ -7,13 +7,15 @@ import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.content.res.Resources;
 
+import dockit.com.app.dockit.Data.Dao.OrderLocationDao;
 import dockit.com.app.dockit.Entity.Order;
+import dockit.com.app.dockit.Entity.OrderLocation;
 
 /**
  * Created by michael on 24/07/18.
  */
 
-@Database(entities = { Order.class }, version = 1)
+@Database(entities = { Order.class, OrderLocation.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class LocalDatabase extends RoomDatabase {
 
@@ -36,5 +38,5 @@ public abstract class LocalDatabase extends RoomDatabase {
     }
 
 
-    //public abstract OrderDao orderDao(); //Used to access entity
+    public abstract OrderLocationDao orderLocationDao();
 }
