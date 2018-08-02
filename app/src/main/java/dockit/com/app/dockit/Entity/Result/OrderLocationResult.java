@@ -1,21 +1,25 @@
-package dockit.com.app.dockit.Entity;
+package dockit.com.app.dockit.Entity.Result;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.Relation;
+
+import java.util.List;
+
+import dockit.com.app.dockit.Entity.Menu;
 
 /**
- * Created by michael on 25/07/18.
+ * Created by michael on 01/08/18.
  */
 
-@Entity(tableName = "order_location")
-public class OrderLocation {
+public class OrderLocationResult {
 
-    @PrimaryKey(autoGenerate = true)
     private Integer id;
     private Integer orderId;
     private Integer locationNumber;
     private String locationText;
     private boolean selected;
+
+    @Relation(entity = Menu.class, parentColumn = "id", entityColumn = "locationId")
+    public List<MenuResult> menus;
 
     public Integer getId() {
         return id;

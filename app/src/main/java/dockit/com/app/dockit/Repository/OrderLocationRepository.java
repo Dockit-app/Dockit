@@ -1,6 +1,7 @@
 package dockit.com.app.dockit.Repository;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import java.util.List;
 
@@ -24,6 +25,29 @@ public class OrderLocationRepository {
 
     public List<OrderLocation> getByOrderId(int id) {
         return orderLocationDao.getByOrderId(id);
+    }
+
+    public int create(OrderLocation orderLocation) {
+        return (int)orderLocationDao.insert(orderLocation);
+    }
+
+    public void createOrderLocations(List<OrderLocation> orderLocations) {
+        new CreateItemsAsync(orderLocationDao).execute(orderLocations);
+    }
+
+    private static class CreateItemsAsync extends AsyncTask<List<OrderLocation>, Void, Void> {
+
+        private OrderLocationDao orderLocationDao;
+
+        CreateItemsAsync(OrderLocationDao orderLocationDao) {
+            this.orderLocationDao = orderLocationDao;
+        }
+
+        @Override
+        protected Void doInBackground(List<OrderLocation>... orderLocations) {
+            orderLocationDao.insertAll(orderLocations[0]);
+            return null;
+        }
     }
 
 

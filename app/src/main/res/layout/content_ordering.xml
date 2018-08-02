@@ -42,8 +42,7 @@
                 android:id="@+id/order_location_recyclerView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                tools:listitem="@layout/order_location_list_item" >
-            </android.support.v7.widget.RecyclerView>
+                tools:listitem="@layout/order_location_list_item" />
         </LinearLayout>
 
         <RelativeLayout
