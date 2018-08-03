@@ -22,11 +22,13 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
     class MenuItemViewHolder extends RecyclerView.ViewHolder {
 
         private TextView description;
+        private TextView ingredients;
 
         public MenuItemViewHolder(View itemView) {
             super(itemView);
 
             this.description = itemView.findViewById(R.id.description);
+            this.ingredients = itemView.findViewById(R.id.ingredients);
         }
     }
 
@@ -49,8 +51,9 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
     @Override
     public void onBindViewHolder(@NonNull MenuItemViewHolder holder, int position) {
         MenuItem menuItem = menuItems.get(position);
-
         holder.description.setText(menuItem.getDescription());
+        if(menuItem.getIngredients() != null)
+            holder.ingredients.setText("("+menuItem.getIngredients()+")");
     }
 
     @Override

@@ -3,12 +3,14 @@ package dockit.com.app.dockit.Entity;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.io.Serializable;
+
 /**
  * Created by michael on 27/07/18.
  */
 
 @Entity
-public class MenuItem {
+public class MenuItem implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;

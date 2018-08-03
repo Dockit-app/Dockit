@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import dockit.com.app.dockit.Adapter.MenuItemListAdapter;
+import dockit.com.app.dockit.ClickListener.MenuItemClickListenerBuilder;
 import dockit.com.app.dockit.Entity.Menu;
 import dockit.com.app.dockit.Entity.Result.MenuResult;
 import dockit.com.app.dockit.R;
@@ -42,12 +43,18 @@ public class MenuFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_menu, container, false);
 
+        MenuResult menu = (MenuResult)getArguments().getSerializable("menu");
+
+        setMenuItemRecyclerView(rootView, menu);
+
         return rootView;
     }
 
-    private void setMenuItemRecyclerView(ViewGroup rootView) {
+    private void setMenuItemRecyclerView(ViewGroup rootView, MenuResult menu) {
         RecyclerView recyclerView = rootView.findViewById(R.id.menu_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(new MenuItemListAdapter(rootView.getContext(), menu.menuItems));
+
+        new MenuItemClickListenerBuilder().setOnClickListener(recyclerView);
     }
 }

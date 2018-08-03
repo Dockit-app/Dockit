@@ -1,5 +1,6 @@
 package dockit.com.app.dockit.Repository;
 
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -23,8 +24,8 @@ public class OrderLocationRepository {
         orderLocationDao = localDatabase.orderLocationDao();
     }
 
-    public List<OrderLocation> getByOrderId(int id) {
-        return orderLocationDao.getByOrderId(id);
+    public LiveData<List<OrderLocation>> getAllLive() {
+        return orderLocationDao.getAllLive();
     }
 
     public int create(OrderLocation orderLocation) {

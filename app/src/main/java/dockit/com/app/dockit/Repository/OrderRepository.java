@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 
 import java.util.List;
 
+import dockit.com.app.dockit.Data.Dao.CreateOrderTransaction;
 import dockit.com.app.dockit.Data.Dao.OrderDao;
 import dockit.com.app.dockit.Data.Dao.OrderLocationDao;
 import dockit.com.app.dockit.Data.LocalDatabase;
@@ -19,9 +20,11 @@ import dockit.com.app.dockit.Entity.Result.OrderResult;
 public class OrderRepository {
 
     private OrderDao orderDao;
+    private CreateOrderTransaction createOrderTransaction;
 
     public OrderRepository(Context context) {
-        orderDao = LocalDatabase.getInstance(context).orderDao();
+        this.orderDao = LocalDatabase.getInstance(context).orderDao();
+        this.createOrderTransaction = LocalDatabase.getInstance(context).createOrderTransaction();
     }
 
     public LiveData<List<OrderResult>> getLiveOrders() {
@@ -30,5 +33,9 @@ public class OrderRepository {
 
     public int createOrder(Order order) {
         return (int)orderDao.insert(order);
+    }
+
+    public void createOrderTransaction(String tableName) {
+        createOrderTransaction.createOrder(tableName);
     }
 }

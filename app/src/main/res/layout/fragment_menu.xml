@@ -1,42 +1,75 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout android:id="@+id/menu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-<android.support.design.widget.TabLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="2">
-
-</android.support.design.widget.TabLayout>
-
-<android.support.v4.view.ViewPager
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/menu_view_pager"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="8">
-
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout
-        android:id="@+id/menu"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
-        android:orientation="horizontal">
-        <ScrollView
-            android:id="@+id/diet_options"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></ScrollView>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/menu_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <include layout="@layout/content_ordering" />
-        </android.support.v7.widget.RecyclerView>
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Vegan"
+                android:textSize="20sp"/>
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Vegetarian"
+                android:textSize="20sp"/>
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Gluten Free"
+                android:textSize="20sp"/>
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Coeliac"
+                android:textSize="20sp"/>
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
     </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/menu_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9">
+    </android.support.v7.widget.RecyclerView>
 
-
-</android.support.v4.view.ViewPager>
 </LinearLayout>
+
+

@@ -2,10 +2,12 @@ package dockit.com.app.dockit.Tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import dockit.com.app.dockit.Data.LocalDatabase;
 import dockit.com.app.dockit.Entity.Menu;
 import dockit.com.app.dockit.Entity.MenuItem;
 import dockit.com.app.dockit.Entity.MenuItemTemplate;
@@ -27,37 +29,48 @@ public class CreateOrderAsync extends AsyncTask<String, Void, Void> {
     private OrderLocationRepository orderLocationRepository;
     private OrderMenuRepository orderMenuRepository;
     private MenuTemplateRepository menuTemplateRepository;
+    private LocalDatabase db;
 
     public CreateOrderAsync(Context context) {
         this.orderRepository = new OrderRepository(context);
         this.orderLocationRepository = new OrderLocationRepository(context);
         this.orderMenuRepository = new OrderMenuRepository(context);
         this.menuTemplateRepository = new MenuTemplateRepository(context);
+        this.db = LocalDatabase.getInstance(context);
     }
+
+//    @Override
+//    protected Void doInBackground(String... strings) {
+//        db.beginTransaction();
+//        createNewOrder(strings[0]);
+//        db.endTransaction();
+//        return null;
+//    }
 
     @Override
     protected Void doInBackground(String... strings) {
-        createNewOrder(strings[0]);
-        return null;
+        orderRepository.createOrderTransaction(strings[0]);
+        return  null;
     }
 
-    public void createNewOrder(String tableNumber) {
+    private void createNewOrder(String tableNumber) {
         Order order = new Order();
         order.setTable(tableNumber);
         int orderId = orderRepository.createOrder(order);
 
-        int locationId = createNewOrderLocation(orderId);
-
-        createNewMenus(locationId);
+        createNewOrderLocation(orderId);
+        db.setTransactionSuccessful();
     }
 
-    private int createNewOrderLocation(int orderId) {
+    private void createNewOrderLocation(int orderId) {
 
         OrderLocation orderLocation = new OrderLocation();
         orderLocation.setOrderId(orderId);
         orderLocation.setLocationNumber(1);
 
-        return orderLocationRepository.create(orderLocation);
+        int locationId = orderLocationRepository.create(orderLocation);
+
+        createNewMenus(locationId);
     }
 
     private void createNewMenus(int locationId) {
@@ -73,6 +86,7 @@ public class CreateOrderAsync extends AsyncTask<String, Void, Void> {
             int menuId = orderMenuRepository.createMenu(menu);
             createMenuItems(menuId, menuTemplateResult.menuItemTemplates);
 
+            Log.d(this.getClass().getSimpleName(), "Created menu with id "+menuId);
         }
 
     }

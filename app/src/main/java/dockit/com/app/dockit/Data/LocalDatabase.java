@@ -7,7 +7,9 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
 
+import dockit.com.app.dockit.Data.Dao.CreateOrderTransaction;
 import dockit.com.app.dockit.Data.Dao.MenuDao;
 import dockit.com.app.dockit.Data.Dao.MenuItemDao;
 import dockit.com.app.dockit.Data.Dao.MenuItemTemplateDao;
@@ -41,6 +43,7 @@ public abstract class LocalDatabase extends RoomDatabase {
 
             instance =
                     Room.databaseBuilder(context.getApplicationContext(), LocalDatabase.class, "local_database")
+                            .addCallback(cleanDatabaseAsync)
                             .addCallback(insertTemplatesCallback)
                             .build();
         }
@@ -56,12 +59,23 @@ public abstract class LocalDatabase extends RoomDatabase {
     public abstract MenuTemplateDao menuTemplateDao();
     public abstract MenuItemTemplateDao menuItemTemplateDao();
 
+    public abstract CreateOrderTransaction createOrderTransaction();
+
     private static LocalDatabase.Callback insertTemplatesCallback =
         new LocalDatabase.Callback() {
             @Override
-            public void onOpen(SupportSQLiteDatabase db) {
-                super.onOpen(db);
+            public void onCreate(SupportSQLiteDatabase db) {
+                super.onCreate(db);
                 new InsertTemplatesAsync(instance).execute();
             }
         };
+
+    private static LocalDatabase.Callback cleanDatabaseAsync =
+        new LocalDatabase.Callback() {
+            @Override
+            public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                super.onCreate(db);
+                new CleanDBAsync(instance).execute();
+            }
+    };
 }

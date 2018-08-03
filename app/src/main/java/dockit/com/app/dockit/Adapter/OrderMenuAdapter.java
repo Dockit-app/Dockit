@@ -30,6 +30,11 @@ public class OrderMenuAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
+    public CharSequence getPageTitle(int position) {
+        return menus.get(position).getMenuName();
+    }
+
+    @Override
     public Fragment getItem(int position) {
         MenuResult menu = menus.get(position);
         return MenuFragment.newInstance(menu);

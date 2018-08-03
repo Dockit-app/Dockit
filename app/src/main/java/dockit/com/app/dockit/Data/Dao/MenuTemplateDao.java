@@ -1,6 +1,7 @@
 package dockit.com.app.dockit.Data.Dao;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
@@ -21,6 +22,8 @@ public interface MenuTemplateDao {
     long create(MenuTemplate menuTemplate);
 
     @Query("select * from menu_template")
-    @Transaction
     List<MenuTemplateResult> getAll();
+
+    @Query("Delete from menu_template")
+    void deleteAll();
 }

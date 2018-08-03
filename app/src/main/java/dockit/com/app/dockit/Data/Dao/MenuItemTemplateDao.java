@@ -22,4 +22,7 @@ public interface MenuItemTemplateDao {
 
     @Query("Select * from menu_item_template")
     List<MenuItemTemplate> getAll();
+
+    @Query("Delete from menu_item_template")
+    void deleteAll();
 }

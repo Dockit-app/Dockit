@@ -33,30 +33,34 @@ public class InsertTemplatesAsync extends AsyncTask<Void, Void, Void> {
     private void createMenuTemplate() {
         List<MenuTemplate> menuTemplates = new ArrayList<>();
 
-        String[] menuNames = { "Set Menu", "A La Carte" };
+        String[] menuNames = { "Set Menu", "A La Carte", "€49.95 Menu" };
+        String[] menuItemDescription = {"Heirloom Tomato", "Country Style Terrine", "Salt Cod Beignets"};
+        String[] sections = { "Appetiser", "Mains", "Dessert", "Sides" };
+        String[] menuItemIngredients = {"Burrata, Mint, Puff Wild Rice", "Foie Gras, Walnuts, Grapes, Quince", "Caeser Aioli, Pickled Cucumber"};
 
-
-        List<Integer> menuIds = new ArrayList<>();
-
-        for(int i = 0; i < 2; i++) {
+        for(int i = 0; i < menuNames.length; i++) {
             MenuTemplate menuTemplate = new MenuTemplate();
             menuTemplate.setMenuName(menuNames[i]);
 
             Integer menuId = (int)menuTemplateDao.create(menuTemplate);
-            menuIds.add(menuId);
+
+            for(int k = 0; k < sections.length; k++) {
+
+                MenuItemTemplate menuDescription = new MenuItemTemplate();
+                menuDescription.setMenuTemplateId(menuId);
+                menuDescription.setDescription(sections[k]);
+                menuItemTemplateDao.create(menuDescription);
+
+                for (int j = 0; j < menuItemDescription.length; j++) {
+                    MenuItemTemplate menuItemTemplate = new MenuItemTemplate();
+                    menuItemTemplate.setMenuTemplateId(menuId);
+                    menuItemTemplate.setDescription(menuItemDescription[j]);
+                    menuItemTemplate.setIngredients(menuItemIngredients[j]);
+                    menuItemTemplateDao.create(menuItemTemplate);
+                }
+
+            }
+
         }
-
-        String[] menuItemDescription = {"Heirloom Tomato", "Country Style Terrine", "Salt Cod Beignets"};
-        String[] menuItemIngredients = {"Burrata, Mint, Puff Wild Rice", "Foie Gras, Walnuts, Grapes, Quince", "Caeser Aioli, Pickled Cucumber"};
-        for(int i = 0; i < 3; i++) {
-            MenuItemTemplate menuItemTemplate = new MenuItemTemplate();
-            menuItemTemplate.setMenuTemplateId(menuIds.get(i));
-            menuItemTemplate.setDescription(menuItemDescription[i]);
-            menuItemTemplate.setIngredients(menuItemIngredients[i]);
-            menuItemTemplateDao.create(menuItemTemplate);
-        }
-
-
-
     }
 }
