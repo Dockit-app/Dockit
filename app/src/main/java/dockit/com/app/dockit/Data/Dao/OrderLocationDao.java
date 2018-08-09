@@ -5,10 +5,13 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 
 import dockit.com.app.dockit.Entity.OrderLocation;
+import dockit.com.app.dockit.Entity.OrderLocationAmount;
+import dockit.com.app.dockit.Entity.Result.OrderLocationResult;
 
 /**
  * Created by michael on 25/07/18.
@@ -16,15 +19,21 @@ import dockit.com.app.dockit.Entity.OrderLocation;
 @Dao
 public interface OrderLocationDao {
 
-    @Query("Select * From order_location Where id = :id")
-    List<OrderLocation> getByOrderId(int id);
+    @Query("Select * From order_location Where orderId = :orderId")
+    LiveData<List<OrderLocationResult>> getByOrderId(int orderId);
 
-    @Query("Select * From order_location")
-    LiveData<List<OrderLocation>> getAllLive();
+    @Query("Select * From order_location Where id = :id")
+    OrderLocationResult getById(int id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<OrderLocation> orderLocations);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(OrderLocation orderLocation);
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    int update(OrderLocation orderLocation);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insert(OrderLocationAmount orderLocationAmount);
 }

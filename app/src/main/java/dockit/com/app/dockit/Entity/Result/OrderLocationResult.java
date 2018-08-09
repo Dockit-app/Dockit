@@ -16,7 +16,6 @@ public class OrderLocationResult {
     private Integer orderId;
     private Integer locationNumber;
     private String locationText;
-    private boolean selected;
 
     @Relation(entity = Menu.class, parentColumn = "id", entityColumn = "locationId")
     public List<MenuResult> menus;
@@ -43,14 +42,6 @@ public class OrderLocationResult {
 
     public void setLocationNumber(Integer locationNumber) {
         this.locationNumber = locationNumber;
-    }
-
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
     }
 
     public String getLocationText() {

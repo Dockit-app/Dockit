@@ -1,5 +1,7 @@
 package dockit.com.app.dockit.Fragment;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,11 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import dockit.com.app.dockit.Adapter.MenuItemListAdapter;
 import dockit.com.app.dockit.ClickListener.MenuItemClickListenerBuilder;
 import dockit.com.app.dockit.Entity.Menu;
+import dockit.com.app.dockit.Entity.MenuItem;
 import dockit.com.app.dockit.Entity.Result.MenuResult;
 import dockit.com.app.dockit.R;
+import dockit.com.app.dockit.ViewModel.MenuItemViewModel;
 
 /**
  * Created by michael on 26/07/18.
@@ -22,7 +28,8 @@ import dockit.com.app.dockit.R;
 
 public class MenuFragment extends Fragment {
 
-    MenuResult menu;
+    MenuItemViewModel menuItemViewModel;
+    MenuItemListAdapter menuItemListAdapter;
 
     public static MenuFragment newInstance(MenuResult menu) {
         
@@ -45,6 +52,15 @@ public class MenuFragment extends Fragment {
 
         MenuResult menu = (MenuResult)getArguments().getSerializable("menu");
 
+        menuItemViewModel = ViewModelProviders.of(this).get(MenuItemViewModel.class);
+
+        menuItemViewModel.getLiveMenuItemsByMenuId(menu.getId()).observe(this, new Observer<List<MenuItem>>() {
+            @Override
+            public void onChanged(@Nullable List<MenuItem> menuItems) {
+                menuItemListAdapter.notifyDataSetChanged();
+            }
+        });
+
         setMenuItemRecyclerView(rootView, menu);
 
         return rootView;
@@ -53,8 +69,9 @@ public class MenuFragment extends Fragment {
     private void setMenuItemRecyclerView(ViewGroup rootView, MenuResult menu) {
         RecyclerView recyclerView = rootView.findViewById(R.id.menu_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new MenuItemListAdapter(rootView.getContext(), menu.menuItems));
+        menuItemListAdapter = new MenuItemListAdapter(rootView.getContext(), menu.menuItems);
+        recyclerView.setAdapter(menuItemListAdapter);
 
-        new MenuItemClickListenerBuilder().setOnClickListener(recyclerView);
+        new MenuItemClickListenerBuilder(menuItemViewModel, menuItemListAdapter).setOnClickListener(recyclerView);
     }
 }

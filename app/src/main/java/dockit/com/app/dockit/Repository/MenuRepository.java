@@ -14,24 +14,18 @@ import dockit.com.app.dockit.Entity.MenuItem;
  * Created by michael on 27/07/18.
  */
 
-public class OrderMenuRepository {
+public class MenuRepository {
 
 
     MenuDao menuDao;
-    MenuItemDao menuItemDao;
 
-    public OrderMenuRepository(Context context) {
+    public MenuRepository(Context context) {
         menuDao = LocalDatabase.getInstance(context).menuDao();
-        menuItemDao = LocalDatabase.getInstance(context).menuItemDao();
     }
 
 
     public int createMenu(Menu menu) {
         return (int) menuDao.insert(menu);
-    }
-
-    public void createAllMenuItems(List<MenuItem> menuItems) {
-        menuItemDao.insertAll(menuItems);
     }
 
 }

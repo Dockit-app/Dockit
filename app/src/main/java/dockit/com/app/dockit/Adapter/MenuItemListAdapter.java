@@ -1,11 +1,13 @@
 package dockit.com.app.dockit.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -21,6 +23,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
 
     class MenuItemViewHolder extends RecyclerView.ViewHolder {
 
+        private LinearLayout menuItem;
         private TextView description;
         private TextView ingredients;
 
@@ -29,6 +32,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
 
             this.description = itemView.findViewById(R.id.description);
             this.ingredients = itemView.findViewById(R.id.ingredients);
+            this.menuItem = itemView.findViewById(R.id.menu_item);
         }
     }
 
@@ -54,6 +58,13 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
         holder.description.setText(menuItem.getDescription());
         if(menuItem.getIngredients() != null)
             holder.ingredients.setText("("+menuItem.getIngredients()+")");
+
+        if(menuItem.isSelected()) {
+            holder.menuItem.setBackgroundColor(Color.BLUE);
+        }
+        else {
+            holder.menuItem.setBackgroundColor(Color.WHITE);
+        }
     }
 
     @Override
@@ -62,5 +73,9 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
             return menuItems.size();
         }
         return 0;
+    }
+
+    public MenuItem getItemAtPosition(int position) {
+        return menuItems.get(position);
     }
 }
