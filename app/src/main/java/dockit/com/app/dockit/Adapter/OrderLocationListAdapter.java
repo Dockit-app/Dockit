@@ -1,7 +1,9 @@
 package dockit.com.app.dockit.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import dockit.com.app.dockit.Entity.Decorator.OrderLocationView;
 import dockit.com.app.dockit.Entity.OrderLocation;
 import dockit.com.app.dockit.R;
 
@@ -22,21 +25,21 @@ public class OrderLocationListAdapter extends RecyclerView.Adapter<OrderLocation
     class OrderLocationViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView textView;
-        private final View itemView;
+        private final CardView cardView;
 
         public OrderLocationViewHolder(View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.order_location_text);
-            this.itemView = itemView;
+            this.textView = itemView.findViewById(R.id.order_location_text);
+            this.cardView = itemView.findViewById(R.id.order_location_card);
         }
     }
 
-    private List<OrderLocation> orderLocations;
+    private List<OrderLocationView> orderLocationViews;
     private LayoutInflater layoutInflater;
+    private OrderLocation selectedOrderLocation;
 
-    public OrderLocationListAdapter(Context context, List<OrderLocation> orderLocations) {
+    public OrderLocationListAdapter(Context context) {
         layoutInflater = LayoutInflater.from(context);
-        this.orderLocations = orderLocations;
     }
 
     @NonNull
@@ -51,35 +54,45 @@ public class OrderLocationListAdapter extends RecyclerView.Adapter<OrderLocation
     @Override
     public void onBindViewHolder(final @NonNull OrderLocationViewHolder holder,final int position) {
 
-        final OrderLocation orderLocation = orderLocations.get(position);
-        String textValue = orderLocation.getLocationText();
-        holder.textView.setText(textValue);
+        if (orderLocationViews != null) {
+            final OrderLocationView orderLocationView = orderLocationViews.get(position);
+            String textValue = orderLocationView.getLocationText();
+            holder.textView.setText(textValue);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                //Update text to number
-                if(!orderLocation.isSelected()) {
-                    orderLocation.setLocationText(Integer.toString(orderLocation.getLocationNumber()));
-                    holder.textView.setText(orderLocation.getLocationText());
-                    orderLocation.setSelected(true);
-
-                    notifyDataSetChanged();
-
-                    //TODO: create new menu
-                }
+            //Is currently selected
+            if(orderLocationView.isSelected()) {
+                holder.cardView.setCardBackgroundColor(Color.BLUE);
+                holder.textView.setTextColor(Color.WHITE);
             }
-        });
+            //Already exists
+            else if(orderLocationView.isCreated()) {
+                holder.cardView.setCardBackgroundColor(Color.RED);
+                holder.textView.setTextColor(Color.WHITE);
+            }
+            //New
+            else {
+                holder.cardView.setCardBackgroundColor(Color.WHITE);
+                holder.textView.setTextColor(Color.BLACK);
+            }
+        }
 
     }
-
     @Override
     public int getItemCount() {
-        if(orderLocations != null) {
-            return orderLocations.size();
+        if(orderLocationViews != null) {
+            return orderLocationViews.size();
         }
         return 0;
     }
 
+    public void setOrderLocationViews(List<OrderLocationView> orderLocationViews) {
+        this.orderLocationViews = orderLocationViews;
+    }
+
+    public OrderLocationView getItemAtPosition(int position) {
+        if(orderLocationViews != null) {
+            return orderLocationViews.get(position);
+        }
+        return null;
+    }
 }

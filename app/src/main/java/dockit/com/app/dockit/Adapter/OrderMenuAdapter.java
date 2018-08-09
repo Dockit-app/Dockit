@@ -25,7 +25,7 @@ public class OrderMenuAdapter extends FragmentStatePagerAdapter {
         super(fragmentManager);
     }
 
-    public void addOrderResult(List<MenuResult> menus)  {
+    public void setOrderResult(List<MenuResult> menus)  {
         this.menus = menus;
     }
 

@@ -4,24 +4,49 @@ import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import dockit.com.app.dockit.Adapter.MenuItemListAdapter;
+import dockit.com.app.dockit.Entity.MenuItem;
+import dockit.com.app.dockit.ViewModel.MenuItemViewModel;
+
 /**
  * Created by michael on 03/08/18.
  */
 
 public class MenuItemClickListenerBuilder {
 
+    MenuItemViewModel menuItemViewModel;
+    MenuItemListAdapter menuItemListAdapter;
+
+    public MenuItemClickListenerBuilder(MenuItemViewModel menuItemViewModel, MenuItemListAdapter menuItemListAdapter) {
+        this.menuItemListAdapter = menuItemListAdapter;
+        this.menuItemViewModel = menuItemViewModel;
+    }
+
     public void setOnClickListener(RecyclerView view) {
         view.addOnItemTouchListener(new RecyclerViewClickListener(view.getContext(), view, new RecyclerViewClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if(view.getTag() != null && view.getTag().equals("isClicked")) {
-                    view.setBackgroundColor(Color.WHITE);
-                    view.setTag("notClicked");
+
+                MenuItem menuItem = menuItemListAdapter.getItemAtPosition(position);
+
+//                if(view.getTag() != null && view.getTag().equals("isClicked")) {
+//                    view.setBackgroundColor(Color.WHITE);
+//                    view.setTag("notClicked");
+//                }
+//                else {
+//                    view.setBackgroundColor(Color.BLUE);
+//                    view.setTag("isClicked");
+//                }
+
+                if(menuItem.isSelected()) {
+                    menuItem.setSelected(false);
                 }
                 else {
-                    view.setBackgroundColor(Color.BLUE);
-                    view.setTag("isClicked");
+                    menuItem.setSelected(true);
                 }
+
+                menuItemViewModel.update(menuItem);
+//                menuItemListAdapter.notifyDataSetChanged();
             }
 
             @Override

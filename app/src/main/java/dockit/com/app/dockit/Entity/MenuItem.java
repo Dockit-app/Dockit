@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by michael on 27/07/18.
  */
 
-@Entity
+@Entity(tableName = "menu_item")
 public class MenuItem implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
@@ -17,6 +17,7 @@ public class MenuItem implements Serializable {
     private int menuId;
     private String description;
     private String ingredients;
+    private boolean selected;
 
     public MenuItem() {}
 
@@ -56,5 +57,13 @@ public class MenuItem implements Serializable {
 
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

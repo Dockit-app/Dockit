@@ -22,13 +22,13 @@ import dockit.com.app.dockit.Entity.Result.MenuTemplateResult;
  * Created by michael on 02/08/18.
  */
 @Dao
-public abstract class CreateOrderTransaction {
-
-    @Insert
-    public abstract long createOrder(Order order);
+public abstract class OrderTransaction {
 
     @Query("select * from menu_template")
     public abstract List<MenuTemplateResult> getAllMenuTemplates();
+
+    @Insert
+    public abstract long createOrder(Order order);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract long createOrderLocation(OrderLocation orderLocation);
@@ -40,30 +40,31 @@ public abstract class CreateOrderTransaction {
     public abstract void createAllMenuItems(List<MenuItem> menuItems);
 
     @Transaction
-    public void createOrder(String tableName) {
-        createNewOrder(tableName);
-    }
-
-    private void createNewOrder(String tableNumber) {
+    public void createOrderTransaction(String tableName) {
         Order order = new Order();
-        order.setTable(tableNumber);
+        order.setTable(tableName);
         int orderId = (int)createOrder(order);
 
-        createNewOrderLocation(orderId);
+        createOrderLocation(orderId, 1);
     }
 
-    private void createNewOrderLocation(int orderId) {
+    @Transaction
+    public void createOrderLocationTransaction(int orderId, int orderLocationNumber) {
+        createOrderLocation(orderId, orderLocationNumber);
+    }
+
+    private void createOrderLocation(int orderId, int orderLocationNumber) {
 
         OrderLocation orderLocation = new OrderLocation();
         orderLocation.setOrderId(orderId);
-        orderLocation.setLocationNumber(1);
+        orderLocation.setLocationNumber(orderLocationNumber);
 
         int locationId = (int)createOrderLocation(orderLocation);
 
-        createNewMenus(locationId);
+        createMenus(locationId);
     }
 
-    private void createNewMenus(int locationId) {
+    private void createMenus(int locationId) {
 
         List<MenuTemplateResult> menuTemplates = getAllMenuTemplates();
 

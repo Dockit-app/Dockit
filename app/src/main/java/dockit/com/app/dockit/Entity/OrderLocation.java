@@ -15,7 +15,6 @@ public class OrderLocation {
     private Integer orderId;
     private Integer locationNumber;
     private String locationText;
-    private boolean selected;
 
     public Integer getId() {
         return id;
@@ -39,14 +38,6 @@ public class OrderLocation {
 
     public void setLocationNumber(Integer locationNumber) {
         this.locationNumber = locationNumber;
-    }
-
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
     }
 
     public String getLocationText() {
