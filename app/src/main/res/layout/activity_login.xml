@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.Login">
+
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/gridLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="400dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="32dp"
+        android:columnCount="3"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_margin="5dp"
+            android:background="@drawable/login_round_button"
+            android:text="1" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_margin="5dp"
+            android:background="@drawable/login_round_button"
+            android:text="2" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_margin="5dp"
+            android:background="@drawable/login_round_button"
+            android:text="3" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_margin="5dp"
+            android:background="@drawable/login_round_button"
+            android:text="4" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_margin="5dp"
+            android:background="@drawable/login_round_button"
+            android:text="5" />
+
+        <Button
+            android:id="@+id/button6"
+            android:layout_margin="5dp"
+            android:background="@drawable/login_round_button"
+            android:text="6" />
+
+        <Button
+            android:id="@+id/button7"
+            android:layout_margin="5dp"
+            android:background="@drawable/login_round_button"
+            android:text="7" />
+
+        <Button
+            android:id="@+id/button8"
+            android:layout_margin="5dp"
+            android:background="@drawable/login_round_button"
+            android:text="8" />
+
+        <Button
+            android:id="@+id/button9"
+            android:layout_margin="5dp"
+            android:background="@drawable/login_round_button"
+            android:text="9" />
+
+        <Button
+            android:id="@+id/button0"
+            android:layout_column="1"
+            android:layout_margin="5dp"
+            android:background="@drawable/login_round_button"
+            android:text="0" />
+
+        <Button
+            android:id="@+id/enter"
+            android:layout_columnSpan="3"
+            android:layout_gravity="fill"
+            android:layout_margin="7dp"
+            android:background="@drawable/login_enter_button"
+            android:text="Enter" />
+
+    </GridLayout>
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ENTER PIN"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
