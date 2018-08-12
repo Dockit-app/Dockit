@@ -95,6 +95,7 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
                 if(orderResults.size() > 0) {
                     Log.i(this.getClass().getSimpleName(), "Creating menu pager for order "+orderResults.get(orderResults.size()-1).getId());
                     createMenuPager(orderResults.get(orderResults.size()-1));
+                    orderViewModel.getLiveOrderResults().removeObserver(this);
                 }
             }
         });
@@ -103,6 +104,7 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
             @Override
             public void onChanged(@Nullable List<OrderLocationResult> orderLocations) {
 
+                //TODO: Filters current order's  orderLocations. Need to query based on order id
                 List<OrderLocationResult> selectedOrderLocations = new ArrayList<>();
                 for(OrderLocationResult orderLocation : orderLocations) {
                     if(orderLocation.getOrderId() != null && orderLocation.getOrderId() == orderId) {
@@ -110,16 +112,18 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
                     }
                 }
 
-                for(OrderLocationResult orderLocationResult : orderLocations) {
-                    if(orderLocationResult.getLocationNumber().equals(orderViewModel.getLiveSelectedOrderLocation().getValue().getLocationNumber())) {
+                //Ensure first orderLocation has id set
+                for(OrderLocationResult orderLocationResult : selectedOrderLocations) {
+                    if(orderLocationResult.getLocationNumber() == 1 && orderLocationResult.getLocationNumber().equals(orderViewModel.getLiveSelectedOrderLocation().getValue().getLocationNumber())) {
                         orderViewModel.setSelectedOrderLocation(new OrderLocation(orderLocationResult));
                     }
                 }
 
                 if(orderLocationListAdapter.setOrderLocationResults(selectedOrderLocations)) {
 
+                    Log.i(this.getClass().getSimpleName(), "Begin update menu pager");
                     updateMenuPager(orderLocationListAdapter.getSelectedOrderLocationId());
-                    Log.i(this.getClass().getSimpleName(), "Updating menu pager");
+                    Log.i(this.getClass().getSimpleName(), "End update menu pager");
                 }
             }
         });
@@ -148,20 +152,19 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
         menuPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     }
 
-    public void updateMenuPager(int orderLocationId) {
-        Log.i(Ordering.class.getSimpleName(), "Invoking menuPager update "+orderLocationId);
-
-
+    public void updateMenuPager(final int orderLocationId) {
         orderViewModel.getOrderLocationById(orderLocationId).observe(this, new Observer<OrderLocationResult>() {
             @Override
             public void onChanged(@Nullable OrderLocationResult orderLocationResult) {
 
                 if(orderMenuAdapter != null && orderLocationResult != null && orderLocationResult.menus != null && orderLocationResult.menus.size() > 0) {
 
-                    orderMenuAdapter.setOrderResult(orderLocationResult.menus);
-                    orderMenuAdapter.notifyDataSetChanged();
-
-                    Log.i(Ordering.class.getSimpleName(), "Order location "+orderLocationResult.getId()+" updated");
+                    if(orderLocationResult.getSelected() == 1 && orderMenuAdapter.getOrderLocationId() != orderLocationResult.getId()) {
+                        orderMenuAdapter.setOrderResult(orderLocationResult.menus);
+                        orderMenuAdapter.notifyDataSetChanged();
+                        orderViewModel.getOrderLocationById(orderLocationId).removeObserver(this);
+                        Log.i(Ordering.class.getSimpleName(), "Order location "+orderLocationResult.getId()+" updated");
+                    }
                 }
             }
         });

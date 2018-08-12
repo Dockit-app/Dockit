@@ -22,11 +22,13 @@ public class OrderMenuAdapter extends FragmentStatePagerAdapter {
 
     private static final int PAGE_COUNT = 3;
     private List<MenuResult> menus;
+    private int orderLocationId;
     public OrderMenuAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
     }
 
     public void setOrderResult(List<MenuResult> menus)  {
+        this.orderLocationId = menus.get(0).getLocationId();
         this.menus = menus;
     }
 
@@ -57,5 +59,9 @@ public class OrderMenuAdapter extends FragmentStatePagerAdapter {
         } else {
             return POSITION_NONE;
         }
+    }
+
+    public int getOrderLocationId() {
+        return orderLocationId;
     }
 }

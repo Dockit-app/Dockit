@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.View;
 
 import dockit.com.app.dockit.Adapter.OrderLocationListAdapter;
-import dockit.com.app.dockit.Entity.Decorator.OrderLocationView;
 import dockit.com.app.dockit.Entity.OrderLocation;
 import dockit.com.app.dockit.ViewModel.OrderViewModel;
 

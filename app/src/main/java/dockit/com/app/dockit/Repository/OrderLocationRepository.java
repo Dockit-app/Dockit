@@ -3,6 +3,7 @@ package dockit.com.app.dockit.Repository;
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.util.List;
 

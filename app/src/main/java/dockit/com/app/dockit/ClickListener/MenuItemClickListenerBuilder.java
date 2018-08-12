@@ -29,15 +29,6 @@ public class MenuItemClickListenerBuilder {
 
                 MenuItem menuItem = menuItemListAdapter.getItemAtPosition(position);
 
-//                if(view.getTag() != null && view.getTag().equals("isClicked")) {
-//                    view.setBackgroundColor(Color.WHITE);
-//                    view.setTag("notClicked");
-//                }
-//                else {
-//                    view.setBackgroundColor(Color.BLUE);
-//                    view.setTag("isClicked");
-//                }
-
                 if(menuItem.isSelected()) {
                     menuItem.setSelected(false);
                 }
@@ -46,7 +37,6 @@ public class MenuItemClickListenerBuilder {
                 }
 
                 menuItemViewModel.update(menuItem);
-//                menuItemListAdapter.notifyDataSetChanged();
             }
 
             @Override
