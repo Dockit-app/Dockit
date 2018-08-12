@@ -112,9 +112,9 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
                     }
                 }
 
-                //Ensure first orderLocation has id set
+                //Ensure created orderLocation has id set
                 for(OrderLocationResult orderLocationResult : selectedOrderLocations) {
-                    if(orderLocationResult.getLocationNumber() == 1 && orderLocationResult.getLocationNumber().equals(orderViewModel.getLiveSelectedOrderLocation().getValue().getLocationNumber())) {
+                    if(orderLocationResult.getLocationNumber().equals(orderViewModel.getLiveSelectedOrderLocation().getValue().getLocationNumber())) {
                         orderViewModel.setSelectedOrderLocation(new OrderLocation(orderLocationResult));
                     }
                 }
