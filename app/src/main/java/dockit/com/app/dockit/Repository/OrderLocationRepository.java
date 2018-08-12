@@ -26,55 +26,33 @@ public class OrderLocationRepository {
     }
 
     public LiveData<List<OrderLocationResult>> getLiveByOrderId(int orderId) {
-        return orderLocationDao.getByOrderId(orderId);
+        return orderLocationDao.getByOrderId();
     }
 
-    public OrderLocationResult getLiveById(int id) {
+    public LiveData<OrderLocationResult> getLiveById(int id) {
         return orderLocationDao.getById(id);
     }
 
-    private static class GetItemByIdAsync extends AsyncTask<Integer, OrderLocation, Void> {
+
+    public void update(OrderLocation orderLocation) {
+
+        new UpdateItemsAsync(orderLocationDao).execute(orderLocation);
+    }
+
+    private static class UpdateItemsAsync extends AsyncTask<OrderLocation, Void, Void> {
 
         private OrderLocationDao orderLocationDao;
 
-        GetItemByIdAsync(OrderLocationDao orderLocationDao) {
+        UpdateItemsAsync(OrderLocationDao orderLocationDao) {
             this.orderLocationDao = orderLocationDao;
         }
 
         @Override
-        protected Void doInBackground(Integer ...integers) {
-            orderLocationDao.getById(integers[0]);
+        protected Void doInBackground(OrderLocation... orderLocations) {
+            orderLocationDao.update(orderLocations[0]);
             return null;
         }
     }
-
-
-//    public int update(OrderLocation orderLocation) {
-//        return (int)orderLocationDao.update(orderLocation);
-//    }
-//
-//    public int create(OrderLocation orderLocation) {
-//        return (int)orderLocationDao.insert(orderLocation);
-//    }
-//
-//    public void createOrderLocations(List<OrderLocation> orderLocations) {
-//        new CreateItemsAsync(orderLocationDao).execute(orderLocations);
-//    }
-
-//    private static class CreateItemsAsync extends AsyncTask<List<OrderLocation>, Void, Void> {
-//
-//        private OrderLocationDao orderLocationDao;
-//
-//        CreateItemsAsync(OrderLocationDao orderLocationDao) {
-//            this.orderLocationDao = orderLocationDao;
-//        }
-//
-//        @Override
-//        protected Void doInBackground(List<OrderLocation>... orderLocations) {
-//            orderLocationDao.insertAll(orderLocations[0]);
-//            return null;
-//        }
-//    }
 
 
 }

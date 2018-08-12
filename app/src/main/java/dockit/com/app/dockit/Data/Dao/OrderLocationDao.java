@@ -19,11 +19,11 @@ import dockit.com.app.dockit.Entity.Result.OrderLocationResult;
 @Dao
 public interface OrderLocationDao {
 
-    @Query("Select * From order_location Where orderId = :orderId")
-    LiveData<List<OrderLocationResult>> getByOrderId(int orderId);
+    @Query("Select * From order_location")
+    LiveData<List<OrderLocationResult>> getByOrderId();
 
     @Query("Select * From order_location Where id = :id")
-    OrderLocationResult getById(int id);
+    LiveData<OrderLocationResult> getById(int id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<OrderLocation> orderLocations);

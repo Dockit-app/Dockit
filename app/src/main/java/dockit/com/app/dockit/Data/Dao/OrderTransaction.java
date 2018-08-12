@@ -40,28 +40,54 @@ public abstract class OrderTransaction {
     public abstract void createAllMenuItems(List<MenuItem> menuItems);
 
     @Transaction
-    public void createOrderTransaction(String tableName) {
+    public int createOrderTransaction(String tableName) {
         Order order = new Order();
         order.setTable(tableName);
         int orderId = (int)createOrder(order);
 
-        createOrderLocation(orderId, 1);
+        return orderId;
     }
+
+//    @Transaction
+//    public OrderLocation createOrderLocationTransaction(int orderId, int orderLocationNumber) {
+//        int orderLocationId = createOrderLocation(orderId, orderLocationNumber);
+//        //Stores result for handling only
+//        OrderLocation orderLocation = new OrderLocation();
+//        orderLocation.setId(orderLocationId);
+//        orderLocation.setOrderId(orderId);
+//        return orderLocation;
+//    }
+//
+//    private int createOrderLocation(int orderId, int orderLocationNumber) {
+//
+//        OrderLocation orderLocation = new OrderLocation();
+//        orderLocation.setOrderId(orderId);
+//        orderLocation.setLocationNumber(orderLocationNumber);
+//
+//        int locationId = (int)createOrderLocation(orderLocation);
+//
+//        createMenus(locationId);
+//
+//        return locationId;
+//    }
 
     @Transaction
-    public void createOrderLocationTransaction(int orderId, int orderLocationNumber) {
-        createOrderLocation(orderId, orderLocationNumber);
+    public OrderLocation createOrderLocationTransaction(OrderLocation orderLocation) {
+        int orderLocationId = performCreateOrderLocation(orderLocation);
+        //Stores result for handling only
+        OrderLocation result = new OrderLocation();
+        result.setId(orderLocationId);
+        result.setOrderId(orderLocation.getOrderId());
+        return result;
     }
 
-    private void createOrderLocation(int orderId, int orderLocationNumber) {
-
-        OrderLocation orderLocation = new OrderLocation();
-        orderLocation.setOrderId(orderId);
-        orderLocation.setLocationNumber(orderLocationNumber);
+    private int performCreateOrderLocation(OrderLocation orderLocation) {
 
         int locationId = (int)createOrderLocation(orderLocation);
 
         createMenus(locationId);
+
+        return locationId;
     }
 
     private void createMenus(int locationId) {
@@ -77,7 +103,7 @@ public abstract class OrderTransaction {
             int menuId = (int)createMenu(menu);
             createMenuItems(menuId, menuTemplateResult.menuItemTemplates);
 
-            Log.d(this.getClass().getSimpleName(), "Created menu with id "+menuId);
+            Log.i(this.getClass().getSimpleName(), "Created menu with id "+menuId+ " for location "+locationId);
         }
 
     }

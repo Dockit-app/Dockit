@@ -30,6 +30,7 @@ public class MenuFragment extends Fragment {
 
     MenuItemViewModel menuItemViewModel;
     MenuItemListAdapter menuItemListAdapter;
+    MenuResult menu;
 
     public static MenuFragment newInstance(MenuResult menu) {
         
@@ -50,7 +51,7 @@ public class MenuFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_menu, container, false);
 
-        MenuResult menu = (MenuResult)getArguments().getSerializable("menu");
+        menu = (MenuResult)getArguments().getSerializable("menu");
 
         menuItemViewModel = ViewModelProviders.of(this).get(MenuItemViewModel.class);
 
@@ -73,5 +74,9 @@ public class MenuFragment extends Fragment {
         recyclerView.setAdapter(menuItemListAdapter);
 
         new MenuItemClickListenerBuilder(menuItemViewModel, menuItemListAdapter).setOnClickListener(recyclerView);
+    }
+
+    public MenuResult getMenuResult() {
+        return menu;
     }
 }

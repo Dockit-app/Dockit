@@ -8,22 +8,22 @@ import dockit.com.app.dockit.Entity.OrderLocation;
 
 public class OrderLocationView extends OrderLocation {
 
-    private boolean selected;
-    private boolean created;
+    private Integer selected;
+    private Boolean created;
 
-    public boolean isSelected() {
+    public Integer getSelected() {
         return selected;
     }
 
-    public void setSelected(boolean selected) {
+    public void setSelected(Integer selected) {
         this.selected = selected;
     }
 
-    public boolean isCreated() {
+    public Boolean isCreated() {
         return created;
     }
 
-    public void setCreated(boolean created) {
+    public void setCreated(Boolean created) {
         this.created = created;
     }
 }

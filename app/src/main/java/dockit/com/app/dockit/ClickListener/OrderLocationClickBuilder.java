@@ -6,6 +6,7 @@ import android.view.View;
 
 import dockit.com.app.dockit.Adapter.OrderLocationListAdapter;
 import dockit.com.app.dockit.Entity.Decorator.OrderLocationView;
+import dockit.com.app.dockit.Entity.OrderLocation;
 import dockit.com.app.dockit.ViewModel.OrderViewModel;
 
 /**
@@ -16,6 +17,7 @@ public class OrderLocationClickBuilder {
 
     private OrderViewModel orderViewModel;
     private OrderLocationListAdapter orderLocationListAdapter;
+    private int orderId = 0;
 
     public OrderLocationClickBuilder(OrderViewModel orderViewModel, OrderLocationListAdapter orderLocationListAdapter) {
         this.orderViewModel = orderViewModel;
@@ -27,24 +29,25 @@ public class OrderLocationClickBuilder {
             @Override
             public void onItemClick(View view, int position) {
 
-                OrderLocationView orderLocationView = orderLocationListAdapter.getItemAtPosition(position);
+                OrderLocation orderLocation = orderLocationListAdapter.getItemAtPosition(position);
+                if(orderLocation != orderViewModel.getLiveSelectedOrderLocation().getValue()) {
 
-                if(!orderLocationView.isCreated()) {
-                    int locationNumber = position + 1;
-                    Log.d(OrderLocationClickBuilder.class.getSimpleName(), "New location " + locationNumber + " clicked");
-                    orderLocationView.setLocationNumber(locationNumber);
-                    orderLocationView.setLocationText(Integer.toString(locationNumber));
-                    orderLocationView.setSelected(true);
-                    orderLocationView.setCreated(true);
-                    orderViewModel.createOrderLocation(view.getContext(), orderLocationView);
-                }
-                else {
-                    orderLocationView.setSelected(true);
-                    Log.d(OrderLocationClickBuilder.class.getSimpleName(), "Existing location " + orderLocationView.getLocationNumber() + " clicked");
-                    orderViewModel.updateOrderLocationView(orderLocationView);
+                    if (orderLocation.getId() == null) {
+                        int locationNumber = position + 1;
+                        Log.i(OrderLocationClickBuilder.class.getSimpleName(), "New location " + locationNumber + " clicked");
+                        orderLocation.setLocationNumber(locationNumber);
+                        orderLocation.setLocationText(Integer.toString(locationNumber));
+                        orderLocation.setSelected(1);
+                        orderLocation.setOrderId(orderId);
+                        orderViewModel.createOrderLocation(view.getContext(), orderLocation);
+                    } else {
+                        orderLocation.setSelected(1);
+                        orderLocation.setLocationText(orderLocation.getLocationText());
+                        Log.i(OrderLocationClickBuilder.class.getSimpleName(), "Existing location " + orderLocation.getLocationNumber() + " clicked");
+                        orderViewModel.updateOrderLocation(orderLocation);
+                    }
                 }
 
-                orderLocationListAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -52,5 +55,9 @@ public class OrderLocationClickBuilder {
 
             }
         }));
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 }

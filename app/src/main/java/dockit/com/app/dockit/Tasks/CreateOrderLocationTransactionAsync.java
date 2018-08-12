@@ -11,22 +11,18 @@ import dockit.com.app.dockit.Entity.OrderLocation;
  * Created by michael on 08/08/18.
  */
 
-public class CreateOrderLocationAsync extends AsyncTask<OrderLocation, Void, Void> {
+public class CreateOrderLocationTransactionAsync extends AsyncTask<OrderLocation, Void, Void> {
 
     private OrderTransaction orderTransaction;
 
-    public CreateOrderLocationAsync(Context context) {
+    public CreateOrderLocationTransactionAsync(Context context) {
         orderTransaction = LocalDatabase.getInstance(context).orderTransaction();
     }
 
+
     @Override
     protected Void doInBackground(OrderLocation... orderLocations) {
-
-        int orderId = orderLocations[0].getOrderId();
-        int locationNumber = orderLocations[0].getLocationNumber();
-
-        orderTransaction.createOrderLocationTransaction(orderId, locationNumber);
-
+        orderTransaction.createOrderLocationTransaction(orderLocations[0]);
         return null;
     }
 }

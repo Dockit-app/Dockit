@@ -10,10 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import dockit.com.app.dockit.Entity.Decorator.OrderLocationView;
 import dockit.com.app.dockit.Entity.OrderLocation;
+import dockit.com.app.dockit.Entity.Result.OrderLocationResult;
 import dockit.com.app.dockit.R;
 
 /**
@@ -34,9 +35,9 @@ public class OrderLocationListAdapter extends RecyclerView.Adapter<OrderLocation
         }
     }
 
-    private List<OrderLocationView> orderLocationViews;
+    private List<OrderLocation> orderLocations;
     private LayoutInflater layoutInflater;
-    private OrderLocation selectedOrderLocation;
+    private int selectedOrderLocationId = 0;
 
     public OrderLocationListAdapter(Context context) {
         layoutInflater = LayoutInflater.from(context);
@@ -54,18 +55,18 @@ public class OrderLocationListAdapter extends RecyclerView.Adapter<OrderLocation
     @Override
     public void onBindViewHolder(final @NonNull OrderLocationViewHolder holder,final int position) {
 
-        if (orderLocationViews != null) {
-            final OrderLocationView orderLocationView = orderLocationViews.get(position);
-            String textValue = orderLocationView.getLocationText();
+        if (orderLocations != null) {
+            final OrderLocation orderLocation = orderLocations.get(position);
+            String textValue = orderLocation.getLocationText();
             holder.textView.setText(textValue);
 
             //Is currently selected
-            if(orderLocationView.isSelected()) {
+            if(orderLocation.getSelected() == 1) {
                 holder.cardView.setCardBackgroundColor(Color.BLUE);
                 holder.textView.setTextColor(Color.WHITE);
             }
             //Already exists
-            else if(orderLocationView.isCreated()) {
+            else if(orderLocation.getId() != null && orderLocation.getId() > 0) {
                 holder.cardView.setCardBackgroundColor(Color.RED);
                 holder.textView.setTextColor(Color.WHITE);
             }
@@ -79,20 +80,83 @@ public class OrderLocationListAdapter extends RecyclerView.Adapter<OrderLocation
     }
     @Override
     public int getItemCount() {
-        if(orderLocationViews != null) {
-            return orderLocationViews.size();
+        if(orderLocations != null) {
+            return orderLocations.size();
         }
         return 0;
     }
 
-    public void setOrderLocationViews(List<OrderLocationView> orderLocationViews) {
-        this.orderLocationViews = orderLocationViews;
+    public boolean setOrderLocationResults(List<OrderLocationResult> orderLocationResults) {
+        boolean isValidList = false;
+        for(OrderLocationResult orderLocationResult : orderLocationResults) {
+            if(orderLocationResult.getSelected() == 1) {
+                isValidList = true;
+                selectedOrderLocationId = orderLocationResult.getId();
+            }
+
+            if(orderLocations != null) {
+                for (int idx = 0; idx < orderLocations.size(); idx++) { // OrderLocation orderLocation : orderLocations) {
+                    if (orderLocations.get(idx).getLocationNumber().equals(orderLocationResult.getLocationNumber())) {
+                        orderLocations.set(idx, new OrderLocation(orderLocationResult));
+                    }
+                }
+            }
+        }
+
+        if(isValidList) {
+//            this.orderLocations = orderLocationsNew;
+            notifyDataSetChanged();
+        }
+
+        return isValidList;
+
     }
 
-    public OrderLocationView getItemAtPosition(int position) {
-        if(orderLocationViews != null) {
-            return orderLocationViews.get(position);
+    public boolean setOrderLocations(List<OrderLocation> orderLocations) {
+        boolean isValidList = false;
+
+        for(OrderLocation orderLocation : orderLocations) {
+            if(orderLocation.getSelected() == 1) {
+                isValidList = true;
+                if(orderLocation.getId() != null) {
+                    selectedOrderLocationId = orderLocation.getId();
+                }
+            }
+
+        }
+
+        if(isValidList) {
+            this.orderLocations = orderLocations;
+            notifyDataSetChanged();
+        }
+
+        return isValidList;
+
+    }
+
+    public OrderLocation getItemAtPosition(int position) {
+        if(orderLocations != null) {
+            return orderLocations.get(position);
         }
         return null;
+    }
+
+    public void setFirstSelectedOrderLocationId(int id) {
+
+        selectedOrderLocationId = id;
+    }
+
+    public int getSelectedOrderLocationId() {
+        return selectedOrderLocationId;
+    }
+
+
+    public void notifyCustomChanged() {
+        notifyDataSetChanged();
+        for(OrderLocation orderLocation : orderLocations) {
+            if(orderLocation.getSelected() == 1) {
+                selectedOrderLocationId = orderLocation.getId();
+            }
+        }
     }
 }

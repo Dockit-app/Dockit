@@ -3,6 +3,7 @@ package dockit.com.app.dockit.Adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class OrderMenuAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+        Log.d(this.getClass().getSimpleName(), "Getting MenuFragment");
         MenuResult menu = menus.get(position);
         return MenuFragment.newInstance(menu);
     }
@@ -43,5 +45,17 @@ public class OrderMenuAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         return PAGE_COUNT;
+    }
+
+    public int getItemPosition(Object item) {
+        MenuFragment fragment = (MenuFragment)item;
+        MenuResult menuResult = fragment.getMenuResult();
+        int position = menus.indexOf(menuResult);
+
+        if (position >= 0) {
+            return position;
+        } else {
+            return POSITION_NONE;
+        }
     }
 }

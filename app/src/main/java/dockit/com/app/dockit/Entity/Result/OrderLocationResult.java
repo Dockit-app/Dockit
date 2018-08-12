@@ -16,6 +16,7 @@ public class OrderLocationResult {
     private Integer orderId;
     private Integer locationNumber;
     private String locationText;
+    private Integer selected;
 
     @Relation(entity = Menu.class, parentColumn = "id", entityColumn = "locationId")
     public List<MenuResult> menus;
@@ -50,5 +51,13 @@ public class OrderLocationResult {
 
     public void setLocationText(String locationText) {
         this.locationText = locationText;
+    }
+
+    public Integer getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Integer selected) {
+        this.selected = selected;
     }
 }
