@@ -17,7 +17,7 @@ import dockit.com.app.dockit.Entity.MenuItem;
 @Dao
 public interface MenuItemDao {
 
-    @Query("select * from menu_item where menuId = :menuId")
+    @Query("select * from menu_item where menuSectionId = :menuId")
     LiveData<List<MenuItem>> getLiveByMenuId(int menuId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

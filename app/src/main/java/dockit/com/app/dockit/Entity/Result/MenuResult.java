@@ -5,7 +5,7 @@ import android.arch.persistence.room.Relation;
 import java.io.Serializable;
 import java.util.List;
 
-import dockit.com.app.dockit.Entity.MenuItem;
+import dockit.com.app.dockit.Entity.MenuSection;
 
 /**
  * Created by michael on 01/08/18.
@@ -41,6 +41,6 @@ public class MenuResult implements Serializable {
         this.menuName = menuName;
     }
 
-    @Relation(entity = MenuItem.class, parentColumn = "id", entityColumn = "menuId")
-    public List<MenuItem> menuItems;
+    @Relation(entity = MenuSection.class, parentColumn = "id", entityColumn = "menuId")
+    public List<MenuSectionResult> menuSectionResults;
 }

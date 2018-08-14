@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import dockit.com.app.dockit.Entity.Decorator.MenuItemView;
 import dockit.com.app.dockit.Entity.MenuItem;
 import dockit.com.app.dockit.R;
 
@@ -36,10 +37,10 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
         }
     }
 
-    List<MenuItem> menuItems;
+    List<MenuItemView> menuItems;
     LayoutInflater inflater;
 
-    public MenuItemListAdapter(Context context, List<MenuItem> menuItems) {
+    public MenuItemListAdapter(Context context, List<MenuItemView> menuItems) {
         this.menuItems = menuItems;
         this.inflater = LayoutInflater.from(context);
     }
@@ -54,10 +55,17 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MenuItemViewHolder holder, int position) {
-        MenuItem menuItem = menuItems.get(position);
+
+        MenuItemView menuItem = menuItems.get(position);
         holder.description.setText(menuItem.getDescription());
-        if(menuItem.getIngredients() != null)
+
+        if(menuItem.isSection()) {
+            holder.ingredients.setVisibility(View.GONE);
+        }
+        else {
+            holder.ingredients.setVisibility(View.VISIBLE);
             holder.ingredients.setText("("+menuItem.getIngredients()+")");
+        }
 
         if(menuItem.isSelected()) {
             holder.menuItem.setBackgroundColor(Color.BLUE);

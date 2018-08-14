@@ -3,8 +3,6 @@ package dockit.com.app.dockit.Entity;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-import java.util.List;
-
 /**
  * Created by michael on 01/08/18.
  */
@@ -14,7 +12,7 @@ public class MenuItemTemplate {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private int menuTemplateId;
+    private int menuSectionTemplateId;
     private String description;
     private String ingredients;
 
@@ -26,12 +24,12 @@ public class MenuItemTemplate {
         this.id = id;
     }
 
-    public int getMenuTemplateId() {
-        return menuTemplateId;
+    public int getMenuSectionTemplateId() {
+        return menuSectionTemplateId;
     }
 
-    public void setMenuTemplateId(int menuTemplateId) {
-        this.menuTemplateId = menuTemplateId;
+    public void setMenuSectionTemplateId(int menuSectionTemplateId) {
+        this.menuSectionTemplateId = menuSectionTemplateId;
     }
 
     public String getDescription() {

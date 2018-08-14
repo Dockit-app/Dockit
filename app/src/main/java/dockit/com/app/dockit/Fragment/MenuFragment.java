@@ -12,13 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dockit.com.app.dockit.Adapter.MenuItemListAdapter;
 import dockit.com.app.dockit.ClickListener.MenuItemClickListenerBuilder;
-import dockit.com.app.dockit.Entity.Menu;
+import dockit.com.app.dockit.Entity.Decorator.MenuItemView;
 import dockit.com.app.dockit.Entity.MenuItem;
+import dockit.com.app.dockit.Entity.MenuSection;
 import dockit.com.app.dockit.Entity.Result.MenuResult;
+import dockit.com.app.dockit.Entity.Result.MenuSectionResult;
 import dockit.com.app.dockit.R;
 import dockit.com.app.dockit.ViewModel.MenuItemViewModel;
 
@@ -70,10 +73,22 @@ public class MenuFragment extends Fragment {
     private void setMenuItemRecyclerView(ViewGroup rootView, MenuResult menu) {
         RecyclerView recyclerView = rootView.findViewById(R.id.menu_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.VERTICAL, false));
-        menuItemListAdapter = new MenuItemListAdapter(rootView.getContext(), menu.menuItems);
+        menuItemListAdapter = new MenuItemListAdapter(rootView.getContext(), buildMenuItemViewList(menu.menuSectionResults));
         recyclerView.setAdapter(menuItemListAdapter);
 
         new MenuItemClickListenerBuilder(menuItemViewModel, menuItemListAdapter).setOnClickListener(recyclerView);
+    }
+
+    private List<MenuItemView> buildMenuItemViewList(List<MenuSectionResult> menuSectionResults) {
+            List<MenuItemView> menuItemViews = new ArrayList<>();
+            for(MenuSectionResult menuSectionResult : menuSectionResults) {
+                menuItemViews.add(new MenuItemView((menuSectionResult)));
+                for(MenuItem menuItem : menuSectionResult.menuItemList) {
+                    menuItemViews.add(new MenuItemView(menuItem));
+                }
+            }
+
+            return menuItemViews;
     }
 
     public MenuResult getMenuResult() {

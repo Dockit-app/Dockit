@@ -14,15 +14,15 @@ public class MenuItem implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private int menuId;
+    private int menuSectionId;
     private String description;
     private String ingredients;
     private boolean selected;
 
     public MenuItem() {}
 
-    public MenuItem(int menuId, MenuItemTemplate menuItemTemplate) {
-        this.menuId = menuId;
+    public MenuItem(int menuSectionId, MenuItemTemplate menuItemTemplate) {
+        this.menuSectionId = menuSectionId;
         this.description = menuItemTemplate.getDescription();
         this.ingredients = menuItemTemplate.getIngredients();
     }
@@ -35,12 +35,12 @@ public class MenuItem implements Serializable {
         this.id = id;
     }
 
-    public int getMenuId() {
-        return menuId;
+    public int getMenuSectionId() {
+        return menuSectionId;
     }
 
-    public void setMenuId(int menuId) {
-        this.menuId = menuId;
+    public void setMenuSectionId(int menuSectionId) {
+        this.menuSectionId = menuSectionId;
     }
 
     public String getDescription() {

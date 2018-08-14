@@ -8,6 +8,7 @@ import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import dockit.com.app.dockit.Data.Dao.MenuSectionTemplateDao;
 import dockit.com.app.dockit.Data.Dao.OrderTransaction;
 import dockit.com.app.dockit.Data.Dao.MenuDao;
 import dockit.com.app.dockit.Data.Dao.MenuItemDao;
@@ -18,6 +19,8 @@ import dockit.com.app.dockit.Data.Dao.OrderLocationDao;
 import dockit.com.app.dockit.Entity.Menu;
 import dockit.com.app.dockit.Entity.MenuItem;
 import dockit.com.app.dockit.Entity.MenuItemTemplate;
+import dockit.com.app.dockit.Entity.MenuSection;
+import dockit.com.app.dockit.Entity.MenuSectionTemplate;
 import dockit.com.app.dockit.Entity.MenuTemplate;
 import dockit.com.app.dockit.Entity.Order;
 import dockit.com.app.dockit.Entity.OrderLocation;
@@ -27,7 +30,10 @@ import dockit.com.app.dockit.Entity.OrderLocationAmount;
  * Created by michael on 24/07/18.
  */
 
-@Database(entities = { Order.class, OrderLocation.class, OrderLocationAmount.class, Menu.class, MenuItem.class, MenuTemplate.class, MenuItemTemplate.class }, version = 1)
+@Database(entities = {
+        Order.class, OrderLocation.class, OrderLocationAmount.class,
+        Menu.class, MenuSection.class, MenuItem.class,
+        MenuTemplate.class, MenuSectionTemplate.class, MenuItemTemplate.class }, version = 1)
 @TypeConverters({Converters.class})
 public abstract class LocalDatabase extends RoomDatabase {
 
@@ -54,6 +60,7 @@ public abstract class LocalDatabase extends RoomDatabase {
     public abstract MenuItemDao menuItemDao();
 
     public abstract MenuTemplateDao menuTemplateDao();
+    public abstract MenuSectionTemplateDao menuSectionTemplateDao();
     public abstract MenuItemTemplateDao menuItemTemplateDao();
 
     public abstract OrderTransaction orderTransaction();

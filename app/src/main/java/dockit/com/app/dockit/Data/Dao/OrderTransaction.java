@@ -5,7 +5,6 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Transaction;
-import android.support.annotation.TransitionRes;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -14,9 +13,11 @@ import java.util.List;
 import dockit.com.app.dockit.Entity.Menu;
 import dockit.com.app.dockit.Entity.MenuItem;
 import dockit.com.app.dockit.Entity.MenuItemTemplate;
+import dockit.com.app.dockit.Entity.MenuSection;
 import dockit.com.app.dockit.Entity.Order;
 import dockit.com.app.dockit.Entity.OrderLocation;
 import dockit.com.app.dockit.Entity.Result.MenuTemplateResult;
+import dockit.com.app.dockit.Entity.Result.MenuSectionTemplateResult;
 
 /**
  * Created by michael on 02/08/18.
@@ -37,6 +38,9 @@ public abstract class OrderTransaction {
     public abstract long createMenu(Menu menu);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract long createMenuSection(MenuSection menuSection);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void createAllMenuItems(List<MenuItem> menuItems);
 
     @Transaction
@@ -47,29 +51,6 @@ public abstract class OrderTransaction {
 
         return orderId;
     }
-
-//    @Transaction
-//    public OrderLocation createOrderLocationTransaction(int orderId, int orderLocationNumber) {
-//        int orderLocationId = createOrderLocation(orderId, orderLocationNumber);
-//        //Stores result for handling only
-//        OrderLocation orderLocation = new OrderLocation();
-//        orderLocation.setId(orderLocationId);
-//        orderLocation.setOrderId(orderId);
-//        return orderLocation;
-//    }
-//
-//    private int createOrderLocation(int orderId, int orderLocationNumber) {
-//
-//        OrderLocation orderLocation = new OrderLocation();
-//        orderLocation.setOrderId(orderId);
-//        orderLocation.setLocationNumber(orderLocationNumber);
-//
-//        int locationId = (int)createOrderLocation(orderLocation);
-//
-//        createMenus(locationId);
-//
-//        return locationId;
-//    }
 
     @Transaction
     public OrderLocation createOrderLocationTransaction(OrderLocation orderLocation) {
@@ -101,18 +82,32 @@ public abstract class OrderTransaction {
             menu.setMenuName(menuTemplateResult.getMenuName());
 
             int menuId = (int)createMenu(menu);
-            createMenuItems(menuId, menuTemplateResult.menuItemTemplates);
+            createMenuSection(menuId, menuTemplateResult.menuSectionTemplates);
 
             Log.i(this.getClass().getSimpleName(), "Created menu with id "+menuId+ " for location "+locationId);
         }
 
     }
 
-    private void createMenuItems(int menuId, List<MenuItemTemplate> menuItemTemplates) {
+    private void createMenuSection(int menuId, List<MenuSectionTemplateResult> menuSectionTemplateResults) {
+
+        for(MenuSectionTemplateResult menuSectionTemplateResult : menuSectionTemplateResults) {
+            MenuSection menuSection = new MenuSection();
+            menuSection.setMenuId(menuId);
+            menuSection.setName(menuSectionTemplateResult.getName());
+
+            int sectionId = (int)createMenuSection(menuSection);
+
+            createMenuItems(sectionId, menuSectionTemplateResult.menuItemTemplateList);
+        }
+
+    }
+
+    private void createMenuItems(int sectionId, List<MenuItemTemplate> menuItemTemplates) {
 
         List<MenuItem> menuItems = new ArrayList<>();
         for(MenuItemTemplate menuItemTemplate : menuItemTemplates) {
-            menuItems.add(new MenuItem(menuId, menuItemTemplate));
+            menuItems.add(new MenuItem(sectionId, menuItemTemplate));
         }
 
         createAllMenuItems(menuItems);

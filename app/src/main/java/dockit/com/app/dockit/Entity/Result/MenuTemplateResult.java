@@ -4,7 +4,7 @@ import android.arch.persistence.room.Relation;
 
 import java.util.List;
 
-import dockit.com.app.dockit.Entity.MenuItemTemplate;
+import dockit.com.app.dockit.Entity.MenuSectionTemplate;
 
 /**
  * Created by michael on 01/08/18.
@@ -31,6 +31,6 @@ public class MenuTemplateResult {
         this.menuName = menuName;
     }
 
-    @Relation(entity = MenuItemTemplate.class, parentColumn = "id", entityColumn = "menuTemplateId")
-    public List<MenuItemTemplate> menuItemTemplates;
+    @Relation(entity = MenuSectionTemplate.class, parentColumn = "id", entityColumn = "menuTemplateId")
+    public List<MenuSectionTemplateResult> menuSectionTemplates;
 }
