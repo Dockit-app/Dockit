@@ -15,6 +15,7 @@ public class MenuItemView extends MenuItem {
         this.setIngredients(menuItem.getIngredients());
         this.setMenuSectionId(menuItem.getMenuSectionId());
         this.setSelected(menuItem.isSelected());
+        this.setCounter(menuItem.getCounter());
     }
 
     public MenuItemView(MenuSectionResult menuSectionResult) {
