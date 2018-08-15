@@ -1,13 +1,14 @@
 package dockit.com.app.dockit.Activity;
 
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-import dockit.com.app.dockit.ViewModel.UserViewModel;
 
+import dockit.com.app.dockit.ViewModel.UserViewModel;
 import dockit.com.app.dockit.R;
 
 
@@ -54,38 +55,39 @@ public class Login extends AppCompatActivity {
 
         bEnter = findViewById(R.id.enter);
 
-        final UserViewModel login = new UserViewModel();
+        final UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
         //on click, adds the value of the button the the string pin
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String test = login.updatePin(button1);
+                //Make a Toast just to see what password was wrote TODO(1):Remove Toasts from updatePin
+                String test = userViewModel.updatePin(button1);
                 Toast.makeText(getApplicationContext(), test,Toast.LENGTH_SHORT).show();
             }
         });
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login.updatePin(button2);
+                userViewModel.updatePin(button2);
             }
         });
         b3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login.updatePin(button3);
+                userViewModel.updatePin(button3);
             }
         });
         b4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login.updatePin(button4);
+                userViewModel.updatePin(button4);
             }
         });
         b5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String test = login.updatePin(button5);
+                String test = userViewModel.updatePin(button5);
                 //
                 Toast.makeText(getApplicationContext(), test,Toast.LENGTH_SHORT).show();
             }
@@ -93,46 +95,45 @@ public class Login extends AppCompatActivity {
         b6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login.updatePin(button6);
+                userViewModel.updatePin(button6);
             }
         });
         b7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login.updatePin(button7);
+                userViewModel.updatePin(button7);
             }
         });
         b8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login.updatePin(button8);
+                userViewModel.updatePin(button8);
             }
         });
         b9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login.updatePin(button9);
+                userViewModel.updatePin(button9);
             }
         });
         b0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login.updatePin(button0);
+                userViewModel.updatePin(button0);
             }
         });
 
+        userViewModel.toast().observe(this, toast -> {
+            if(toast != "Success!") {
+                Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         //when the user press enter, compares if pin = 12345
         bEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(login.doLogin()){
-                    Toast.makeText(getApplicationContext(), "Success",Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "Wrong Pin",Toast.LENGTH_SHORT).show();
-                }
-
+                userViewModel.doLogin();
             }
         });
     }
