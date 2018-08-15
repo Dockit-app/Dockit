@@ -16,6 +16,7 @@ import dockit.com.app.dockit.Data.Dao.MenuItemTemplateDao;
 import dockit.com.app.dockit.Data.Dao.MenuTemplateDao;
 import dockit.com.app.dockit.Data.Dao.OrderDao;
 import dockit.com.app.dockit.Data.Dao.OrderLocationDao;
+import dockit.com.app.dockit.Data.Dao.UserDao;
 import dockit.com.app.dockit.Entity.Menu;
 import dockit.com.app.dockit.Entity.MenuItem;
 import dockit.com.app.dockit.Entity.MenuItemTemplate;
@@ -25,6 +26,7 @@ import dockit.com.app.dockit.Entity.MenuTemplate;
 import dockit.com.app.dockit.Entity.Order;
 import dockit.com.app.dockit.Entity.OrderLocation;
 import dockit.com.app.dockit.Entity.OrderLocationAmount;
+import dockit.com.app.dockit.Entity.User;
 
 /**
  * Created by michael on 24/07/18.
@@ -33,7 +35,7 @@ import dockit.com.app.dockit.Entity.OrderLocationAmount;
 @Database(entities = {
         Order.class, OrderLocation.class, OrderLocationAmount.class,
         Menu.class, MenuSection.class, MenuItem.class,
-        MenuTemplate.class, MenuSectionTemplate.class, MenuItemTemplate.class }, version = 1)
+        MenuTemplate.class, MenuSectionTemplate.class, MenuItemTemplate.class, User.class }, version = 1)
 @TypeConverters({Converters.class})
 public abstract class LocalDatabase extends RoomDatabase {
 
@@ -90,4 +92,6 @@ public abstract class LocalDatabase extends RoomDatabase {
             new InsertOrderLocationAmountAsync(instance, OrderLocationAmount).execute();
         }
     };
+
+    public abstract UserDao userDao();
 }
