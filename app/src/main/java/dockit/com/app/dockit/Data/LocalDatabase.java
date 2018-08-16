@@ -50,6 +50,7 @@ public abstract class LocalDatabase extends RoomDatabase {
                             .addCallback(cleanDatabaseAsync)
                             .addCallback(insertTemplatesCallback)
                             .addCallback(insertOrderLocationAmount)
+                            .addCallback(insertUserCallback)
                             .build();
         }
         return instance;
@@ -66,6 +67,8 @@ public abstract class LocalDatabase extends RoomDatabase {
     public abstract MenuItemTemplateDao menuItemTemplateDao();
 
     public abstract OrderTransaction orderTransaction();
+
+    public abstract UserDao userDao();
 
     private static LocalDatabase.Callback insertTemplatesCallback =
         new LocalDatabase.Callback() {
@@ -93,5 +96,14 @@ public abstract class LocalDatabase extends RoomDatabase {
         }
     };
 
-    public abstract UserDao userDao();
+    //following code populate the user table for testing
+    private static LocalDatabase.Callback insertUserCallback =
+            new LocalDatabase.Callback(){
+
+                @Override
+                public void onOpen (@NonNull SupportSQLiteDatabase db){
+                    super.onOpen(db);
+                    new InsertUserAsync(instance).execute();
+                }
+            };
 }

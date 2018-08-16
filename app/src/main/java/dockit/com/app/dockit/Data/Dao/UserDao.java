@@ -18,7 +18,7 @@ public interface UserDao {
     @Query("DELETE FROM user")
     void deleteAll();
 
-    @Query("Select id, name from user where pin = :pin")
+    @Query("Select name, id from user where pin = :pin")
     List<User> compareUserPin(String pin);
 
 }
