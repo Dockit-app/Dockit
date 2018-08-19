@@ -24,4 +24,6 @@ public interface OrderDao {
     @Query("Select * from order_item")
     LiveData<List<OrderResult>> getLiveOrders();
 
+//  @Query ("Select id from order_item")
+//  long retrieve(Order id);
 }

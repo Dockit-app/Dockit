@@ -36,4 +36,9 @@ public class OrderRepository {
 //    public void orderTransaction(String tableName) {
 //        orderTransaction.orderTransaction(tableName);
 //    }
+    //retrieves Order from the OrderDao using the Order id
+//    public Order retrieveOrder(int id) {
+//        this.orderDao.retrieve(id);
+//    }
+
 }
