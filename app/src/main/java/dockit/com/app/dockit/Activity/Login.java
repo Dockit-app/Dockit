@@ -2,6 +2,7 @@ package dockit.com.app.dockit.Activity;
 
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -61,9 +62,7 @@ public class Login extends AppCompatActivity {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Make a Toast just to see what password was wrote TODO(1):Remove Toasts from updatePin
-                String test = userViewModel.updatePin(button1);
-                Toast.makeText(getApplicationContext(), test,Toast.LENGTH_SHORT).show();
+                userViewModel.updatePin(button1);
             }
         });
         b2.setOnClickListener(new View.OnClickListener() {
@@ -87,9 +86,7 @@ public class Login extends AppCompatActivity {
         b5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String test = userViewModel.updatePin(button5);
-                //
-                Toast.makeText(getApplicationContext(), test,Toast.LENGTH_SHORT).show();
+                userViewModel.updatePin(button5);
             }
         });
         b6.setOnClickListener(new View.OnClickListener() {
@@ -124,8 +121,13 @@ public class Login extends AppCompatActivity {
         });
 
         userViewModel.toast().observe(this, toast -> {
-            if(toast != "Success!") {
+            if(toast.equals("Wrong Pin!") || toast.equals("Welcome Back!")) {
                 Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Intent myIntent = new Intent(Login.this, LoggedUser.class);
+                myIntent.putExtra("name", toast); //Optional parameters
+                Login.this.startActivity(myIntent);
             }
         });
 
@@ -138,3 +140,5 @@ public class Login extends AppCompatActivity {
         });
     }
 }
+
+

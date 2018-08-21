@@ -15,6 +15,9 @@ public interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(User user);
 
+//        @Insert(onConflict = OnConflictStrategy.REPLACE)
+//        long insert(OmnivoreUser omnivoreUser);
+
     @Query("DELETE FROM user")
     void deleteAll();
 

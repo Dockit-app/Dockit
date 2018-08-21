@@ -17,6 +17,7 @@ import dockit.com.app.dockit.Tasks.SharedPreferencesManager;
 public class UserViewModel extends AndroidViewModel implements ResultHandler<List<User>> {
 
     private UserRepository mRepository;
+    //integration Omnivore -> private OmnivoreUserRepository mOmniRepository;
     private String pinView = "";
     private Context context;
 
@@ -25,16 +26,16 @@ public class UserViewModel extends AndroidViewModel implements ResultHandler<Lis
     public LiveData<String> toast() {
         if (toast == null) {
             toast = new MutableLiveData<>();
-            toast.setValue("Success!");
+            toast.setValue("Welcome Back!");
         }
         return toast;
     }
 
 
-
     public UserViewModel(Application application) {
         super(application);
         mRepository = new UserRepository(application);
+        //integration Omnivore -> mOmniRepository = new OmnivoreUserRepository(application);
         this.context = application;
     }
 
@@ -50,6 +51,9 @@ public class UserViewModel extends AndroidViewModel implements ResultHandler<Lis
 
         pinView = "";
 
+        //integration Omnivore -> mOmniRepository.refreshDatabase();
+
+
     }
 
 
@@ -64,6 +68,7 @@ public class UserViewModel extends AndroidViewModel implements ResultHandler<Lis
             String nameUser = SharedPreferencesManager.getInstance(this.context).getUsername();
             String idUser = SharedPreferencesManager.getInstance(this.context).getID();
             Log.d("My tag", "User saved is " + nameUser + " and id is " + idUser);
+            toast.postValue(nameUser);
         }
         else {
             toast.postValue("Wrong Pin!");
