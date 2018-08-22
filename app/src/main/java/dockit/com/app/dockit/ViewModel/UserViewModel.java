@@ -1,14 +1,15 @@
 package dockit.com.app.dockit.ViewModel;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
-import android.util.Log;
-
+import android.content.Intent;
 import java.util.List;
 
+import dockit.com.app.dockit.Activity.LoggedUser;
 import dockit.com.app.dockit.Entity.User;
 import dockit.com.app.dockit.Repository.UserRepository;
 import dockit.com.app.dockit.Tasks.ResultHandler;
@@ -19,18 +20,9 @@ public class UserViewModel extends AndroidViewModel implements ResultHandler<Lis
     private UserRepository mRepository;
     //integration Omnivore -> private OmnivoreUserRepository mOmniRepository;
     private String pinView = "";
+    @SuppressLint("StaticFieldLeak")
     private Context context;
-
     private MutableLiveData<String> toast;
-
-    public LiveData<String> toast() {
-        if (toast == null) {
-            toast = new MutableLiveData<>();
-            toast.setValue("Welcome Back!");
-        }
-        return toast;
-    }
-
 
     public UserViewModel(Application application) {
         super(application);
@@ -39,18 +31,23 @@ public class UserViewModel extends AndroidViewModel implements ResultHandler<Lis
         this.context = application;
     }
 
+    //Set the default Toast
+    public LiveData<String> toast() {
+        if (toast == null) {
+            toast = new MutableLiveData<>();
+            toast.setValue("Welcome Back!");
+        }
+        return toast;
+    }
+
+    //Update the pin adding the number pressed by the user
     public void updatePin(String number){
         pinView = pinView + number;
     }
 
+    //Try to find username and ID by pin
     public void doLogin(){
-        //Final Idea: compares the data with the data on the API database and if matches, goes to next screen
-        Log.d("My Tag", "User is: " + pinView);
-
         mRepository.comparePin(pinView, this);
-
-        pinView = "";
-
         //integration Omnivore -> mOmniRepository.refreshDatabase();
 
 
@@ -60,19 +57,21 @@ public class UserViewModel extends AndroidViewModel implements ResultHandler<Lis
     @Override
     public void onResult(List<User> result) {
 
-        if (result.toString() != "[]"){
-            Log.d("My Tag", "it's not empty,  save nameUser and ID in a shared Preference");
+        //If the result isn't empty, save user name and id on Shared Preference. Else, user can try again
+        if (!result.toString().equals("[]")) {
 
-            boolean saveUser = SharedPreferencesManager.getInstance(this.context).userLogin(result);
-            Log.d("My Tag", "Saved user? " + saveUser);
-            String nameUser = SharedPreferencesManager.getInstance(this.context).getUsername();
-            String idUser = SharedPreferencesManager.getInstance(this.context).getID();
-            Log.d("My tag", "User saved is " + nameUser + " and id is " + idUser);
-            toast.postValue(nameUser);
+            SharedPreferencesManager.getInstance(this.context).userLogin(result);
+            toast.postValue("Success!");
+
+            //Send to the next Activity
+            Intent i = new Intent(context, LoggedUser.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(i);
         }
         else {
             toast.postValue("Wrong Pin!");
-            Log.d("My Tag", "toast Wrong Pin");
+            pinView = "";
+
         }
     }
 }
