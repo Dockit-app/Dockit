@@ -38,7 +38,8 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:visibility="invisible">
         <Button
             android:id="@+id/decrement"
             android:layout_width="40dp"

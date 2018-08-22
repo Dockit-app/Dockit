@@ -95,7 +95,7 @@ public class OrderLocationListAdapter extends RecyclerView.Adapter<OrderLocation
             }
 
             if(orderLocations != null) {
-                for (int idx = 0; idx < orderLocations.size(); idx++) { // OrderLocation orderLocation : orderLocations) {
+                for (int idx = 0; idx < orderLocations.size(); idx++) {
                     if (orderLocations.get(idx).getLocationNumber().equals(orderLocationResult.getLocationNumber())) {
                         orderLocations.set(idx, new OrderLocation(orderLocationResult));
                     }
@@ -104,7 +104,6 @@ public class OrderLocationListAdapter extends RecyclerView.Adapter<OrderLocation
         }
 
         if(isValidList) {
-//            this.orderLocations = orderLocationsNew;
             notifyDataSetChanged();
         }
 
@@ -151,12 +150,12 @@ public class OrderLocationListAdapter extends RecyclerView.Adapter<OrderLocation
     }
 
 
-    public void notifyCustomChanged() {
-        notifyDataSetChanged();
-        for(OrderLocation orderLocation : orderLocations) {
-            if(orderLocation.getSelected() == 1) {
-                selectedOrderLocationId = orderLocation.getId();
-            }
-        }
-    }
+//    public void notifyCustomChanged() {
+//        notifyDataSetChanged();
+//        for(OrderLocation orderLocation : orderLocations) {
+//            if(orderLocation.getSelected() == 1) {
+//                selectedOrderLocationId = orderLocation.getId();
+//            }
+//        }
+//    }
 }

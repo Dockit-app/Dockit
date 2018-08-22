@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,7 @@ import dockit.com.app.dockit.Adapter.MenuItemListAdapter;
 import dockit.com.app.dockit.ClickListener.MenuItemClickListenerBuilder;
 import dockit.com.app.dockit.Entity.Decorator.MenuItemView;
 import dockit.com.app.dockit.Entity.MenuItem;
-import dockit.com.app.dockit.Entity.MenuSection;
+import dockit.com.app.dockit.Entity.Order;
 import dockit.com.app.dockit.Entity.Result.MenuResult;
 import dockit.com.app.dockit.Entity.Result.MenuSectionResult;
 import dockit.com.app.dockit.R;
@@ -65,9 +66,25 @@ public class MenuFragment extends Fragment {
             }
         });
 
+        setCounterObserver();
+
         setMenuItemRecyclerView(rootView, menu);
 
         return rootView;
+    }
+
+    private void setCounterObserver() {
+        menuItemViewModel.getLiveOrderByMenuId(menu.getId()).observe(this, new Observer<List<Order>>() {
+            @Override
+            public void onChanged(@Nullable List<Order> orders) {
+                if(orders != null && orders.get(0).getCounterSelection() != null) {
+                    menuItemListAdapter.setCounter(orders.get(0).getCounterSelection());
+                }
+
+                menuItemListAdapter.notifyDataSetChanged();
+                Log.i(this.getClass().getSimpleName(), "Order change observed");
+            }
+        });
     }
 
     private void setMenuItemRecyclerView(ViewGroup rootView, MenuResult menu) {
@@ -87,7 +104,6 @@ public class MenuFragment extends Fragment {
                     menuItemViews.add(new MenuItemView(menuItem));
                 }
             }
-
             return menuItemViews;
     }
 

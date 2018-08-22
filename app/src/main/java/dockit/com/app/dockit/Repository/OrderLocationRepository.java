@@ -27,7 +27,7 @@ public class OrderLocationRepository {
     }
 
     public LiveData<List<OrderLocationResult>> getLiveByOrderId(int orderId) {
-        return orderLocationDao.getByOrderId();
+        return orderLocationDao.getByOrderId(orderId);
     }
 
     public LiveData<OrderLocationResult> getLiveById(int id) {

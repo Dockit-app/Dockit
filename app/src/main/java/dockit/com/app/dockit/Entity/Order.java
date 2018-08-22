@@ -14,6 +14,7 @@ public class Order {
     private Integer id;
     private String table;
     private String comments;
+    private Boolean counterSelection = Boolean.TRUE;
 
     public Integer getId() {
         return id;
@@ -37,5 +38,13 @@ public class Order {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public Boolean getCounterSelection() {
+        return counterSelection;
+    }
+
+    public void setCounterSelection(Boolean counterSelection) {
+        this.counterSelection = counterSelection;
     }
 }

@@ -4,13 +4,10 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import java.util.List;
@@ -31,9 +28,8 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
         private TextView description;
         private TextView ingredients;
         private LinearLayout itemCounter;
-        private Button decrement;
         private TextView counter;
-        private Button increment;
+
 
         public MenuItemViewHolder(View itemView) {
             super(itemView);
@@ -42,14 +38,14 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
             this.ingredients = itemView.findViewById(R.id.ingredients);
             this.menuItem = itemView.findViewById(R.id.menu_item);
             this.itemCounter = itemView.findViewById(R.id.item_counter);
-            this.decrement = itemView.findViewById(R.id.decrement);
             this.counter = itemView.findViewById(R.id.counter);
-            this.increment = itemView.findViewById(R.id.increment);
         }
     }
 
     List<MenuItemView> menuItems;
     LayoutInflater inflater;
+    private boolean counter = false;
+    private boolean counterChecked = false;
 
     public MenuItemListAdapter(Context context, List<MenuItemView> menuItems) {
         this.menuItems = menuItems;
@@ -75,11 +71,18 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
             holder.itemCounter.setVisibility(View.GONE);
         }
         else {
+            if(counterChecked) {
+                if (counter) {
+                    holder.itemCounter.setVisibility(View.VISIBLE);
+                    int counterValue = menuItem.getCounter() == null ? 0 : menuItem.getCounter();
+                    holder.counter.setText((Integer.toString(counterValue)));
+                } else {
+                    holder.itemCounter.setVisibility(View.INVISIBLE);
+                }
+            }
+
             holder.ingredients.setVisibility(View.VISIBLE);
-            holder.itemCounter.setVisibility(View.VISIBLE);
             holder.ingredients.setText("("+menuItem.getIngredients()+")");
-            int counterValue = menuItem.getCounter() == null ? 0 : menuItem.getCounter();
-            holder.counter.setText((Integer.toString(counterValue)));
         }
 
         if(menuItem.isSelected()) {
@@ -98,6 +101,11 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
             return menuItems.size();
         }
         return 0;
+    }
+
+    public void setCounter(boolean counter) {
+        counterChecked = true;
+        this.counter = counter;
     }
 
     public MenuItem getItemAtPosition(int position) {

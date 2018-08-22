@@ -19,8 +19,11 @@ import dockit.com.app.dockit.Entity.Result.OrderLocationResult;
 @Dao
 public interface OrderLocationDao {
 
+    @Query("Select * From order_location where orderId = :orderId")
+    LiveData<List<OrderLocationResult>> getByOrderId(int orderId);
+
     @Query("Select * From order_location")
-    LiveData<List<OrderLocationResult>> getByOrderId();
+    LiveData<List<OrderLocationResult>> getAll();
 
     @Query("Select * From order_location Where id = :id")
     LiveData<OrderLocationResult> getById(int id);

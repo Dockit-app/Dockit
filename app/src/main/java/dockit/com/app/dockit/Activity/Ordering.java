@@ -11,6 +11,7 @@ import android.os.Bundle;
 import dockit.com.app.dockit.Adapter.OrderMenuAdapter;
 import dockit.com.app.dockit.Adapter.OrderLocationListAdapter;
 import dockit.com.app.dockit.ClickListener.OrderLocationClickBuilder;
+import dockit.com.app.dockit.Entity.MenuItem;
 import dockit.com.app.dockit.Entity.OrderLocation;
 import dockit.com.app.dockit.Entity.Result.OrderLocationResult;
 import dockit.com.app.dockit.Entity.Result.OrderResult;
@@ -21,6 +22,7 @@ import dockit.com.app.dockit.ViewModel.OrderViewModel;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -82,7 +84,7 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
 
         orderLocationClickBuilder.setOnClickListener(recyclerView);
 
-        orderViewModel.setSelectedOrderLocation(orderLocations.get(0));
+        orderViewModel.setLiveSelectedOrderLocation(orderLocations.get(0));
 
     }
 
@@ -100,26 +102,25 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
             }
         });
 
+        createOrderLocationObserver();
+
+    }
+
+    private void createOrderLocationObserver() {
         orderViewModel.getLiveOrderLocationsByOrderId(orderId).observe(this, new Observer<List<OrderLocationResult>>() {
             @Override
             public void onChanged(@Nullable List<OrderLocationResult> orderLocations) {
 
-                //TODO: Filters current order's  orderLocations. Need to query based on order id
-                List<OrderLocationResult> selectedOrderLocations = new ArrayList<>();
-                for(OrderLocationResult orderLocation : orderLocations) {
-                    if(orderLocation.getOrderId() != null && orderLocation.getOrderId() == orderId) {
-                        selectedOrderLocations.add(orderLocation);
-                    }
-                }
+                Log.i(this.getClass().getSimpleName(), "Order locations observed");
 
                 //Ensure created orderLocation has id set
-                for(OrderLocationResult orderLocationResult : selectedOrderLocations) {
+                for(OrderLocationResult orderLocationResult : orderLocations) {
                     if(orderLocationResult.getLocationNumber().equals(orderViewModel.getLiveSelectedOrderLocation().getValue().getLocationNumber())) {
-                        orderViewModel.setSelectedOrderLocation(new OrderLocation(orderLocationResult));
+                        orderViewModel.setLiveSelectedOrderLocation(new OrderLocation(orderLocationResult));
                     }
                 }
 
-                if(orderLocationListAdapter.setOrderLocationResults(selectedOrderLocations)) {
+                if(orderLocationListAdapter.setOrderLocationResults(orderLocations)) {
 
                     Log.i(this.getClass().getSimpleName(), "Begin update menu pager");
                     updateMenuPager(orderLocationListAdapter.getSelectedOrderLocationId());
@@ -138,6 +139,39 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
         orderId = result.getOrderId();
         orderLocationClickBuilder.setOrderId(orderId);
         orderLocationListAdapter.setFirstSelectedOrderLocationId(result.getId());
+        createOrderLocationObserver();
+
+        createItemCounterObserver(orderId);
+    }
+
+    private void createItemCounterObserver(int orderId) {
+        orderViewModel.getLiveMenuItemsByOrderId(orderId).observe(this, new Observer<List<MenuItem>>() {
+            @Override
+            public void onChanged(@Nullable List<MenuItem> menuItems) {
+                if(findViewById(R.id.order_location_recyclerView).getVisibility() == View.VISIBLE) {
+                    for (MenuItem menuItem : menuItems) {
+                        if (menuItem.getCounter() != null && menuItem.getCounter() > 0) {
+                            findViewById(R.id.order_location_recyclerView).setVisibility(View.INVISIBLE);
+                            break;
+                        }
+                    }
+                }
+                else if(findViewById(R.id.order_location_recyclerView).getVisibility() == View.INVISIBLE) {
+                    boolean allZero = true;
+                    for (MenuItem menuItem : menuItems) {
+                        if (menuItem.getCounter() != null && menuItem.getCounter() > 0) {
+                            allZero = false;
+                            break;
+                        }
+                    }
+
+                    if(allZero) {
+                        findViewById(R.id.order_location_recyclerView).setVisibility(View.VISIBLE);
+                    }
+
+                }
+            }
+        });
     }
 
     public void createMenuPager(OrderResult orderResult) {
@@ -168,6 +202,5 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
                 }
             }
         });
-
     }
 }

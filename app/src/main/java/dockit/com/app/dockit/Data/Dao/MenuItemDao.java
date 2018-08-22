@@ -20,9 +20,15 @@ public interface MenuItemDao {
     @Query("select * from menu_item where menuSectionId = :menuId")
     LiveData<List<MenuItem>> getLiveByMenuId(int menuId);
 
+    @Query("select * from menu_item mi " +
+            "join menu_section ms on mi.menuSectionId = ms.id " +
+            "join menu m on ms.menuId = m.id " +
+            "join order_location ol on m.locationId = ol.id " +
+            "where ol.orderId = :orderId")
+    LiveData<List<MenuItem>> getLiveByOrderId(int orderId);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<MenuItem> menuItems);
-
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void update(MenuItem menuItem);
 

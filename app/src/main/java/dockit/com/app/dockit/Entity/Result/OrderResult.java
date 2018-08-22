@@ -16,6 +16,7 @@ public class OrderResult {
     private Integer id;
     private String table;
     private String comments;
+    private Boolean counterSelection;
 
     @Relation(entity = OrderLocation.class, parentColumn = "id", entityColumn = "orderId")
     public List<OrderLocationResult> orderLocationResults;
@@ -42,5 +43,13 @@ public class OrderResult {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public Boolean getCounterSelection() {
+        return counterSelection;
+    }
+
+    public void setCounterSelection(Boolean counterSelection) {
+        this.counterSelection = counterSelection;
     }
 }

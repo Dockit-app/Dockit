@@ -11,9 +11,11 @@ import java.util.List;
 
 import dockit.com.app.dockit.Data.Dao.OrderTransaction;
 import dockit.com.app.dockit.Data.LocalDatabase;
+import dockit.com.app.dockit.Entity.MenuItem;
 import dockit.com.app.dockit.Entity.OrderLocation;
 import dockit.com.app.dockit.Entity.Result.OrderLocationResult;
 import dockit.com.app.dockit.Entity.Result.OrderResult;
+import dockit.com.app.dockit.Repository.MenuItemRepository;
 import dockit.com.app.dockit.Repository.OrderLocationRepository;
 import dockit.com.app.dockit.Repository.OrderRepository;
 import dockit.com.app.dockit.Tasks.CreateOrderAsync;
@@ -28,14 +30,12 @@ public class OrderViewModel extends AndroidViewModel {
 
     private LiveData<List<OrderResult>> liveOrderResults;
     private int maxOrderLocations = 50; //TODO: Persist in DB
-    private int orderId = 1;
     private MutableLiveData<OrderLocation> liveSelectedOrderLocation;
 
     private OrderRepository orderRepository;
     private OrderLocationRepository orderLocationRepository;
+    private MenuItemRepository menuItemRepository;
     private CreateOrderAsync createOrderAsync;
-    private OrderLocation createdOrderLocation;
-    private OrderTransaction orderTransaction;
 
     public OrderViewModel(@NonNull Application application) {
         super(application);
@@ -47,9 +47,9 @@ public class OrderViewModel extends AndroidViewModel {
 
         liveOrderResults = orderRepository.getLiveOrders();
 
-        liveSelectedOrderLocation = new MutableLiveData();
+        menuItemRepository = new MenuItemRepository(application);
 
-        orderTransaction = LocalDatabase.getInstance(application).orderTransaction();
+        liveSelectedOrderLocation = new MutableLiveData();
     }
 
 
@@ -57,7 +57,13 @@ public class OrderViewModel extends AndroidViewModel {
         return orderLocationRepository.getLiveByOrderId(orderId);
     }
 
-    public LiveData<List<OrderResult>> getLiveOrderResults() { return liveOrderResults;}
+    public LiveData<List<OrderResult>> getLiveOrderResults() {
+        return liveOrderResults;
+    }
+
+    public LiveData<List<MenuItem>> getLiveMenuItemsByOrderId(int orderId) {
+        return menuItemRepository.getLiveByOrderId(orderId);
+    }
 
     public void createOrder(String table, ResultHandler resultHandler) {
         createOrderAsync.setResultHandler(resultHandler);
@@ -68,19 +74,21 @@ public class OrderViewModel extends AndroidViewModel {
 
         OrderLocation oldOrderLocation = liveSelectedOrderLocation.getValue();
         oldOrderLocation.setSelected(0);
-        orderLocationRepository.update(oldOrderLocation);
 
         liveSelectedOrderLocation.setValue(orderLocation);
+
+        orderLocationRepository.update(oldOrderLocation);
         new CreateOrderLocationTransactionAsync(context).execute(orderLocation);
     }
 
     public void updateOrderLocation(OrderLocation orderLocation) {
 
         OrderLocation oldOrderLocation = liveSelectedOrderLocation.getValue();
-        oldOrderLocation.setSelected(0);
-        orderLocationRepository.update(oldOrderLocation);
 
         liveSelectedOrderLocation.setValue(orderLocation);
+
+        oldOrderLocation.setSelected(0);
+        orderLocationRepository.update(oldOrderLocation);
         orderLocationRepository.update(orderLocation);
     }
 
@@ -97,7 +105,7 @@ public class OrderViewModel extends AndroidViewModel {
         return orderLocationRepository.getLiveById(id);
     }
 
-    public void setSelectedOrderLocation(OrderLocation selectedOrderLocation) {
+    public void setLiveSelectedOrderLocation(OrderLocation selectedOrderLocation) {
         this.liveSelectedOrderLocation.setValue(selectedOrderLocation);
     }
 }

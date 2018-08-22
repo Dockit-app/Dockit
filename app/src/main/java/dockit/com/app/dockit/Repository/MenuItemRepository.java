@@ -26,6 +26,10 @@ public class MenuItemRepository {
         return menuItemDao.getLiveByMenuId(menuId);
     }
 
+    public LiveData<List<MenuItem>> getLiveByOrderId(int orderId) {
+        return menuItemDao.getLiveByOrderId(orderId);
+    }
+
     public void createAllMenuItems(List<MenuItem> menuItems) {
         menuItemDao.insertAll(menuItems);
     }
