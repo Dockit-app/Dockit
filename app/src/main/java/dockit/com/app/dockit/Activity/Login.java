@@ -1,17 +1,13 @@
 package dockit.com.app.dockit.Activity;
 
-
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import dockit.com.app.dockit.ViewModel.UserViewModel;
 import dockit.com.app.dockit.R;
-
 
 
 public class Login extends AppCompatActivity {
@@ -23,7 +19,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //declares all buttons and values in string variables
+        //Declare all buttons and values in string variables
         b1 = findViewById(R.id.button1);
         final String button1 = b1.getText().toString();
 
@@ -56,89 +52,32 @@ public class Login extends AppCompatActivity {
 
         bEnter = findViewById(R.id.enter);
 
-        final UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        final UserViewModel userViewModel;
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
-        //on click, adds the value of the button the the string pin
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userViewModel.updatePin(button1);
-            }
-        });
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userViewModel.updatePin(button2);
-            }
-        });
-        b3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userViewModel.updatePin(button3);
-            }
-        });
-        b4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userViewModel.updatePin(button4);
-            }
-        });
-        b5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userViewModel.updatePin(button5);
-            }
-        });
-        b6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userViewModel.updatePin(button6);
-            }
-        });
-        b7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userViewModel.updatePin(button7);
-            }
-        });
-        b8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userViewModel.updatePin(button8);
-            }
-        });
-        b9.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userViewModel.updatePin(button9);
-            }
-        });
-        b0.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userViewModel.updatePin(button0);
-            }
-        });
+        //on click, add the value of the button the the string pin
+        b1.setOnClickListener(v -> userViewModel.updatePin(button1));
+        b2.setOnClickListener(v -> userViewModel.updatePin(button2));
+        b3.setOnClickListener(v -> userViewModel.updatePin(button3));
+        b4.setOnClickListener(v -> userViewModel.updatePin(button4));
+        b5.setOnClickListener(v -> userViewModel.updatePin(button5));
+        b6.setOnClickListener(v -> userViewModel.updatePin(button6));
+        b7.setOnClickListener(v -> userViewModel.updatePin(button7));
+        b8.setOnClickListener(v -> userViewModel.updatePin(button8));
+        b9.setOnClickListener(v -> userViewModel.updatePin(button9));
+        b0.setOnClickListener(v -> userViewModel.updatePin(button0));
 
-        userViewModel.toast().observe(this, toast -> {
-            if(toast.equals("Wrong Pin!") || toast.equals("Welcome Back!")) {
+        //when the user press enter, compare pin with the database
+        bEnter.setOnClickListener(v -> userViewModel.doLogin());
+
+        //If toast is an error, make Toast
+        userViewModel.toast().observe(this, (String toast) -> {
+            assert toast != null;
+            if (toast.equals("Wrong Pin!")) {
                 Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
             }
-            else {
-                Intent myIntent = new Intent(Login.this, LoggedUser.class);
-                myIntent.putExtra("name", toast); //Optional parameters
-                Login.this.startActivity(myIntent);
-            }
         });
 
-        //when the user press enter, compares if pin = 12345
-        bEnter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userViewModel.doLogin();
-            }
-        });
+
     }
 }
-
-
