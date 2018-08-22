@@ -18,27 +18,27 @@ import dockit.com.app.dockit.Entity.Result.OrderResult;
 public class OrderRepository {
 
     private OrderDao orderDao;
-//    private OrderTransaction orderTransaction;
 
     public OrderRepository(Context context) {
         this.orderDao = LocalDatabase.getInstance(context).orderDao();
-//        this.orderTransaction = LocalDatabase.getInstance(context).orderTransaction();
     }
 
     public LiveData<List<OrderResult>> getLiveOrders() {
         return orderDao.getLiveOrders();
     }
 
-//    public int createOrder(Order order) {
-//        return (int)orderDao.insert(order);
-//    }
-//
-//    public void orderTransaction(String tableName) {
-//        orderTransaction.orderTransaction(tableName);
-//    }
-    //retrieves Order from the OrderDao using the Order id
-//    public Order retrieveOrder(int id) {
-//        this.orderDao.retrieve(id);
-//    }
+    public List<Order> getById(int id) {
+        List<Order> order = orderDao.getOrders(id);
+
+        return order;
+    }
+
+    public LiveData<List<Order>> getLiveByMenuId(int menuId) {
+        return orderDao.getLiveByMenuId(menuId);
+    }
+
+    public void update(Order order) {
+        orderDao.update(order);
+    }
 
 }

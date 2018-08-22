@@ -54,6 +54,11 @@ public class OrderLocationClickBuilder {
             public void onLongItemClick(View view, int position) {
 
             }
+
+            @Override
+            public void onDoubleClick(View view, int position) {
+
+            }
         }));
     }
 

@@ -1,13 +1,19 @@
 package dockit.com.app.dockit.ClickListener;
 
-import android.graphics.Color;
+import android.content.Context;
+import android.graphics.Point;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.PopupWindow;
 
 import dockit.com.app.dockit.Adapter.MenuItemListAdapter;
 import dockit.com.app.dockit.Entity.MenuItem;
+import dockit.com.app.dockit.Popup.MenuItemPopup;
 import dockit.com.app.dockit.R;
 import dockit.com.app.dockit.ViewModel.MenuItemViewModel;
 
@@ -25,12 +31,13 @@ public class MenuItemClickListenerBuilder {
         this.menuItemViewModel = menuItemViewModel;
     }
 
-    public void setOnClickListener(RecyclerView view) {
-        view.clearOnChildAttachStateChangeListeners();
-        view.addOnItemTouchListener(new RecyclerViewClickListener(view.getContext(), view, new RecyclerViewClickListener.OnItemClickListener() {
+    public void setOnClickListener(final RecyclerView recyclerView) {
+        recyclerView.clearOnChildAttachStateChangeListeners();
+        recyclerView.addOnItemTouchListener(new RecyclerViewClickListener(recyclerView.getContext(), recyclerView, new RecyclerViewClickListener.OnItemClickListener() {
 
             @Override
             public void onItemClick(View view, int position) {
+
                 MenuItem menuItem = menuItemListAdapter.getItemAtPosition(position);
 
                 if (view instanceof AppCompatButton) {
@@ -40,9 +47,15 @@ public class MenuItemClickListenerBuilder {
                     if(view.getId() == R.id.decrement) {
                         int decrementedValue = counterValue - 1 < 0 ? 0 : counterValue - 1;
                         menuItem.setCounter(decrementedValue);
+                        if(decrementedValue == 0 && menuItem.isSelected()) {
+                            menuItem.setSelected(false);
+                        }
                     }
                     else if(view.getId() == R.id.increment) {
                         menuItem.setCounter(counterValue + 1);
+                        if(!menuItem.isSelected()) {
+                            menuItem.setSelected(true);
+                        }
                     }
 
                 }
@@ -52,6 +65,10 @@ public class MenuItemClickListenerBuilder {
                     }
                     else {
                         menuItem.setSelected(true);
+
+                        if(menuItem.getDescription().equals("Country Style Terrine")) {
+                            MenuItemPopup.openMandatoryPopup(view.getContext(), recyclerView);
+                        }
                     }
                 }
 
@@ -59,9 +76,14 @@ public class MenuItemClickListenerBuilder {
             }
 
             @Override
-            public void onLongItemClick(View view, int position) {
-
+            public void onDoubleClick(View view, int position) {
+                MenuItemPopup.openOptionalPopup(view.getContext(), recyclerView);
             }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+            }
+
         }));
     }
 }

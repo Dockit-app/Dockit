@@ -19,6 +19,7 @@ public class MenuItem implements Serializable {
     private String ingredients;
     private boolean selected;
     private Integer counter;
+    private String comments;
 
     public MenuItem() {}
 
@@ -74,5 +75,13 @@ public class MenuItem implements Serializable {
 
     public void setCounter(Integer counter) {
         this.counter = counter;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

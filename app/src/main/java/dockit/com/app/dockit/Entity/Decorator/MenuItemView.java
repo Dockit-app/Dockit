@@ -16,6 +16,7 @@ public class MenuItemView extends MenuItem {
         this.setMenuSectionId(menuItem.getMenuSectionId());
         this.setSelected(menuItem.isSelected());
         this.setCounter(menuItem.getCounter());
+        this.setComments(menuItem.getComments());
     }
 
     public MenuItemView(MenuSectionResult menuSectionResult) {

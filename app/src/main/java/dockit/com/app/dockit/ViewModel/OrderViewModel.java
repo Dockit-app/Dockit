@@ -96,13 +96,12 @@ public class OrderViewModel extends AndroidViewModel {
         return  maxOrderLocations;
     }
 
+    public LiveData<OrderLocationResult> getOrderLocationById(int id) {
+        return orderLocationRepository.getLiveById(id);
+    }
 
     public LiveData<OrderLocation> getLiveSelectedOrderLocation() {
         return liveSelectedOrderLocation;
-    }
-
-    public LiveData<OrderLocationResult> getOrderLocationById(int id) {
-        return orderLocationRepository.getLiveById(id);
     }
 
     public void setLiveSelectedOrderLocation(OrderLocation selectedOrderLocation) {
