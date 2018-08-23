@@ -12,7 +12,7 @@ public class Order {
 
     @PrimaryKey(autoGenerate = true)
     private Integer id;
-    private String table;
+    private String orderTable;
     private String comments;
     private Boolean counterSelection = Boolean.TRUE;
 
@@ -24,12 +24,12 @@ public class Order {
         this.id = id;
     }
 
-    public String getTable() {
-        return table;
+    public String getOrderTable() {
+        return orderTable;
     }
 
-    public void setTable(String table) {
-        this.table = table;
+    public void setOrderTable(String table) {
+        this.orderTable = table;
     }
 
     public String getComments() {

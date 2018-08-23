@@ -46,7 +46,7 @@ public abstract class OrderTransaction {
     @Transaction
     public int createOrderTransaction(String tableName) {
         Order order = new Order();
-        order.setTable(tableName);
+        order.setOrderTable(tableName);
         int orderId = (int)createOrder(order);
 
         return orderId;

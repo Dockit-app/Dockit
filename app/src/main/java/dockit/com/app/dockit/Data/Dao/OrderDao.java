@@ -39,4 +39,12 @@ public interface OrderDao {
 
     @Query ("Select id from order_item")
     LiveData<OrderResult> retrieve(int id);
+
+    //catch all tables that starts with a specific table number
+    @Query("Select orderTable from order_item where orderTable LIKE :table || '%'")
+    LiveData<List<Order>> getTablesNumbers(String table);
+
+    //get open tables
+    @Query("Select orderTable from order_item")
+    LiveData<List<Order>> getExistingTables();
 }
