@@ -37,6 +37,6 @@ public interface OrderDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void update(Order order);
 
-//  @Query ("Select id from order_item")
-//  long retrieve(Order id);
+    @Query ("Select id from order_item")
+    LiveData<OrderResult> retrieve(int id);
 }
