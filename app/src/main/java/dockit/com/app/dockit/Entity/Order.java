@@ -3,6 +3,8 @@ package dockit.com.app.dockit.Entity;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.io.Serializable;
+
 /**
  * Created by michael on 24/07/18.
  */
@@ -15,6 +17,7 @@ public class Order {
     private String table;
     private String comments;
     private Boolean counterSelection = Boolean.TRUE;
+    private String timeStamp;
 
     public Integer getId() {
         return id;
@@ -46,5 +49,13 @@ public class Order {
 
     public void setCounterSelection(Boolean counterSelection) {
         this.counterSelection = counterSelection;
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
     }
 }

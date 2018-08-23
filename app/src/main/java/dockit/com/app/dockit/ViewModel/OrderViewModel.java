@@ -62,6 +62,7 @@ public class OrderViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<MenuItem>> getLiveMenuItemsByOrderId(int orderId) {
+        //Used for counter implementation
         return menuItemRepository.getLiveByOrderId(orderId);
     }
 

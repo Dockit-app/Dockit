@@ -37,7 +37,7 @@ public class InsertTemplatesAsync extends AsyncTask<Void, Void, Void> {
     private void createMenuTemplate() {
         List<MenuTemplate> menuTemplates = new ArrayList<>();
 
-        String[] menuNames = { "Set Menu", "A La Carte", "€49.95 Menu" };
+        String[] menuNames = { "A LA CARTE", "DRINKS"};
         String[] sections = { "Appetiser", "Mains", "Dessert", "Sides" };
         String[] menuItemDescription = {"Heirloom Tomato", "Country Style Terrine", "Salt Cod Beignets"};
         String[] menuItemIngredients = {"Burrata, Mint, Puff Wild Rice", "Foie Gras, Walnuts, Grapes, Quince", "Caeser Aioli, Pickled Cucumber"};

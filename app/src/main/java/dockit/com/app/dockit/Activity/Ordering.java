@@ -2,7 +2,9 @@ package dockit.com.app.dockit.Activity;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import dockit.com.app.dockit.Adapter.OrderMenuAdapter;
 import dockit.com.app.dockit.Adapter.OrderLocationListAdapter;
 import dockit.com.app.dockit.ClickListener.OrderLocationClickBuilder;
 import dockit.com.app.dockit.Entity.MenuItem;
+import dockit.com.app.dockit.Entity.Order;
 import dockit.com.app.dockit.Entity.OrderLocation;
 import dockit.com.app.dockit.Entity.Result.OrderLocationResult;
 import dockit.com.app.dockit.Entity.Result.OrderResult;
@@ -25,7 +28,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Ordering extends AppCompatActivity implements ResultHandler<OrderLocation> {
@@ -45,7 +50,8 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
 
         //TODO: Receive order id for existing
 
-        //TODO: Receive user name, tablename from intent
+        //TODO: Receive tablename from intent
+
         TextView textView = findViewById(R.id.table_text);
         textView.setText(tableName);
 
@@ -140,11 +146,11 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
         orderLocationClickBuilder.setOrderId(orderId);
         orderLocationListAdapter.setFirstSelectedOrderLocationId(result.getId());
         createOrderLocationObserver();
-
-        createItemCounterObserver(orderId);
     }
 
     private void createItemCounterObserver(int orderId) {
+
+        //Used for counter implementation
         orderViewModel.getLiveMenuItemsByOrderId(orderId).observe(this, new Observer<List<MenuItem>>() {
             @Override
             public void onChanged(@Nullable List<MenuItem> menuItems) {
@@ -184,6 +190,10 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
         TabLayout tabLayout = (TabLayout) findViewById(R.id.menu_tab_layout);
         tabLayout.setupWithViewPager(menuPager);
         menuPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        setOrderFinishButton(orderResult);
+
+
     }
 
     public void updateMenuPager(final int orderLocationId) {
@@ -200,6 +210,23 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
                         Log.i(Ordering.class.getSimpleName(), "Order location "+orderLocationResult.getId()+" updated");
                     }
                 }
+            }
+        });
+    }
+
+    private void setOrderFinishButton(OrderResult orderResult) {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                orderResult.setTimeStamp(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()));
+
+                Intent startUserActivity = new Intent(view.getContext(), OrderSummary.class);
+                startUserActivity.putExtra("OrderResult", orderResult);
+
+                startUserActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                view.getContext().startActivity(startUserActivity);
             }
         });
     }

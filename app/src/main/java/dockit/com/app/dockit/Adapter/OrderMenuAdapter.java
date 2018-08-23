@@ -20,7 +20,7 @@ import dockit.com.app.dockit.Repository.OrderRepository;
 
 public class OrderMenuAdapter extends FragmentStatePagerAdapter {
 
-    private static final int PAGE_COUNT = 3;
+    private static final int PAGE_COUNT = 2;
     private List<MenuResult> menus;
     private int orderLocationId;
     public OrderMenuAdapter(FragmentManager fragmentManager) {

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/order_location_card"
-    android:layout_width="@dimen/square_length"
+    android:layout_width="@dimen/card_length"
     android:layout_height="match_parent"
     android:layout_gravity="center"
     app:cardCornerRadius="6dp"

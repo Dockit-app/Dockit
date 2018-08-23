@@ -2,6 +2,7 @@ package dockit.com.app.dockit.Entity.Result;
 
 import android.arch.persistence.room.Relation;
 
+import java.io.Serializable;
 import java.util.List;
 
 import dockit.com.app.dockit.Entity.Menu;
@@ -10,7 +11,7 @@ import dockit.com.app.dockit.Entity.Menu;
  * Created by michael on 01/08/18.
  */
 
-public class OrderLocationResult {
+public class OrderLocationResult implements Serializable {
 
     private Integer id;
     private Integer orderId;

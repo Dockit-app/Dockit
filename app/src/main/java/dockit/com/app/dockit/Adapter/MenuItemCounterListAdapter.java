@@ -3,13 +3,11 @@ package dockit.com.app.dockit.Adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,32 +20,34 @@ import dockit.com.app.dockit.R;
  * Created by michael on 28/07/18.
  */
 
-public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapter.MenuItemViewHolder> {
+public class MenuItemCounterListAdapter extends RecyclerView.Adapter<MenuItemCounterListAdapter.MenuItemViewHolder> {
 
     class MenuItemViewHolder extends RecyclerView.ViewHolder {
 
-        private RelativeLayout menuSection;
-        private TextView name;
-        private CardView menuItem;
+        private LinearLayout menuItem;
         private TextView description;
         private TextView ingredients;
+        private LinearLayout itemCounter;
+        private TextView counter;
 
 
         public MenuItemViewHolder(View itemView) {
             super(itemView);
 
-            this.menuSection= itemView.findViewById(R.id.menu_section);
-            this.name = itemView.findViewById(R.id.name);
             this.description = itemView.findViewById(R.id.description);
             this.ingredients = itemView.findViewById(R.id.ingredients);
             this.menuItem = itemView.findViewById(R.id.menu_item);
+            this.itemCounter = itemView.findViewById(R.id.item_counter);
+            this.counter = itemView.findViewById(R.id.counter);
         }
     }
 
     List<MenuItemView> menuItems;
     LayoutInflater inflater;
+    private boolean counter = false;
+    private boolean counterChecked = false;
 
-    public MenuItemListAdapter(Context context, List<MenuItemView> menuItems) {
+    public MenuItemCounterListAdapter(Context context, List<MenuItemView> menuItems) {
         this.menuItems = menuItems;
         this.inflater = LayoutInflater.from(context);
     }
@@ -55,6 +55,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
     @NonNull
     @Override
     public MenuItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View itemView = inflater.inflate(R.layout.menu_item_list, parent, false);
         return new MenuItemViewHolder(itemView);
     }
@@ -63,16 +64,24 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
     public void onBindViewHolder(@NonNull MenuItemViewHolder holder, int position) {
 
         MenuItemView menuItem = menuItems.get(position);
+        holder.description.setText(menuItem.getDescription());
 
         if(menuItem.isSection()) {
-            holder.menuItem.setVisibility(View.GONE);
-            holder.menuSection.setVisibility(View.VISIBLE);
-            holder.name.setText(menuItem.getDescription());
+            holder.ingredients.setVisibility(View.GONE);
+            holder.itemCounter.setVisibility(View.GONE);
         }
         else {
-            holder.menuSection.setVisibility(View.GONE);
-            holder.menuItem.setVisibility(View.VISIBLE);
-            holder.description.setText(menuItem.getDescription());
+            if(counterChecked) {
+                if (counter) {
+                    holder.itemCounter.setVisibility(View.VISIBLE);
+                    int counterValue = menuItem.getCounter() == null ? 0 : menuItem.getCounter();
+                    holder.counter.setText((Integer.toString(counterValue)));
+                } else {
+                    holder.itemCounter.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            holder.ingredients.setVisibility(View.VISIBLE);
             holder.ingredients.setText("("+menuItem.getIngredients()+")");
         }
 
@@ -82,6 +91,8 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
         else {
             holder.menuItem.setBackgroundColor(Color.WHITE);
         }
+
+
     }
 
     @Override
@@ -90,6 +101,11 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
             return menuItems.size();
         }
         return 0;
+    }
+
+    public void setCounter(boolean counter) {
+        counterChecked = true;
+        this.counter = counter;
     }
 
     public MenuItem getItemAtPosition(int position) {

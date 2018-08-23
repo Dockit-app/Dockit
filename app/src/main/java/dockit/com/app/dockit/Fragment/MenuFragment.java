@@ -74,11 +74,12 @@ public class MenuFragment extends Fragment {
     }
 
     private void setCounterObserver() {
+        //Used for counter implementation
         menuItemViewModel.getLiveOrderByMenuId(menu.getId()).observe(this, new Observer<List<Order>>() {
             @Override
             public void onChanged(@Nullable List<Order> orders) {
                 if(orders != null && orders.get(0).getCounterSelection() != null) {
-                    menuItemListAdapter.setCounter(orders.get(0).getCounterSelection());
+//                    menuItemListAdapter.setCounter(orders.get(0).getCounterSelection());
                 }
 
                 menuItemListAdapter.notifyDataSetChanged();

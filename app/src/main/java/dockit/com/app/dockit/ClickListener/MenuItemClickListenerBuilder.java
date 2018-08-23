@@ -39,37 +39,17 @@ public class MenuItemClickListenerBuilder {
             public void onItemClick(View view, int position) {
 
                 MenuItem menuItem = menuItemListAdapter.getItemAtPosition(position);
+                boolean isMandatoryOptionItem = menuItem.getDescription().equals("Country Style Terrine") ? true : false;
 
-                if (view instanceof AppCompatButton) {
-
-                    int counterValue = menuItem.getCounter() == null ? 0 : menuItem.getCounter();
-
-                    if(view.getId() == R.id.decrement) {
-                        int decrementedValue = counterValue - 1 < 0 ? 0 : counterValue - 1;
-                        menuItem.setCounter(decrementedValue);
-                        if(decrementedValue == 0 && menuItem.isSelected()) {
-                            menuItem.setSelected(false);
-                        }
-                    }
-                    else if(view.getId() == R.id.increment) {
-                        menuItem.setCounter(counterValue + 1);
-                        if(!menuItem.isSelected()) {
-                            menuItem.setSelected(true);
-                        }
-                    }
-
+                if(menuItem.isSelected()) {
+                    menuItem.setSelected(false);
+                }
+                else if(isMandatoryOptionItem) {
+                    MenuItemPopup.openMandatoryPopup(view.getContext(), recyclerView);
+                    menuItem.setSelected(true);
                 }
                 else {
-                    if(menuItem.isSelected()) {
-                        menuItem.setSelected(false);
-                    }
-                    else {
-                        menuItem.setSelected(true);
-
-                        if(menuItem.getDescription().equals("Country Style Terrine")) {
-                            MenuItemPopup.openMandatoryPopup(view.getContext(), recyclerView);
-                        }
-                    }
+                    menuItem.setSelected(true);
                 }
 
                 menuItemViewModel.update(menuItem);

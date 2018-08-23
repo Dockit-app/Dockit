@@ -8,8 +8,10 @@ import android.widget.TextView;
 import java.sql.Time;
 
 import dockit.com.app.dockit.Entity.Order;
+import dockit.com.app.dockit.Entity.Result.OrderResult;
 import dockit.com.app.dockit.R;
 
+import dockit.com.app.dockit.Repository.OrderRepository;
 import dockit.com.app.dockit.ViewModel.OrderSummaryViewModel;
 
 public class OrderSummary extends AppCompatActivity {
@@ -29,9 +31,8 @@ public class OrderSummary extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_summary);
 
-        //TODO: Receive Order ID for existing order
-
-        retrieveOrderInfo(orderId);
+        //Thomas I've passed the orderResult to your activity, saves you querying for it
+        OrderResult orderResult = (OrderResult)getIntent().getSerializableExtra("OrderResult");
 
         //TODO: Retreive Table Name, server name, time and covers from database using Order ID
 
@@ -43,10 +44,10 @@ public class OrderSummary extends AppCompatActivity {
         serverText.setText(server);
 
         TextView coversText = findViewById(R.id.covers_text);
-        coversText.setText(covers);
+        coversText.setText(Integer.toString(covers));
 
         TextView timeText = findViewById(R.id.time_text);
-        timeText.setText(time);
+        timeText.setText(orderResult.getTimeStamp());
 
         setOrderSummaryViewModel();
 
