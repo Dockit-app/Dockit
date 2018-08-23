@@ -1,8 +1,13 @@
 package dockit.com.app.dockit.Activity;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.sql.Time;
@@ -12,6 +17,7 @@ import dockit.com.app.dockit.Entity.Result.OrderResult;
 import dockit.com.app.dockit.R;
 
 import dockit.com.app.dockit.Repository.OrderRepository;
+import dockit.com.app.dockit.Tasks.SharedPreferencesManager;
 import dockit.com.app.dockit.ViewModel.OrderSummaryViewModel;
 
 public class OrderSummary extends AppCompatActivity {
@@ -40,14 +46,15 @@ public class OrderSummary extends AppCompatActivity {
         TextView tableText = findViewById(R.id.table_text);
         tableText.setText(tableName);
 
+        server = SharedPreferencesManager.getInstance(this).getUsername();
         TextView serverText = findViewById(R.id.server_text);
         serverText.setText(server);
 
         TextView coversText = findViewById(R.id.covers_text);
-        coversText.setText(Integer.toString(covers));
+        coversText.setText(covers);
 
         TextView timeText = findViewById(R.id.time_text);
-        timeText.setText(orderResult.getTimeStamp());
+        timeText.setText(time);
 
         setOrderSummaryViewModel();
 
@@ -57,6 +64,12 @@ public class OrderSummary extends AppCompatActivity {
 
     private void setOrderSummaryViewModel() {
         orderSummaryViewModel = ViewModelProviders.of(this).get(OrderSummaryViewModel.class);
+        orderSummaryViewModel.RetrieveOrderInfo(orderId).observe(this, new Observer<OrderResult>() {
+            @Override
+            public void onChanged(@Nullable OrderResult orderResult) {
+                if (orderResult != null) {
+                    tableName = orderSummaryViewModel.GetTable(orderResult) + "\nTable";
+                    covers = orderSummaryViewModel.GetCovers(orderResult) + "\nCovers";
 
 
     }

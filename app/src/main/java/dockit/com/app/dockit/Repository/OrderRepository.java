@@ -41,4 +41,9 @@ public class OrderRepository {
         orderDao.update(order);
     }
 
+    //retrieves Order from the OrderDao using the Order id
+    public LiveData<OrderResult> retrieveOrder(int id) {
+        return this.orderDao.retrieve(id);
+    }
+
 }
