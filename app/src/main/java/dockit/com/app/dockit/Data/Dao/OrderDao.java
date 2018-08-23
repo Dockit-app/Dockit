@@ -37,7 +37,7 @@ public interface OrderDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void update(Order order);
 
-    @Query ("Select id from order_item")
+    @Query ("Select id from order_item where id = :id") //TODO had to add the where clause as was breaking on build
     LiveData<OrderResult> retrieve(int id);
 
     //catch all tables that starts with a specific table number

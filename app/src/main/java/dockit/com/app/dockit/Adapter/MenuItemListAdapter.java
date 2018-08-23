@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,6 +28,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
         private RelativeLayout menuSection;
         private TextView name;
         private CardView menuItem;
+        private RelativeLayout menuItemBackground;
         private TextView description;
         private TextView ingredients;
 
@@ -41,6 +41,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
             this.description = itemView.findViewById(R.id.description);
             this.ingredients = itemView.findViewById(R.id.ingredients);
             this.menuItem = itemView.findViewById(R.id.menu_item);
+            this.menuItemBackground = itemView.findViewById(R.id.menu_item_background);
         }
     }
 
@@ -74,6 +75,13 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
             holder.menuItem.setVisibility(View.VISIBLE);
             holder.description.setText(menuItem.getDescription());
             holder.ingredients.setText("("+menuItem.getIngredients()+")");
+
+            if(position % 2 != 0 && !menuItem.isSection()) {
+                holder.menuItemBackground.setBackgroundColor(Color.LTGRAY);
+            }
+            else {
+                holder.menuItemBackground.setBackgroundColor(Color.WHITE);
+            }
         }
 
         if(menuItem.isSelected()) {

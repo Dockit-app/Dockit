@@ -51,10 +51,10 @@ public class OrderSummary extends AppCompatActivity {
         serverText.setText(server);
 
         TextView coversText = findViewById(R.id.covers_text);
-        coversText.setText(covers);
+        coversText.setText(Integer.toString(covers));
 
         TextView timeText = findViewById(R.id.time_text);
-        timeText.setText(time);
+        timeText.setText(orderResult.getTimeStamp());
 
         setOrderSummaryViewModel();
 
@@ -69,7 +69,10 @@ public class OrderSummary extends AppCompatActivity {
             public void onChanged(@Nullable OrderResult orderResult) {
                 if (orderResult != null) {
                     tableName = orderSummaryViewModel.GetTable(orderResult) + "\nTable";
-                    covers = orderSummaryViewModel.GetCovers(orderResult) + "\nCovers";
+                    covers = orderSummaryViewModel.GetCovers(orderResult); //+ "\nCovers"; TODO: Incorrect type
+                }
+            }
+        });
 
 
     }
