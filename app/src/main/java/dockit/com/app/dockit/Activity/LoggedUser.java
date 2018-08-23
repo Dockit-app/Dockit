@@ -1,5 +1,6 @@
 package dockit.com.app.dockit.Activity;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 
 import dockit.com.app.dockit.R;
 import dockit.com.app.dockit.Tasks.SharedPreferencesManager;
+import dockit.com.app.dockit.ViewModel.LoggedUserViewModel;
 
 public class LoggedUser extends AppCompatActivity {
     Button newOrder, existingOrder;
@@ -29,14 +31,16 @@ public class LoggedUser extends AppCompatActivity {
         //buttons send to the next activities
         newOrder = findViewById(R.id.newOrder);
         existingOrder = findViewById(R.id.existingOrders);
+        final LoggedUserViewModel loggedUserViewModel;
+        loggedUserViewModel = ViewModelProviders.of(this).get(LoggedUserViewModel.class);
 
         newOrder.setOnClickListener(v -> {
-            //TODO: Send to activity Ordering
+            loggedUserViewModel.newTable(LoggedUser.this);
             Toast.makeText(getApplicationContext(), "creating new order!", Toast.LENGTH_SHORT).show();
         });
 
         existingOrder.setOnClickListener(v -> {
-            //TODO: Send to activity OrderSummary
+            loggedUserViewModel.listExistingTables(LoggedUser.this);
             Toast.makeText(getApplicationContext(), "fetch list of existing orders!", Toast.LENGTH_SHORT).show();
         });
 
