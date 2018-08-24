@@ -40,17 +40,17 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
     private OrderLocationListAdapter orderLocationListAdapter;
 
     OrderMenuAdapter orderMenuAdapter;
-    private String tableName = "TABLE 1";
+    private String tableName;
     private int orderId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ordering);
+        Intent intent = getIntent();
+        tableName = "Table " + intent.getStringExtra("table");
 
         //TODO: Receive order id for existing
-
-        //TODO: Receive tablename from intent
 
         TextView textView = findViewById(R.id.table_text);
         textView.setText(tableName);

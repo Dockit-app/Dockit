@@ -42,8 +42,8 @@ public class OrderRepository {
     }
 
     //retrieves Order from the OrderDao using the Order id
-    public LiveData<OrderResult> retrieveOrder(int id) {
-        return this.orderDao.retrieve(id);
-    }
+    //public LiveData<OrderResult> retrieveOrder(int id) {
+      //  return this.orderDao.retrieve(id);
+    //}
 
 }
