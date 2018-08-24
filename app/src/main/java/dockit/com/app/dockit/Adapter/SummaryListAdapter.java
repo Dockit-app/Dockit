@@ -16,6 +16,7 @@ import org.w3c.dom.Text;
 import java.util.List;
 
 import dockit.com.app.dockit.Entity.Decorator.MenuItemView;
+import dockit.com.app.dockit.Entity.Decorator.SummaryItemView;
 import dockit.com.app.dockit.R;
 
 public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.SummaryItemViewHolder> {
@@ -38,10 +39,10 @@ public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.
         }
     }
 
-    List<MenuItemView> menuItems;
+    List<SummaryItemView> menuItems;
     LayoutInflater inflater;
 
-    public SummaryListAdapter(Context context, List<MenuItemView> menuItems) {
+    public SummaryListAdapter(Context context, List<SummaryItemView> menuItems) {
         this.menuItems = menuItems;
         inflater = LayoutInflater.from(context);
     }
@@ -56,7 +57,7 @@ public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull SummaryItemViewHolder holder, int position) {
-        MenuItemView menuItem = menuItems.get(position);
+        SummaryItemView menuItem = menuItems.get(position);
 
         if(menuItem.isSection()) {
             holder.menuItem.setVisibility(View.GONE);

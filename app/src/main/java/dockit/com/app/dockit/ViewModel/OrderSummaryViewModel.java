@@ -17,6 +17,7 @@ import java.util.ListIterator;
 import dockit.com.app.dockit.Adapter.MenuItemListAdapter;
 import dockit.com.app.dockit.ClickListener.RecyclerViewClickListener;
 import dockit.com.app.dockit.Entity.Decorator.MenuItemView;
+import dockit.com.app.dockit.Entity.Decorator.SummaryItemView;
 import dockit.com.app.dockit.Entity.MenuItem;
 import dockit.com.app.dockit.Entity.OrderLocation;
 import dockit.com.app.dockit.Entity.Result.MenuResult;
@@ -78,130 +79,129 @@ public class OrderSummaryViewModel extends AndroidViewModel {
     //each mr contains a list of MenuSectionResult items (msr) (the results of each menu section)
     //each msr contains a list of menu items mi
     //so
-    public List<MenuItemView> GroupMenu(OrderResult order) {
-        List<MenuItemView> groupMenu = new List<MenuItemView>() {
-            @Override
-            public int size() {
-                return 0;
-            }
+    public List<SummaryItemView> GroupMenu(OrderResult order) {
+       List<SummaryItemView> groupMenu = new List<SummaryItemView>() {
+           @Override
+           public int size() {
+               return 0;
+           }
 
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
+           @Override
+           public boolean isEmpty() {
+               return false;
+           }
 
-            @Override
-            public boolean contains(Object o) {
-                return false;
-            }
+           @Override
+           public boolean contains(Object o) {
+               return false;
+           }
 
-            @NonNull
-            @Override
-            public Iterator<MenuItemView> iterator() {
-                return null;
-            }
+           @NonNull
+           @Override
+           public Iterator<SummaryItemView> iterator() {
+               return null;
+           }
 
-            @NonNull
-            @Override
-            public Object[] toArray() {
-                return new Object[0];
-            }
+           @NonNull
+           @Override
+           public Object[] toArray() {
+               return new Object[0];
+           }
 
-            @NonNull
-            @Override
-            public <T> T[] toArray(@NonNull T[] ts) {
-                return null;
-            }
+           @NonNull
+           @Override
+           public <T> T[] toArray(@NonNull T[] ts) {
+               return null;
+           }
 
-            @Override
-            public boolean add(MenuItemView menuItemView) {
-                return false;
-            }
+           @Override
+           public boolean add(SummaryItemView summaryItemView) {
+               return false;
+           }
 
-            @Override
-            public boolean remove(Object o) {
-                return false;
-            }
+           @Override
+           public boolean remove(Object o) {
+               return false;
+           }
 
-            @Override
-            public boolean containsAll(@NonNull Collection<?> collection) {
-                return false;
-            }
+           @Override
+           public boolean containsAll(@NonNull Collection<?> collection) {
+               return false;
+           }
 
-            @Override
-            public boolean addAll(@NonNull Collection<? extends MenuItemView> collection) {
-                return false;
-            }
+           @Override
+           public boolean addAll(@NonNull Collection<? extends SummaryItemView> collection) {
+               return false;
+           }
 
-            @Override
-            public boolean addAll(int i, @NonNull Collection<? extends MenuItemView> collection) {
-                return false;
-            }
+           @Override
+           public boolean addAll(int i, @NonNull Collection<? extends SummaryItemView> collection) {
+               return false;
+           }
 
-            @Override
-            public boolean removeAll(@NonNull Collection<?> collection) {
-                return false;
-            }
+           @Override
+           public boolean removeAll(@NonNull Collection<?> collection) {
+               return false;
+           }
 
-            @Override
-            public boolean retainAll(@NonNull Collection<?> collection) {
-                return false;
-            }
+           @Override
+           public boolean retainAll(@NonNull Collection<?> collection) {
+               return false;
+           }
 
-            @Override
-            public void clear() {
+           @Override
+           public void clear() {
 
-            }
+           }
 
-            @Override
-            public MenuItemView get(int i) {
-                return null;
-            }
+           @Override
+           public SummaryItemView get(int i) {
+               return null;
+           }
 
-            @Override
-            public MenuItemView set(int i, MenuItemView menuItemView) {
-                return null;
-            }
+           @Override
+           public SummaryItemView set(int i, SummaryItemView summaryItemView) {
+               return null;
+           }
 
-            @Override
-            public void add(int i, MenuItemView menuItemView) {
+           @Override
+           public void add(int i, SummaryItemView summaryItemView) {
 
-            }
+           }
 
-            @Override
-            public MenuItemView remove(int i) {
-                return null;
-            }
+           @Override
+           public SummaryItemView remove(int i) {
+               return null;
+           }
 
-            @Override
-            public int indexOf(Object o) {
-                return 0;
-            }
+           @Override
+           public int indexOf(Object o) {
+               return 0;
+           }
 
-            @Override
-            public int lastIndexOf(Object o) {
-                return 0;
-            }
+           @Override
+           public int lastIndexOf(Object o) {
+               return 0;
+           }
 
-            @NonNull
-            @Override
-            public ListIterator<MenuItemView> listIterator() {
-                return null;
-            }
+           @NonNull
+           @Override
+           public ListIterator<SummaryItemView> listIterator() {
+               return null;
+           }
 
-            @NonNull
-            @Override
-            public ListIterator<MenuItemView> listIterator(int i) {
-                return null;
-            }
+           @NonNull
+           @Override
+           public ListIterator<SummaryItemView> listIterator(int i) {
+               return null;
+           }
 
-            @NonNull
-            @Override
-            public List<MenuItemView> subList(int i, int i1) {
-                return null;
-            }
-        };
-
+           @NonNull
+           @Override
+           public List<SummaryItemView> subList(int i, int i1) {
+               return null;
+           }
+       };
         // 1. retrieve olr list
         List<OrderLocationResult> olr = order.orderLocationResults;
         // 2. loop through olr list, retrieve list of mr
@@ -216,7 +216,7 @@ public class OrderSummaryViewModel extends AndroidViewModel {
                 List<MenuSectionResult> msr = mr.get(j).menuSectionResults;
                 // 4. loop through msr, retrieve list of menuItems mi
                 for (int k = 0; k<msr.size(); k++) {
-                    MenuItemView sectionView = new MenuItemView(msr.get(k));
+                    SummaryItemView sectionView = new SummaryItemView(msr.get(k));
                     if (!groupMenu.contains(sectionView)) {
                         groupMenu.add(sectionView);
                     }
@@ -226,20 +226,16 @@ public class OrderSummaryViewModel extends AndroidViewModel {
                     // 5. loop through mi, creating MenuItemView for each item and adding to the list
                     // after the correct section heading
                     for (int l = 0; l<mi.size(); l++) {
-                        MenuItemView menuItem = new MenuItemView(mi.get(l));
+                        SummaryItemView menuItem = new SummaryItemView(mi.get(l));
                         int index = groupMenu.indexOf(menuItem);
                         //if groupMenu does not already contain this item
                         if (index == -1) {
                             int sectionIndex = groupMenu.indexOf(sectionView);
-                            menuItem.setDescription("1 x " + menuItem.getDescription());
                             groupMenu.add(sectionIndex+1, menuItem);
                         }
                         //if it doesn't, use index to retrieve item and double its count
                         else {
-                            String des = groupMenu.get(index).getDescription();
-                            int itemCount = Integer.parseInt(des);
-                            des = des.replace((char) itemCount, (char) (itemCount + 1));
-                            groupMenu.get(index).setDescription(des);
+                            groupMenu.get(index).incrementCount();
                         }
                     }
                 }

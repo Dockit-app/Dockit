@@ -81,17 +81,14 @@ public class OrderSummary extends AppCompatActivity {
                     SetSummaryRecyclerView(order);
 
                 }
+                orderSummaryViewModel.RetrieveOrderInfo(orderId).removeObserver(this);
             }
         });
 
 
     }
 
-    //Set up recycler view, pass across the menu sections with food items grouped
-    //use MenuItemListAdapter? (look at onbindviewholder)
-    //NotFinished
-    //set up summarylistadapter
-    //SET UP IN ACTUAL ACTIVITY
+
     private void SetSummaryRecyclerView(OrderResult orderResult) {
         //TODO: Layout id doesn't exist
         RecyclerView recyclerView = findViewById(R.id.summary_recycler_view);
