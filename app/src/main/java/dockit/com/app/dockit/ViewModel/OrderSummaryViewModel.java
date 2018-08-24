@@ -62,6 +62,7 @@ public class OrderSummaryViewModel extends AndroidViewModel {
 
     //Quick and dirty attempt at getting ordered items and grouping them, will be changed to
     //be nicer and cleaner, will collect and group items by menu section
+    //Currently works for one menu, need to make work for multiple
 
     //Grouping plan,
     //orderResult has a list of OrderLocationResult olr
@@ -234,5 +235,9 @@ public class OrderSummaryViewModel extends AndroidViewModel {
         }
 
         return groupMenu;
+    }
+
+    public String GetTime(OrderResult orderResult) {
+        return orderResult.getTimeStamp();
     }
 }
