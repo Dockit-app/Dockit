@@ -77,7 +77,7 @@ public class MenuItemPopup {
         Point size = new Point();
         display.getSize(size);
 
-        PopupWindow popupWindow = new PopupWindow(menuOptions, size.x / 2, size.y / 5, true);
+        PopupWindow popupWindow = new PopupWindow(menuOptions, size.x / 2, size.y / 3, true);
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.showAtLocation(parentView, Gravity.CENTER, 0,0);
