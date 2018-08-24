@@ -6,13 +6,19 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 import java.sql.Time;
+import java.util.List;
 
+import dockit.com.app.dockit.Adapter.SummaryListAdapter;
 import dockit.com.app.dockit.Entity.Order;
+import dockit.com.app.dockit.Entity.Result.MenuResult;
 import dockit.com.app.dockit.Entity.Result.OrderResult;
 import dockit.com.app.dockit.R;
 
@@ -25,11 +31,13 @@ public class OrderSummary extends AppCompatActivity {
     private OrderSummaryViewModel orderSummaryViewModel;
 
 
-    private int covers = 0;
+    private String covers = "";
     private String server = "Nathan";
     private String time = "18:40";
     private int orderId = 0;
     private String tableName = "Table 1";
+
+    SummaryListAdapter summaryListAdapter;
 
 
     @Override
@@ -39,6 +47,9 @@ public class OrderSummary extends AppCompatActivity {
 
         //Thomas I've passed the orderResult to your activity, saves you querying for it
         OrderResult orderResult = (OrderResult)getIntent().getSerializableExtra("OrderResult");
+        orderId = orderResult.getId();
+        tableName = orderSummaryViewModel.GetTable(orderResult) + "\nTable";
+        covers = orderSummaryViewModel.GetCovers(orderResult) + "\nCovers";
 
         //TODO: Retreive Table Name, server name, time and covers from database using Order ID
 
@@ -51,25 +62,24 @@ public class OrderSummary extends AppCompatActivity {
         serverText.setText(server);
 
         TextView coversText = findViewById(R.id.covers_text);
-        coversText.setText(Integer.toString(covers));
+        coversText.setText(covers);
 
         TextView timeText = findViewById(R.id.time_text);
         timeText.setText(orderResult.getTimeStamp());
 
-        setOrderSummaryViewModel();
-
-
-
+        setOrderSummaryViewModel(orderResult);
     }
 
-    private void setOrderSummaryViewModel() {
+    private void setOrderSummaryViewModel(final OrderResult order) {
         orderSummaryViewModel = ViewModelProviders.of(this).get(OrderSummaryViewModel.class);
         orderSummaryViewModel.RetrieveOrderInfo(orderId).observe(this, new Observer<OrderResult>() {
             @Override
             public void onChanged(@Nullable OrderResult orderResult) {
+                //set up listadapter and pass in sorted list
+                //
                 if (orderResult != null) {
-                    tableName = orderSummaryViewModel.GetTable(orderResult) + "\nTable";
-                    covers = orderSummaryViewModel.GetCovers(orderResult); //+ "\nCovers"; TODO: Incorrect type
+                    SetSummaryRecyclerView(order);
+
                 }
             }
         });
@@ -77,9 +87,20 @@ public class OrderSummary extends AppCompatActivity {
 
     }
 
-    private void retrieveOrderInfo(int id) {
-        //Order order = orderSummaryViewModel.retrieveOrder(id);
-        //tableName = order.getTable();
-        //ToDo Retrieve rest of order data to display
+    //Set up recycler view, pass across the menu sections with food items grouped
+    //use MenuItemListAdapter? (look at onbindviewholder)
+    //NotFinished
+    //set up summarylistadapter
+    //SET UP IN ACTUAL ACTIVITY
+    private void SetSummaryRecyclerView(OrderResult orderResult) {
+        //TODO: Layout id doesn't exist
+        RecyclerView recyclerView = findViewById(R.id.summary_recycler_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        //NEED TO TAKE IN ORDERED ITEMS AS List<MenuItemView>
+        summaryListAdapter = new SummaryListAdapter(this, orderSummaryViewModel.GroupMenu(orderResult));
+        recyclerView.setAdapter(summaryListAdapter);
     }
+
+
 }
