@@ -348,7 +348,7 @@ public class OrderSummaryViewModel extends AndroidViewModel {
             public List<String> subList(int i, int i1) {
                 return null;
             }
-        }
+        };
         List<Integer> groupedItemCount = new List<Integer>() {
             @Override
             public int size() {

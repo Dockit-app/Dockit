@@ -40,17 +40,17 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
     private OrderLocationListAdapter orderLocationListAdapter;
 
     OrderMenuAdapter orderMenuAdapter;
-    private String tableName = "TABLE 1";
+    private String tableName;
     private int orderId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ordering);
+        Intent intent = getIntent();
+        tableName = "Table " + intent.getStringExtra("table");
 
         //TODO: Receive order id for existing
-
-        //TODO: Receive tablename from intent
 
         TextView textView = findViewById(R.id.table_text);
         textView.setText(tableName);
@@ -96,14 +96,13 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
 
     private void setOrderViewModel() {
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
-
+        //check if the thing exists before calling
         orderViewModel.getLiveOrderResults().observe(this, new Observer<List<OrderResult>>() {
             @Override
             public void onChanged(@Nullable List<OrderResult> orderResults) {
-                if(orderResults.size() > 0) {
-                    Log.i(this.getClass().getSimpleName(), "Creating menu pager for order "+orderResults.get(orderResults.size()-1).getId());
-                    createMenuPager(orderResults.get(orderResults.size()-1));
-                    orderViewModel.getLiveOrderResults().removeObserver(this);
+                if (orderResults.size() > 0) {
+                        Log.i(this.getClass().getSimpleName(), "Creating menu pager for order " + orderResults.get(orderResults.size() - 1).getId());
+                        createMenuPager(orderResults.get(orderResults.size() - 1));
                 }
             }
         });
