@@ -42,7 +42,8 @@ public class OrderSummary extends AppCompatActivity {
         //Thomas I've passed the orderResult to your activity, saves you querying for it
         OrderResult orderResult = (OrderResult)getIntent().getSerializableExtra("OrderResult");
         orderId = orderResult.getId();
-        tableName = orderSummaryViewModel.GetTable(orderResult) + "\nTable";
+        setOrderSummaryViewModel(orderResult);
+        tableName = orderSummaryViewModel.GetTable(orderResult);
         covers = orderSummaryViewModel.GetCovers(orderResult) + "\nCovers";
         time = orderSummaryViewModel.GetTime(orderResult);
 
@@ -59,8 +60,9 @@ public class OrderSummary extends AppCompatActivity {
 
         TextView timeText = findViewById(R.id.time_text);
         timeText.setText(orderResult.getTimeStamp());
+        SetSummaryRecyclerView(orderResult);
 
-        setOrderSummaryViewModel(orderResult);
+
     }
 
     private void setOrderSummaryViewModel(final OrderResult order) {
@@ -88,7 +90,7 @@ public class OrderSummary extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         //NEED TO TAKE IN ORDERED ITEMS AS List<MenuItemView>
-        summaryListAdapter = new SummaryListAdapter(this, orderSummaryViewModel.GroupMenu(orderResult));
+        summaryListAdapter = new SummaryListAdapter(this, orderSummaryViewModel.CrappyMenu(orderResult));
         recyclerView.setAdapter(summaryListAdapter);
     }
 

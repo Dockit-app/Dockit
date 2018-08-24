@@ -39,10 +39,11 @@ public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.
         }
     }
 
-    List<SummaryItemView> menuItems;
+    //List<SummaryItemView> menuItems;
+    List<MenuItemView> menuItems;
     LayoutInflater inflater;
 
-    public SummaryListAdapter(Context context, List<SummaryItemView> menuItems) {
+    public SummaryListAdapter(Context context, List<MenuItemView> menuItems) {
         this.menuItems = menuItems;
         inflater = LayoutInflater.from(context);
     }
@@ -57,7 +58,7 @@ public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull SummaryItemViewHolder holder, int position) {
-        SummaryItemView menuItem = menuItems.get(position);
+        MenuItemView menuItem = menuItems.get(position);
 
         if(menuItem.isSection()) {
             holder.menuItem.setVisibility(View.GONE);
