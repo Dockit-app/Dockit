@@ -69,8 +69,9 @@ public class OrderSummaryViewModel extends AndroidViewModel {
     //use MenuItemListAdapter? (look at onbindviewholder)
     //NotFinished
     private void SetSummaryRecyclerView(ViewGroup rootView, MenuResult menu) {
-        RecyclerView recyclerView = rootView.findViewById(R.id.summary_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.VERTICAL, false));
+        //TODO: Layout id doesn't exist
+//        RecyclerView recyclerView = rootView.findViewById(R.id.summary_list);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.VERTICAL, false));
 
     }
 
@@ -470,23 +471,23 @@ public class OrderSummaryViewModel extends AndroidViewModel {
             public List<Integer> subList(int i, int i1) {
                 return null;
             }
-        }
+        };
         //retrieve list of ordered food items
         List<OrderLocationResult> orderLocationResults = order.orderLocationResults;
 
-
-        List<String> orderedItems;
-        groupedItems.add(orderedItems.get(0).getLocationText());
-        groupedItemCount.add(1);
-        for (int i = 1; i<orderedItems.size(); i++) {
-            int index = groupedItems.contains(orderedItems.get(i).getText());
-            if (index == -1) {
-                groupedItems.add(orderedItems.get(i).getText());
-                groupedItemCount.add(1);
-            }
-            else {
-                groupedItemCount.set(index, groupedItemCount.get(index) + 1);
-            }
-        }
+        //TODO: I had to comment this out as the getters don't exist (getLocationText(), getText())
+//        List<String> orderedItems;
+//        groupedItems.add(orderedItems.get(0).getLocationText());
+//        groupedItemCount.add(1);
+//        for (int i = 1; i<orderedItems.size(); i++) {
+//            int index = groupedItems.contains(orderedItems.get(i).getText());
+//            if (index == -1) {
+//                groupedItems.add(orderedItems.get(i).getText());
+//                groupedItemCount.add(1);
+//            }
+//            else {
+//                groupedItemCount.set(index, groupedItemCount.get(index) + 1);
+//            }
+//        }
     }
 }
