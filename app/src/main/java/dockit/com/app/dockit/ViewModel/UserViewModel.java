@@ -9,7 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import java.util.List;
 
-import dockit.com.app.dockit.Activity.LoggedUser;
+import dockit.com.app.dockit.Activity.TableSelection;
 import dockit.com.app.dockit.Entity.User;
 import dockit.com.app.dockit.Repository.UserRepository;
 import dockit.com.app.dockit.Tasks.ResultHandler;
@@ -64,7 +64,7 @@ public class UserViewModel extends AndroidViewModel implements ResultHandler<Lis
             toast.postValue("Success!");
 
             //Send to the next Activity
-            Intent i = new Intent(context, LoggedUser.class);
+            Intent i = new Intent(context, TableSelection.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);
         }

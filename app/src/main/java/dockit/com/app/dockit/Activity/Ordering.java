@@ -66,6 +66,14 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+
+
+    }
+
     private void setOrderLocationRecycler() {
 
         int orderLocationAmount = orderViewModel.getOrderLocationAmount();
@@ -102,16 +110,6 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
     }
 
     private void createMenuPageObserver() {
-//        orderViewModel.getLiveOrderResults().observe(this, new Observer<List<OrderResult>>() {
-//            @Override
-//            public void onChanged(@Nullable List<OrderResult> orderResults) {
-//                if(orderResults.size() > 0) {
-//                    Log.i(this.getClass().getSimpleName(), "Creating menu pager for order "+orderResults.get(orderResults.size()-1).getId());
-//                    createMenuPager(orderResults.get(orderResults.size()-1));
-//                    orderViewModel.getLiveOrderResults().removeObserver(this);
-//                }
-//            }
-//        });
 
         orderViewModel.getLiveOrderLocationsByOrderId(orderId).observe(this, new Observer<List<OrderLocationResult>>() {
             @Override
