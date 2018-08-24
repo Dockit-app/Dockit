@@ -31,14 +31,14 @@ public interface OrderDao {
             "where m.id = :menuId")
     LiveData<List<Order>> getLiveByMenuId(int menuId);
 
+    @Query("select * from order_item where id = :id")
+    LiveData<List<OrderResult>> getLiveById(int id);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(Order order);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void update(Order order);
-
-    @Query ("Select id from order_item where id = :id") //TODO had to add the where clause as was breaking on build
-    LiveData<OrderResult> retrieve(int id);
 
     //catch all tables that starts with a specific table number
     @Query("Select orderTable from order_item where orderTable LIKE :table || '%'")

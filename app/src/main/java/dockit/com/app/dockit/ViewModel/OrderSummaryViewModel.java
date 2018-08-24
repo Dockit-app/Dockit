@@ -3,30 +3,20 @@ package dockit.com.app.dockit.ViewModel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import dockit.com.app.dockit.Adapter.MenuItemListAdapter;
-import dockit.com.app.dockit.ClickListener.RecyclerViewClickListener;
-import dockit.com.app.dockit.Entity.Decorator.MenuItemView;
 import dockit.com.app.dockit.Entity.Decorator.SummaryItemView;
 import dockit.com.app.dockit.Entity.MenuItem;
-import dockit.com.app.dockit.Entity.OrderLocation;
 import dockit.com.app.dockit.Entity.Result.MenuResult;
 import dockit.com.app.dockit.Entity.Result.MenuSectionResult;
 import dockit.com.app.dockit.Entity.Result.OrderLocationResult;
 import dockit.com.app.dockit.Entity.Result.OrderResult;
-import dockit.com.app.dockit.R;
 import dockit.com.app.dockit.Repository.OrderRepository;
-import dockit.com.app.dockit.Entity.Order;
 
 public class OrderSummaryViewModel extends AndroidViewModel {
     private LiveData<List<OrderResult>> liveOrderResults;
@@ -41,16 +31,16 @@ public class OrderSummaryViewModel extends AndroidViewModel {
 
         this.orderRepository = new OrderRepository(application);
 
-        liveOrderResults = orderRepository.getLiveOrders();
+        liveOrderResults = orderRepository.getLiveAll();
     }
 
 
-    public LiveData<OrderResult> RetrieveOrderInfo(int id) {
-        return orderRepository.retrieveOrder(id);
-    }
+//    public LiveData<OrderResult> RetrieveOrderInfo(int id) {
+//        return orderRepository.retrieveOrder(id);
+//    }
 
     public String GetTable(OrderResult order) {
-        return order.getTable();
+        return order.getOrderTable();
     }
 
     public String GetComments(OrderResult order) {

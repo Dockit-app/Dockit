@@ -23,27 +23,23 @@ public class OrderRepository {
         this.orderDao = LocalDatabase.getInstance(context).orderDao();
     }
 
-    public LiveData<List<OrderResult>> getLiveOrders() {
+    public LiveData<List<OrderResult>> getLiveAll() {
         return orderDao.getLiveOrders();
     }
 
-    public List<Order> getById(int id) {
-        List<Order> order = orderDao.getOrders(id);
-
-        return order;
+    public LiveData<List<OrderResult>> getLiveById(int id) {
+        return orderDao.getLiveById(id);
     }
 
-    public LiveData<List<Order>> getLiveByMenuId(int menuId) {
-        return orderDao.getLiveByMenuId(menuId);
-    }
+    public List<Order> getById(int id) { return orderDao.getOrders(id); }
+
+    public LiveData<List<Order>> getLiveByMenuId(int menuId) { return orderDao.getLiveByMenuId(menuId); }
 
     public void update(Order order) {
         orderDao.update(order);
     }
 
     //retrieves Order from the OrderDao using the Order id
-    public LiveData<OrderResult> retrieveOrder(int id) {
-        return this.orderDao.retrieve(id);
-    }
+//    public LiveData<OrderResult> retrieveOrder(int id) { return this.orderDao.retrieve(id); }
 
 }

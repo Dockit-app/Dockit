@@ -72,18 +72,18 @@ public class OrderSummary extends AppCompatActivity {
 
     private void setOrderSummaryViewModel(final OrderResult order) {
         orderSummaryViewModel = ViewModelProviders.of(this).get(OrderSummaryViewModel.class);
-        orderSummaryViewModel.RetrieveOrderInfo(orderId).observe(this, new Observer<OrderResult>() {
-            @Override
-            public void onChanged(@Nullable OrderResult orderResult) {
-                //set up listadapter and pass in sorted list
-                //
-                if (orderResult != null) {
-                    SetSummaryRecyclerView(order);
-
-                }
-                orderSummaryViewModel.RetrieveOrderInfo(orderId).removeObserver(this);
-            }
-        });
+//        orderSummaryViewModel.RetrieveOrderInfo(orderId).observe(this, new Observer<OrderResult>() {
+//            @Override
+//            public void onChanged(@Nullable OrderResult orderResult) {
+//                //set up listadapter and pass in sorted list
+//                //
+//                if (orderResult != null) {
+//                    SetSummaryRecyclerView(order);
+//
+//                }
+//                orderSummaryViewModel.RetrieveOrderInfo(orderId).removeObserver(this);
+//            }
+//        });
 
 
     }

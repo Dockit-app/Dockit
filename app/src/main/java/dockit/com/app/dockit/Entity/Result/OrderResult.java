@@ -5,7 +5,6 @@ import android.arch.persistence.room.Relation;
 import java.io.Serializable;
 import java.util.List;
 
-import dockit.com.app.dockit.Entity.Menu;
 import dockit.com.app.dockit.Entity.OrderLocation;
 
 /**
@@ -15,7 +14,7 @@ import dockit.com.app.dockit.Entity.OrderLocation;
 public class OrderResult implements Serializable {
 
     private Integer id;
-    private String table;
+    private String orderTable;
     private String comments;
     private Boolean counterSelection;
     private String timeStamp;
@@ -31,12 +30,12 @@ public class OrderResult implements Serializable {
         this.id = id;
     }
 
-    public String getTable() {
-        return table;
+    public String getOrderTable() {
+        return orderTable;
     }
 
-    public void setTable(String table) {
-        this.table = table;
+    public void setOrderTable(String orderTable) {
+        this.orderTable = orderTable;
     }
 
     public String getComments() {
