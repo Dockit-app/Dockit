@@ -64,6 +64,13 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
 
         createNewOrder();
 
+        setOrderFinishButton();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     private void setOrderLocationRecycler() {
@@ -102,22 +109,32 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
     }
 
     private void createMenuPageObserver() {
-//        orderViewModel.getLiveOrderResults().observe(this, new Observer<List<OrderResult>>() {
+        orderViewModel.getLiveOrderResults().observe(this, new Observer<List<OrderResult>>() {
+            @Override
+            public void onChanged(@Nullable List<OrderResult> orderResults) {
+                if(orderResults.size() > 0) {
+                    OrderResult orderResult = orderResults.get(orderResults.size()-1);
+                    Log.i(this.getClass().getSimpleName(), "Creating menu pager for order "+orderResults.get(orderResults.size()-1).getId());
+                    createMenuPager(orderResult.orderLocationResults.get(orderResult.orderLocationResults.size()-1));
+                    orderViewModel.getLiveOrderResults().removeObserver(this);
+                }
+            }
+        });
+
+//        orderViewModel.getLiveOrderLocationsByOrderId(orderId).observe(this, new Observer<List<OrderLocationResult>>() {
 //            @Override
-//            public void onChanged(@Nullable List<OrderResult> orderResults) {
-//                if(orderResults.size() > 0) {
-//                    Log.i(this.getClass().getSimpleName(), "Creating menu pager for order "+orderResults.get(orderResults.size()-1).getId());
-//                    createMenuPager(orderResults.get(orderResults.size()-1));
-//                    orderViewModel.getLiveOrderResults().removeObserver(this);
-//                }
+//            public void onChanged(@Nullable List<OrderLocationResult> orderLocations) {
+//                createMenuPager(orderLocations.get(orderLocations.size()-1));
+//                orderViewModel.getLiveOrderLocationsByOrderId(orderId).removeObserver(this);
 //            }
 //        });
+    }
 
-        orderViewModel.getLiveOrderLocationsByOrderId(orderId).observe(this, new Observer<List<OrderLocationResult>>() {
+    private void createOrderObserver(int orderId) {
+        orderViewModel.getLiveOrderById(orderId).observe(this, new Observer<List<OrderResult>>() {
             @Override
-            public void onChanged(@Nullable List<OrderLocationResult> orderLocations) {
-                createMenuPager(orderLocations.get(orderLocations.size()-1));
-                orderViewModel.getLiveOrderLocationsByOrderId(orderId).removeObserver(this);
+            public void onChanged(@Nullable List<OrderResult> orderResults) {
+                orderViewModel.setLiveOrderResult(orderResults.get(0));
             }
         });
     }
@@ -158,6 +175,57 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
 
         createMenuPageObserver();
         createOrderLocationObserver();
+        createOrderObserver(orderId);
+    }
+
+    public void createMenuPager(OrderLocationResult orderLocationResult) {
+
+            ViewPager menuPager = (ViewPager) findViewById(R.id.menu_view_pager);
+            orderMenuAdapter = new OrderMenuAdapter(getSupportFragmentManager());
+            orderMenuAdapter.setOrderResult(orderLocationResult.menus);
+            menuPager.setAdapter(orderMenuAdapter);
+
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.menu_tab_layout);
+            tabLayout.setupWithViewPager(menuPager);
+            menuPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+    }
+
+    public void updateMenuPager(final int orderLocationId) {
+        orderViewModel.getOrderLocationById(orderLocationId).observe(this, new Observer<OrderLocationResult>() {
+            @Override
+            public void onChanged(@Nullable OrderLocationResult orderLocationResult) {
+
+                if(orderMenuAdapter != null && orderLocationResult != null && orderLocationResult.menus != null && orderLocationResult.menus.size() > 0) {
+
+                    if(orderLocationResult.getSelected() == 1 && orderMenuAdapter.getOrderLocationId() != orderLocationResult.getId()) {
+                        orderMenuAdapter.setOrderResult(orderLocationResult.menus);
+                        orderMenuAdapter.notifyDataSetChanged();
+                        orderViewModel.getOrderLocationById(orderLocationId).removeObserver(this);
+                        Log.i(Ordering.class.getSimpleName(), "Order location "+orderLocationResult.getId()+" updated");
+                    }
+                }
+            }
+        });
+    }
+
+    private void setOrderFinishButton() {
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createOrderSummaryActivity(orderViewModel.getLiveOrderResult().getValue());
+            }
+        });
+    }
+
+    private void createOrderSummaryActivity(OrderResult orderResult) {
+        Intent startUserActivity = new Intent(this, OrderSummary.class);
+        startUserActivity.putExtra("OrderResult", orderResult);
+
+        startUserActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(startUserActivity);
     }
 
     private void createItemCounterObserver(int orderId) {
@@ -205,57 +273,6 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
             TabLayout tabLayout = (TabLayout) findViewById(R.id.menu_tab_layout);
             tabLayout.setupWithViewPager(menuPager);
             menuPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
-            setOrderFinishButton(orderResult);
         }
-    }
-
-    public void createMenuPager(OrderLocationResult orderLocationResult) {
-
-            ViewPager menuPager = (ViewPager) findViewById(R.id.menu_view_pager);
-            orderMenuAdapter = new OrderMenuAdapter(getSupportFragmentManager());
-            orderMenuAdapter.setOrderResult(orderLocationResult.menus);
-            menuPager.setAdapter(orderMenuAdapter);
-
-            TabLayout tabLayout = (TabLayout) findViewById(R.id.menu_tab_layout);
-            tabLayout.setupWithViewPager(menuPager);
-            menuPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
-//            setOrderFinishButton(orderResult);
-    }
-
-    public void updateMenuPager(final int orderLocationId) {
-        orderViewModel.getOrderLocationById(orderLocationId).observe(this, new Observer<OrderLocationResult>() {
-            @Override
-            public void onChanged(@Nullable OrderLocationResult orderLocationResult) {
-
-                if(orderMenuAdapter != null && orderLocationResult != null && orderLocationResult.menus != null && orderLocationResult.menus.size() > 0) {
-
-                    if(orderLocationResult.getSelected() == 1 && orderMenuAdapter.getOrderLocationId() != orderLocationResult.getId()) {
-                        orderMenuAdapter.setOrderResult(orderLocationResult.menus);
-                        orderMenuAdapter.notifyDataSetChanged();
-                        orderViewModel.getOrderLocationById(orderLocationId).removeObserver(this);
-                        Log.i(Ordering.class.getSimpleName(), "Order location "+orderLocationResult.getId()+" updated");
-                    }
-                }
-            }
-        });
-    }
-
-    private void setOrderFinishButton(OrderResult orderResult) {
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                orderResult.setTimeStamp(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()));
-
-                Intent startUserActivity = new Intent(view.getContext(), OrderSummary.class);
-                startUserActivity.putExtra("OrderResult", orderResult);
-
-                startUserActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                view.getContext().startActivity(startUserActivity);
-            }
-        });
     }
 }

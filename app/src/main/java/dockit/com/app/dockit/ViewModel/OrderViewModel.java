@@ -9,8 +9,6 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import dockit.com.app.dockit.Data.Dao.OrderTransaction;
-import dockit.com.app.dockit.Data.LocalDatabase;
 import dockit.com.app.dockit.Entity.MenuItem;
 import dockit.com.app.dockit.Entity.OrderLocation;
 import dockit.com.app.dockit.Entity.Result.OrderLocationResult;
@@ -28,9 +26,11 @@ import dockit.com.app.dockit.Tasks.ResultHandler;
 
 public class OrderViewModel extends AndroidViewModel {
 
-    private LiveData<List<OrderResult>> liveOrderResults;
     private int maxOrderLocations = 50; //TODO: Persist in DB
+    private LiveData<List<OrderResult>> liveOrderResults;
     private MutableLiveData<OrderLocation> liveSelectedOrderLocation;
+    private MutableLiveData<OrderResult> liveOrderResult;
+    private LiveData<OrderResult> liveGetOrderResult;
 
     private OrderRepository orderRepository;
     private OrderLocationRepository orderLocationRepository;
@@ -45,20 +45,24 @@ public class OrderViewModel extends AndroidViewModel {
 
         this.createOrderAsync = new CreateOrderAsync(application);
 
-        liveOrderResults = orderRepository.getLiveOrders();
+        liveOrderResults = orderRepository.getLiveAll();
 
         menuItemRepository = new MenuItemRepository(application);
 
         liveSelectedOrderLocation = new MutableLiveData();
-    }
-
-
-    public LiveData<List<OrderLocationResult>> getLiveOrderLocationsByOrderId(int orderId) {
-        return orderLocationRepository.getLiveByOrderId(orderId);
+        liveOrderResult = new MutableLiveData<>();
     }
 
     public LiveData<List<OrderResult>> getLiveOrderResults() {
         return liveOrderResults;
+    }
+
+    public LiveData<List<OrderResult>> getLiveOrderById(int id) {
+        return orderRepository.getLiveById(id);
+    }
+
+    public LiveData<List<OrderLocationResult>> getLiveOrderLocationsByOrderId(int orderId) {
+        return orderLocationRepository.getLiveByOrderId(orderId);
     }
 
     public LiveData<List<MenuItem>> getLiveMenuItemsByOrderId(int orderId) {
@@ -107,5 +111,13 @@ public class OrderViewModel extends AndroidViewModel {
 
     public void setLiveSelectedOrderLocation(OrderLocation selectedOrderLocation) {
         this.liveSelectedOrderLocation.setValue(selectedOrderLocation);
+    }
+
+    public MutableLiveData<OrderResult> getLiveOrderResult() {
+        return liveOrderResult;
+    }
+
+    public void setLiveOrderResult(OrderResult liveOrderResult) {
+        this.liveOrderResult.setValue(liveOrderResult);
     }
 }

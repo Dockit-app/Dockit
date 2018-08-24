@@ -11,11 +11,11 @@ import dockit.com.app.dockit.Data.LocalDatabase;
 import dockit.com.app.dockit.Entity.Order;
 
 //Functions that connect to database
-public class LoggedUserRepository {
+public class TableRepository {
 
     private OrderDao orderDao;
 
-    public LoggedUserRepository(Context context) {
+    public TableRepository(Context context) {
         this.orderDao = LocalDatabase.getInstance(context).orderDao();
 
     }
