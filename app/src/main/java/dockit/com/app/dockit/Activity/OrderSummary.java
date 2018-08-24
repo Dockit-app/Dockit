@@ -3,26 +3,20 @@ package dockit.com.app.dockit.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
+
 import android.widget.TextView;
 
-import java.sql.Time;
-import java.util.List;
+
 
 import dockit.com.app.dockit.Adapter.SummaryListAdapter;
-import dockit.com.app.dockit.Entity.Order;
-import dockit.com.app.dockit.Entity.Result.MenuResult;
+
 import dockit.com.app.dockit.Entity.Result.OrderResult;
 import dockit.com.app.dockit.R;
 
-import dockit.com.app.dockit.Repository.OrderRepository;
 import dockit.com.app.dockit.Tasks.SharedPreferencesManager;
 import dockit.com.app.dockit.ViewModel.OrderSummaryViewModel;
 
@@ -50,8 +44,7 @@ public class OrderSummary extends AppCompatActivity {
         orderId = orderResult.getId();
         tableName = orderSummaryViewModel.GetTable(orderResult) + "\nTable";
         covers = orderSummaryViewModel.GetCovers(orderResult) + "\nCovers";
-
-        //TODO: Retreive Table Name, server name, time and covers from database using Order ID
+        time = orderSummaryViewModel.GetTime(orderResult);
 
 
         TextView tableText = findViewById(R.id.table_text);
