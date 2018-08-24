@@ -97,19 +97,29 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
     private void setOrderViewModel() {
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
 
-        orderViewModel.getLiveOrderResults().observe(this, new Observer<List<OrderResult>>() {
-            @Override
-            public void onChanged(@Nullable List<OrderResult> orderResults) {
-                if(orderResults.size() > 0) {
-                    Log.i(this.getClass().getSimpleName(), "Creating menu pager for order "+orderResults.get(orderResults.size()-1).getId());
-                    createMenuPager(orderResults.get(orderResults.size()-1));
-                    orderViewModel.getLiveOrderResults().removeObserver(this);
-                }
-            }
-        });
-
         createOrderLocationObserver();
 
+    }
+
+    private void createMenuPageObserver() {
+//        orderViewModel.getLiveOrderResults().observe(this, new Observer<List<OrderResult>>() {
+//            @Override
+//            public void onChanged(@Nullable List<OrderResult> orderResults) {
+//                if(orderResults.size() > 0) {
+//                    Log.i(this.getClass().getSimpleName(), "Creating menu pager for order "+orderResults.get(orderResults.size()-1).getId());
+//                    createMenuPager(orderResults.get(orderResults.size()-1));
+//                    orderViewModel.getLiveOrderResults().removeObserver(this);
+//                }
+//            }
+//        });
+
+        orderViewModel.getLiveOrderLocationsByOrderId(orderId).observe(this, new Observer<List<OrderLocationResult>>() {
+            @Override
+            public void onChanged(@Nullable List<OrderLocationResult> orderLocations) {
+                createMenuPager(orderLocations.get(orderLocations.size()-1));
+                orderViewModel.getLiveOrderLocationsByOrderId(orderId).removeObserver(this);
+            }
+        });
     }
 
     private void createOrderLocationObserver() {
@@ -145,6 +155,8 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
         orderId = result.getOrderId();
         orderLocationClickBuilder.setOrderId(orderId);
         orderLocationListAdapter.setFirstSelectedOrderLocationId(result.getId());
+
+        createMenuPageObserver();
         createOrderLocationObserver();
     }
 
@@ -182,18 +194,34 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
 
     public void createMenuPager(OrderResult orderResult) {
 
-        ViewPager menuPager = (ViewPager) findViewById(R.id.menu_view_pager);
-        orderMenuAdapter = new OrderMenuAdapter(getSupportFragmentManager());
-        orderMenuAdapter.setOrderResult(orderResult.orderLocationResults.get(0).menus);
-        menuPager.setAdapter(orderMenuAdapter);
+        if(orderResult.orderLocationResults.size() > 0 &&
+                orderResult.orderLocationResults.get(orderResult.orderLocationResults.size()-1).menus.size() > 0) {
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.menu_tab_layout);
-        tabLayout.setupWithViewPager(menuPager);
-        menuPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            ViewPager menuPager = (ViewPager) findViewById(R.id.menu_view_pager);
+            orderMenuAdapter = new OrderMenuAdapter(getSupportFragmentManager());
+            orderMenuAdapter.setOrderResult(orderResult.orderLocationResults.get(0).menus);
+            menuPager.setAdapter(orderMenuAdapter);
 
-        setOrderFinishButton(orderResult);
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.menu_tab_layout);
+            tabLayout.setupWithViewPager(menuPager);
+            menuPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
+            setOrderFinishButton(orderResult);
+        }
+    }
 
+    public void createMenuPager(OrderLocationResult orderLocationResult) {
+
+            ViewPager menuPager = (ViewPager) findViewById(R.id.menu_view_pager);
+            orderMenuAdapter = new OrderMenuAdapter(getSupportFragmentManager());
+            orderMenuAdapter.setOrderResult(orderLocationResult.menus);
+            menuPager.setAdapter(orderMenuAdapter);
+
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.menu_tab_layout);
+            tabLayout.setupWithViewPager(menuPager);
+            menuPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+//            setOrderFinishButton(orderResult);
     }
 
     public void updateMenuPager(final int orderLocationId) {
