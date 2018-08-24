@@ -110,14 +110,24 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
     }
 
     private void createMenuPageObserver() {
-
-        orderViewModel.getLiveOrderLocationsByOrderId(orderId).observe(this, new Observer<List<OrderLocationResult>>() {
+        orderViewModel.getLiveOrderResults().observe(this, new Observer<List<OrderResult>>() {
             @Override
-            public void onChanged(@Nullable List<OrderLocationResult> orderLocations) {
-                createMenuPager(orderLocations.get(orderLocations.size()-1));
-                orderViewModel.getLiveOrderLocationsByOrderId(orderId).removeObserver(this);
+            public void onChanged(@Nullable List<OrderResult> orderResults) {
+                if(orderResults.size() > 0) {
+                    Log.i(this.getClass().getSimpleName(), "Creating menu pager for order "+orderResults.get(orderResults.size()-1).getId());
+                    createMenuPager(orderResults.get(orderResults.size()-1));
+                    orderViewModel.getLiveOrderResults().removeObserver(this);
+                }
             }
         });
+
+//        orderViewModel.getLiveOrderLocationsByOrderId(orderId).observe(this, new Observer<List<OrderLocationResult>>() {
+//            @Override
+//            public void onChanged(@Nullable List<OrderLocationResult> orderLocations) {
+//                createMenuPager(orderLocations.get(orderLocations.size()-1));
+//                orderViewModel.getLiveOrderLocationsByOrderId(orderId).removeObserver(this);
+//            }
+//        });
     }
 
     private void createOrderLocationObserver() {
