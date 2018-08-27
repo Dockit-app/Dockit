@@ -52,7 +52,7 @@ public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.
     @NonNull
     @Override
     public SummaryItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = inflater.inflate(R.layout.menu_item_list, parent, false);
+        View itemView = inflater.inflate(R.layout.order_summary_list, parent, false);
         return new SummaryItemViewHolder(itemView);
     }
 
@@ -68,7 +68,7 @@ public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.
         else {
             holder.menuSection.setVisibility(View.GONE);
             holder.menuItem.setVisibility(View.VISIBLE);
-            holder.description.setText(menuItem.getDescription());
+            holder.description.setText(Integer.toString(menuItem.getCount()) + " x " + menuItem.getDescription());
 
             if(position % 2 != 0 && !menuItem.isSection()) {
                 holder.menuItemBackground.setBackgroundColor(Color.LTGRAY);

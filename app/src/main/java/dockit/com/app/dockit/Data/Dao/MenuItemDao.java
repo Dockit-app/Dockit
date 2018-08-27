@@ -28,6 +28,8 @@ public interface MenuItemDao {
     LiveData<List<MenuItem>> getLiveByOrderId(int orderId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(MenuItem menuItem);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<MenuItem> menuItems);
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void update(MenuItem menuItem);

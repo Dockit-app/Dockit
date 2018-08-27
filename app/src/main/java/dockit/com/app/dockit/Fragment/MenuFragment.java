@@ -21,6 +21,7 @@ import dockit.com.app.dockit.ClickListener.MenuItemClickListenerBuilder;
 import dockit.com.app.dockit.Entity.Decorator.MenuItemView;
 import dockit.com.app.dockit.Entity.MenuItem;
 import dockit.com.app.dockit.Entity.Order;
+import dockit.com.app.dockit.Entity.Result.MenuItemResult;
 import dockit.com.app.dockit.Entity.Result.MenuResult;
 import dockit.com.app.dockit.Entity.Result.MenuSectionResult;
 import dockit.com.app.dockit.R;
@@ -101,8 +102,8 @@ public class MenuFragment extends Fragment {
             List<MenuItemView> menuItemViews = new ArrayList<>();
             for(MenuSectionResult menuSectionResult : menuSectionResults) {
                 menuItemViews.add(new MenuItemView((menuSectionResult)));
-                for(MenuItem menuItem : menuSectionResult.menuItemList) {
-                    menuItemViews.add(new MenuItemView(menuItem));
+                for(MenuItemResult menuItemResult : menuSectionResult.menuItemResultList) {
+                    menuItemViews.add(new MenuItemView(menuItemResult));
                 }
             }
             return menuItemViews;

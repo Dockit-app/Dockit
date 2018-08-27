@@ -1,6 +1,7 @@
 package dockit.com.app.dockit.Entity.Decorator;
 
 import dockit.com.app.dockit.Entity.MenuItem;
+import dockit.com.app.dockit.Entity.Result.MenuItemResult;
 import dockit.com.app.dockit.Entity.Result.MenuSectionResult;
 
 /**
@@ -9,7 +10,7 @@ import dockit.com.app.dockit.Entity.Result.MenuSectionResult;
 
 public class MenuItemView extends MenuItem {
 
-    public MenuItemView(MenuItem menuItem) {
+    public MenuItemView(MenuItemResult menuItem) {
         this.setId(menuItem.getId());
         this.setDescription(menuItem.getDescription());
         this.setIngredients(menuItem.getIngredients());

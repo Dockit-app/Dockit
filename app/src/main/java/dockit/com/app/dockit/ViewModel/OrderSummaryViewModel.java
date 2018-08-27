@@ -7,10 +7,10 @@ import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 import dockit.com.app.dockit.Entity.Decorator.SummaryItemView;
 import dockit.com.app.dockit.Entity.MenuItem;
+import dockit.com.app.dockit.Entity.Result.MenuItemResult;
 import dockit.com.app.dockit.Entity.Result.MenuResult;
 import dockit.com.app.dockit.Entity.Result.MenuSectionResult;
 import dockit.com.app.dockit.Entity.Result.OrderLocationResult;
@@ -69,87 +69,41 @@ public class OrderSummaryViewModel extends AndroidViewModel {
     //each mr contains a list of MenuSectionResult items (msr) (the results of each menu section)
     //each msr contains a list of menu items mi
     //so
-    public List<SummaryItemView> GroupMenu(OrderResult order) {
-       List<SummaryItemView> groupMenu = null;
-        // 1. retrieve olr list
-        List<OrderLocationResult> olr = order.orderLocationResults;
-        // 2. loop through olr list, retrieve list of mr
-        //Will retrieve menu name here for multiple menu items
-        for (int i = 0; i<olr.size(); i++) {
-            List<MenuResult> mr = olr.get(i).menus;
-
-            // 3. loop through mr, retrieve list of msr
-            // BUT on 1st mr loop create section headings and not on any subsequent loops,
-            //even if person doesn't order off certain menu there is a null item saved
-            for (int j = 0; j<mr.size(); j++) {
-                List<MenuSectionResult> msr = mr.get(j).menuSectionResults;
-                // 4. loop through msr, retrieve list of menuItems mi
-                for (int k = 0; k<msr.size(); k++) {
-                    SummaryItemView sectionView = new SummaryItemView(msr.get(k));
-                    //if (!groupMenu.contains(sectionView)) {
-                        groupMenu.add(sectionView);
-                    //}
-
-                    List<MenuItem> mi = msr.get(k).menuItemList;
-
-                    // 5. loop through mi, creating MenuItemView for each item and adding to the list
-                    // after the correct section heading
-                    for (int l = 0; l<mi.size(); l++) {
-                        SummaryItemView menuItem = new SummaryItemView(mi.get(l));
-                        //int index = groupMenu.indexOf(menuItem);
-                        //if groupMenu does not already contain this item
-                        //if (index == -1) {
-                            //int sectionIndex = groupMenu.indexOf(sectionView);
-                            //groupMenu.add(sectionIndex+1, menuItem);
-                        groupMenu.add(menuItem);
-                        //}
-                        //if it doesn't, use index to retrieve item and double its count
-                        //else {
-                          //  groupMenu.get(index).incrementCount();
-                        //}
-                    }
-                }
-            }
-
-        }
-
-        return groupMenu;
-    }
-
-    public List<SummaryItemView> CrappyMenu (OrderResult order) {
+    public List<SummaryItemView> GroupMenuItems(OrderResult order) {
         List<SummaryItemView> groupMenu = new ArrayList<SummaryItemView>();
-        List<OrderLocationResult> olr = order.orderLocationResults;
+        List<OrderLocationResult> orderLocationResults = order.orderLocationResults;
         // 2. loop through olr list, retrieve list of mr
         //Will retrieve menu name here for multiple menu items
-        for (int i = 0; i<olr.size(); i++) {
-            List<MenuResult> mr = olr.get(i).menus;
+        for (int i = 0; i<orderLocationResults.size(); i++) {
+            List<MenuResult> menuResults = orderLocationResults.get(i).menus;
 
             // 3. loop through mr, retrieve list of msr
             // BUT on 1st mr loop create section headings and not on any subsequent loops,
             //even if person doesn't order off certain menu there is a null item saved
-            for (int j = 0; j<mr.size(); j++) {
-                List<MenuSectionResult> msr = mr.get(j).menuSectionResults;
+            for (int j = 0; j<menuResults.size(); j++) {
+                List<MenuSectionResult> menuSectionResults = menuResults.get(j).menuSectionResults;
                 // 4. loop through msr, retrieve list of menuItems mi
-                for (int k = 0; k<msr.size(); k++) {
-                    SummaryItemView sectionView = new SummaryItemView(msr.get(k));
+                for (int k = 0; k<menuSectionResults.size(); k++) {
+                    SummaryItemView sectionView = new SummaryItemView(menuSectionResults.get(k));
                     int sectionIndex = SummarySearch(groupMenu, sectionView);
 
                     if (sectionIndex == -1) {
                         groupMenu.add(sectionView);
                     }
 
-                    List<MenuItem> mi = msr.get(k).menuItemList;
+                    List<MenuItemResult> menuItems = menuSectionResults.get(k).menuItemResultList;
 
                     // 5. loop through mi, creating MenuItemView for each item and adding to the list
                     // after the correct section heading
-                    for (int l = 0; l<mi.size(); l++) {
-                        SummaryItemView menuItem = new SummaryItemView(mi.get(l));
-                        if(menuItem.isSelected()) {
-                            int index = SummarySearch(groupMenu, menuItem);
+                    for (int l = 0; l<menuItems.size(); l++) {
+                        SummaryItemView summaryItemView = new SummaryItemView(menuItems.get(l));
+                        summaryItemView.setSectionName(sectionView.getDescription());
+                        if(summaryItemView.isSelected()) {
+                            int index = SummarySearch(groupMenu, summaryItemView);
                             //if groupMenu does not already contain this item
                             if (index == -1) {
                                 sectionIndex = SummarySearch(groupMenu, sectionView);
-                                groupMenu.add(sectionIndex + 1, menuItem);
+                                groupMenu.add(sectionIndex + 1, summaryItemView);
                                 //if (menuItem.isSelected()) {
                                 //groupMenu.add(menuItem);
                                 //}
@@ -172,14 +126,11 @@ public class OrderSummaryViewModel extends AndroidViewModel {
     private int SummarySearch(List<SummaryItemView> summary, SummaryItemView item) {
         for (int i = 0; i < summary.size(); i++) {
             SummaryItemView next = summary.get(i);
-            if (next.getDescription().contentEquals(item.getDescription())) {
+            if (next.getSectionName().equals(item.getSectionName()) && next.getDescription().contentEquals(item.getDescription())) {
                 return i;
             }
         }
         return -1;
     }
 
-    public String GetTime(OrderResult orderResult) {
-        return orderResult.getTimeStamp();
-    }
 }

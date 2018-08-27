@@ -41,5 +41,5 @@ public class MenuSectionResult implements Serializable {
     }
 
     @Relation(entity = MenuItem.class, parentColumn = "id", entityColumn = "menuSectionId")
-    public List<MenuItem> menuItemList;
+    public List<MenuItemResult> menuItemResultList;
 }

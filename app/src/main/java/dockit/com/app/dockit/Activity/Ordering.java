@@ -214,6 +214,8 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
 
     private void createOrderSummaryActivity(OrderResult orderResult) {
         Intent startUserActivity = new Intent(this, OrderSummary.class);
+
+        orderResult.setTimeStamp(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()));
         startUserActivity.putExtra("OrderResult", orderResult);
 
         startUserActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

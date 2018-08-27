@@ -41,6 +41,6 @@ public class MenuSectionTemplateResult {
     }
 
     @Relation(entity = MenuItemTemplate.class, parentColumn = "id", entityColumn = "menuSectionTemplateId")
-    public List<MenuItemTemplate> menuItemTemplateList;
+    public List<MenuItemTemplateResult> menuItemTemplateList;
 
 }

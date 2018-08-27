@@ -1,13 +1,16 @@
 package dockit.com.app.dockit.Entity.Decorator;
 
 import dockit.com.app.dockit.Entity.MenuItem;
+import dockit.com.app.dockit.Entity.Result.MenuItemResult;
 import dockit.com.app.dockit.Entity.Result.MenuSectionResult;
 
-public class SummaryItemView extends MenuItem{
+public class SummaryItemView extends MenuItemResult {
 
     private int count = 0;
+    private String sectionName;
+    private boolean isSection = false;
 
-    public SummaryItemView(MenuItem menuItem) {
+    public SummaryItemView(MenuItemResult menuItem) {
         this.setId(menuItem.getId());
         this.setDescription(menuItem.getDescription());
         this.setIngredients(menuItem.getIngredients());
@@ -30,14 +33,20 @@ public class SummaryItemView extends MenuItem{
     //Not useful now, but may be down the line
     public void decrementCount() { count -= 1; }
 
-    private boolean isSection = false;
-
     public boolean isSection() {
         return isSection;
     }
 
     public void setSection(boolean section) {
         isSection = section;
+    }
+
+    public String getSectionName() {
+        return sectionName == null ? "" : sectionName;
+    }
+
+    public void setSectionName(String sectionName) {
+        this.sectionName = sectionName;
     }
 }
 

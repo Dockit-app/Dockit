@@ -18,7 +18,7 @@ import dockit.com.app.dockit.Entity.MenuItemTemplate;
 public interface MenuItemTemplateDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void create(MenuItemTemplate menuItemTemplate);
+    long create(MenuItemTemplate menuItemTemplate);
 
     @Query("Select * from menu_item_template")
     List<MenuItemTemplate> getAll();
