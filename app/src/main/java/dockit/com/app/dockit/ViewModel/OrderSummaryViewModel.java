@@ -172,7 +172,7 @@ public class OrderSummaryViewModel extends AndroidViewModel {
     private int SummarySearch(List<SummaryItemView> summary, SummaryItemView item) {
         for (int i = 0; i < summary.size(); i++) {
             SummaryItemView next = summary.get(i);
-            if (next.getId() == item.getId()) {
+            if (next.getDescription().contentEquals(item.getDescription())) {
                 return i;
             }
         }
