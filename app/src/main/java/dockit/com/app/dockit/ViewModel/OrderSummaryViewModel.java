@@ -18,6 +18,7 @@ import dockit.com.app.dockit.Entity.Result.MenuSectionResult;
 import dockit.com.app.dockit.Entity.Result.OrderLocationResult;
 import dockit.com.app.dockit.Entity.Result.OrderResult;
 import dockit.com.app.dockit.Repository.OrderRepository;
+import dockit.com.app.dockit.Tasks.ValidateOrder;
 
 public class OrderSummaryViewModel extends AndroidViewModel {
     private LiveData<List<OrderResult>> liveOrderResults;
@@ -26,6 +27,7 @@ public class OrderSummaryViewModel extends AndroidViewModel {
     List<String> groupedItems;
 
     private OrderRepository orderRepository;
+    private ValidateOrder validateOrder;
 
     public OrderSummaryViewModel(@NonNull Application application) {
         super(application);
@@ -122,8 +124,17 @@ public class OrderSummaryViewModel extends AndroidViewModel {
             }
 
         }
-
         return groupMenu;
+    }
+
+    public void ValidOrder (List<SummaryItemView> menu) {
+        int index = validateOrder.ValidateOrder(menu);
+        if (index == -1) {
+
+        }
+        else {
+            menu.get(index).setHighlighting(true);
+        }
     }
 
     //Searches the Summary List for an item, and if found returns the index, if not found returns -1

@@ -66,6 +66,9 @@ public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.
             holder.menuItem.setVisibility(View.GONE);
             holder.menuSection.setVisibility(View.VISIBLE);
             holder.name.setText(menuItem.getDescription());
+            if(menuItem.isHighlighted()) {
+                holder.menuItemBackground.setBackgroundColor(Color.RED);
+            }
         }
         else {
             holder.menuSection.setVisibility(View.GONE);

@@ -9,8 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 
+import java.util.List;
+
 import dockit.com.app.dockit.Adapter.SummaryListAdapter;
 
+import dockit.com.app.dockit.Entity.Decorator.SummaryItemView;
 import dockit.com.app.dockit.Entity.Result.OrderResult;
 import dockit.com.app.dockit.R;
 
@@ -69,7 +72,9 @@ public class OrderSummary extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.summary_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        summaryListAdapter = new SummaryListAdapter(this, orderSummaryViewModel.GroupMenuItems(orderResult));
+        List<SummaryItemView> groupMenu = orderSummaryViewModel.GroupMenuItems(orderResult);
+        //orderSummaryViewModel.ValidOrder(groupMenu); REMOVE THIS LINE WHEN IMPLEMENTING VALIDATION
+        summaryListAdapter = new SummaryListAdapter(this, groupMenu);
         recyclerView.setAdapter(summaryListAdapter);
     }
 
