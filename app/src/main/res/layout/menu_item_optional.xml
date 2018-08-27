@@ -11,14 +11,15 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fillViewport="false"
-            android:layout_marginBottom="15dp">
+            android:fillViewport="false">
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:background="@drawable/menu_section_border"
+                android:paddingBottom="5dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -28,7 +29,7 @@
                     android:textStyle="bold"
                     android:textColor="#ffffff"
                     android:background="#000000"
-                    android:textSize="32sp"/>
+                    android:textSize="35sp"/>
 
                 <Switch
                     android:layout_width="match_parent"
@@ -36,8 +37,10 @@
                     android:text="Foie Gras"
                     android:textAlignment="center"
                     android:checked="true"
-                    android:textSize="30sp"
-                    android:theme="@style/SwitchMenuOptionalTheme"/>
+                    android:textSize="32sp"
+                    android:theme="@style/SwitchMenuOptionalTheme"
+                    android:layout_margin="5dp"
+                    android:switchMinWidth="56dp"/>
 
                 <Switch
                     android:layout_width="match_parent"
@@ -45,8 +48,10 @@
                     android:text="Walnuts"
                     android:textAlignment="center"
                     android:checked="true"
-                    android:textSize="30sp"
-                    android:theme="@style/SwitchMenuOptionalTheme"/>
+                    android:textSize="32sp"
+                    android:theme="@style/SwitchMenuOptionalTheme"
+                    android:layout_margin="5dp"
+                    android:switchMinWidth="56dp"/>
 
                 <Switch
                     android:layout_width="match_parent"
@@ -54,8 +59,10 @@
                     android:text="Pickled Cucumber"
                     android:textAlignment="center"
                     android:checked="true"
-                    android:textSize="30sp"
-                    android:theme="@style/SwitchMenuOptionalTheme"/>
+                    android:textSize="32sp"
+                    android:theme="@style/SwitchMenuOptionalTheme"
+                    android:layout_margin="5dp"
+                    android:switchMinWidth="56dp"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -65,7 +72,7 @@
                     android:textStyle="bold"
                     android:textColor="#ffffff"
                     android:background="#000000"
-                    android:textSize="32sp" />
+                    android:textSize="35sp" />
 
                 <Switch
                     android:layout_width="match_parent"
@@ -73,8 +80,10 @@
                     android:text="Sauce On Side"
                     android:textAlignment="center"
                     android:checked="false"
-                    android:textSize="30sp"
-                    android:theme="@style/SwitchMenuOptionalTheme"/>
+                    android:textSize="32sp"
+                    android:theme="@style/SwitchMenuOptionalTheme"
+                    android:layout_margin="5dp"
+                    android:switchMinWidth="56dp"/>
 
                 <Switch
                     android:layout_width="match_parent"
@@ -82,8 +91,10 @@
                     android:text="Gluten"
                     android:textAlignment="center"
                     android:checked="false"
-                    android:textSize="30sp"
-                    android:theme="@style/SwitchMenuOptionalTheme"/>
+                    android:textSize="32sp"
+                    android:theme="@style/SwitchMenuOptionalTheme"
+                    android:layout_margin="5dp"
+                    android:switchMinWidth="56dp"/>
 
                 <Switch
                     android:layout_width="match_parent"
@@ -91,8 +102,10 @@
                     android:text="Vegan"
                     android:textAlignment="center"
                     android:checked="false"
-                    android:textSize="30sp"
-                    android:theme="@style/SwitchMenuOptionalTheme"/>
+                    android:textSize="32sp"
+                    android:theme="@style/SwitchMenuOptionalTheme"
+                    android:layout_margin="5dp"
+                    android:switchMinWidth="56dp"/>
 
                 <Switch
                     android:layout_width="match_parent"
@@ -100,8 +113,10 @@
                     android:text="Vegetarian"
                     android:textAlignment="center"
                     android:checked="false"
-                    android:textSize="30sp"
-                    android:theme="@style/SwitchMenuOptionalTheme"/>
+                    android:textSize="32sp"
+                    android:theme="@style/SwitchMenuOptionalTheme"
+                    android:layout_margin="5dp"
+                    android:switchMinWidth="56dp"/>
 
                 <Switch
                     android:layout_width="match_parent"
@@ -109,8 +124,10 @@
                     android:text="Coeliac"
                     android:textAlignment="center"
                     android:checked="false"
-                    android:textSize="30sp"
-                    android:theme="@style/SwitchMenuOptionalTheme"/>
+                    android:textSize="32sp"
+                    android:theme="@style/SwitchMenuOptionalTheme"
+                    android:layout_margin="5dp"
+                    android:switchMinWidth="56dp"/>
 
             </LinearLayout>
         </ScrollView>

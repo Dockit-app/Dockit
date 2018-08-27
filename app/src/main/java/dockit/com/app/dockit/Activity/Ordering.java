@@ -48,7 +48,7 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ordering);
         Intent intent = getIntent();
-        tableName = "Table " + intent.getStringExtra("table");
+        tableName = intent.getStringExtra("table");
 
         //TODO: Receive order id for existing
 

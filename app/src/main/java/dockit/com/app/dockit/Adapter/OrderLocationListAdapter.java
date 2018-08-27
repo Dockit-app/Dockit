@@ -62,12 +62,12 @@ public class OrderLocationListAdapter extends RecyclerView.Adapter<OrderLocation
 
             //Is currently selected
             if(orderLocation.getSelected() == 1) {
-                holder.cardView.setCardBackgroundColor(Color.BLUE);
+                holder.cardView.setCardBackgroundColor(Color.BLACK);
                 holder.textView.setTextColor(Color.WHITE);
             }
             //Already exists
             else if(orderLocation.getId() != null && orderLocation.getId() > 0) {
-                holder.cardView.setCardBackgroundColor(Color.RED);
+                holder.cardView.setCardBackgroundColor(Color.DKGRAY);
                 holder.textView.setTextColor(Color.WHITE);
             }
             //New
