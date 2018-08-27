@@ -74,7 +74,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
             holder.menuSection.setVisibility(View.GONE);
             holder.menuItem.setVisibility(View.VISIBLE);
             holder.description.setText(menuItem.getDescription());
-            holder.ingredients.setText("("+menuItem.getIngredients()+")");
+            holder.ingredients.setText("  "+menuItem.getIngredients());
 
             if(position % 2 != 0 && !menuItem.isSection()) {
                 holder.menuItemBackground.setBackgroundColor(Color.LTGRAY);
@@ -85,10 +85,15 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
         }
 
         if(menuItem.isSelected()) {
-            holder.menuItem.setBackgroundColor(Color.BLUE);
+            holder.menuItem.setBackgroundColor(Color.BLACK);
         }
         else {
-            holder.menuItem.setBackgroundColor(Color.WHITE);
+            if(position % 2 != 0 && !menuItem.isSection()) {
+                holder.menuItem.setBackgroundColor(Color.LTGRAY);
+            }
+            else {
+                holder.menuItem.setBackgroundColor(Color.WHITE);
+            }
         }
     }
 

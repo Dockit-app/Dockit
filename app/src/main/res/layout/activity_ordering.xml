@@ -19,7 +19,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:foreground="@drawable/send_icon"
-            app:backgroundTint="@color/colorPrimary"
+            app:backgroundTint="@color/redDockit"
             app:fabCustomSize="90dp"/>
     </RelativeLayout>
 

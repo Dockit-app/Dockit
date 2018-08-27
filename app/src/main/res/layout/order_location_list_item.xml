@@ -13,14 +13,27 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center">
+        android:layout_gravity="center" >
         <TextView
             android:id="@+id/order_location_text"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:textSize="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:textSize="40sp"
+            android:textStyle="bold"
             android:textAlignment="center"
-            android:layout_centerInParent="true"/>
+            android:layout_centerHorizontal="true" />
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:textSize="25sp"
+            android:text="Position"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:textAlignment="center"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/order_location_text"/>
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>
