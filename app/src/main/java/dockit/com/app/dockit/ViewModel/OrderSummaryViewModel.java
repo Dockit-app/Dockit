@@ -119,8 +119,8 @@ public class OrderSummaryViewModel extends AndroidViewModel {
         return groupMenu;
     }
 
-    public List<MenuItemView> CrappyMenu (OrderResult order) {
-        List<MenuItemView> groupMenu = new ArrayList<MenuItemView>();
+    public List<SummaryItemView> CrappyMenu (OrderResult order) {
+        List<SummaryItemView> groupMenu = new ArrayList<SummaryItemView>();
         List<OrderLocationResult> olr = order.orderLocationResults;
         // 2. loop through olr list, retrieve list of mr
         //Will retrieve menu name here for multiple menu items
@@ -134,7 +134,7 @@ public class OrderSummaryViewModel extends AndroidViewModel {
                 List<MenuSectionResult> msr = mr.get(j).menuSectionResults;
                 // 4. loop through msr, retrieve list of menuItems mi
                 for (int k = 0; k<msr.size(); k++) {
-                    MenuItemView sectionView = new MenuItemView(msr.get(k));
+                    SummaryItemView sectionView = new SummaryItemView(msr.get(k));
                     //if (!groupMenu.contains(sectionView)) {
                     groupMenu.add(sectionView);
                     //}
@@ -144,13 +144,15 @@ public class OrderSummaryViewModel extends AndroidViewModel {
                     // 5. loop through mi, creating MenuItemView for each item and adding to the list
                     // after the correct section heading
                     for (int l = 0; l<mi.size(); l++) {
-                        MenuItemView menuItem = new MenuItemView(mi.get(l));
+                        SummaryItemView menuItem = new SummaryItemView(mi.get(l));
                         //int index = groupMenu.indexOf(menuItem);
                         //if groupMenu does not already contain this item
                         //if (index == -1) {
                         //int sectionIndex = groupMenu.indexOf(sectionView);
                         //groupMenu.add(sectionIndex+1, menuItem);
-                        groupMenu.add(menuItem);
+                        if (menuItem.isSelected()) {
+                            groupMenu.add(menuItem);
+                        }
                         //}
                         //if it doesn't, use index to retrieve item and double its count
                         //else {

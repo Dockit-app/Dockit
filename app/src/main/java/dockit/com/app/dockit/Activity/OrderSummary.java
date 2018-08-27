@@ -11,7 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 
-
+import dockit.com.app.dockit.Adapter.MenuItemListAdapter;
 import dockit.com.app.dockit.Adapter.SummaryListAdapter;
 
 import dockit.com.app.dockit.Entity.Result.OrderResult;
@@ -32,6 +32,7 @@ public class OrderSummary extends AppCompatActivity {
     private String tableName = "Table 1";
 
     SummaryListAdapter summaryListAdapter;
+    MenuItemListAdapter mILA;
 
 
     @Override
@@ -87,11 +88,12 @@ public class OrderSummary extends AppCompatActivity {
     private void SetSummaryRecyclerView(OrderResult orderResult) {
         //TODO: Layout id doesn't exist
         RecyclerView recyclerView = findViewById(R.id.summary_recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         //NEED TO TAKE IN ORDERED ITEMS AS List<MenuItemView>
         summaryListAdapter = new SummaryListAdapter(this, orderSummaryViewModel.CrappyMenu(orderResult));
         recyclerView.setAdapter(summaryListAdapter);
+//        recyclerView.setAdapter(mILA);
     }
 
 
