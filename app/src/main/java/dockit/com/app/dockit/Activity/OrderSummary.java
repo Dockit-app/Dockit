@@ -42,6 +42,9 @@ public class OrderSummary extends AppCompatActivity {
         //Thomas I've passed the orderResult to your activity, saves you querying for it
         OrderResult orderResult = (OrderResult)getIntent().getSerializableExtra("OrderResult");
         orderId = orderResult.getId();
+
+        setOrderSummaryViewModel(orderResult);
+
         tableName = orderSummaryViewModel.GetTable(orderResult) + "\nTable";
         covers = orderSummaryViewModel.GetCovers(orderResult) + "\nCovers";
         time = orderSummaryViewModel.GetTime(orderResult);
@@ -59,8 +62,6 @@ public class OrderSummary extends AppCompatActivity {
 
         TextView timeText = findViewById(R.id.time_text);
         timeText.setText(orderResult.getTimeStamp());
-
-        setOrderSummaryViewModel(orderResult);
     }
 
     private void setOrderSummaryViewModel(final OrderResult order) {

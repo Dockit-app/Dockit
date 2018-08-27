@@ -93,7 +93,6 @@ public class TableSelection extends AppCompatActivity {
                 .setTitle("Select Table:")
                 .setAdapter(adapter, (dialogInterface, i) -> {
                     String tableSelected = adapter.getItem(i);
-                    Toast.makeText(this, "Order for table " + tableSelected, Toast.LENGTH_LONG).show();
                     createOrderActivity(tableSelected);
                     Log.i(this.getClass().getSimpleName(), "Create ordering activity from existing");
                 })
@@ -137,7 +136,7 @@ public class TableSelection extends AppCompatActivity {
     public void createOrderActivity(String table) {
         //the free table is sent to Ordering to create a new order
         Log.i(this.getClass().getSimpleName(), "Create ordering activity from new");
-        Toast.makeText(this, "Existing order for table " + table, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Order for table " + table, Toast.LENGTH_LONG).show();
         Intent i = new Intent(this, Ordering.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.putExtra("table", table);

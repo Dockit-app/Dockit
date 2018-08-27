@@ -120,14 +120,6 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
                 }
             }
         });
-
-//        orderViewModel.getLiveOrderLocationsByOrderId(orderId).observe(this, new Observer<List<OrderLocationResult>>() {
-//            @Override
-//            public void onChanged(@Nullable List<OrderLocationResult> orderLocations) {
-//                createMenuPager(orderLocations.get(orderLocations.size()-1));
-//                orderViewModel.getLiveOrderLocationsByOrderId(orderId).removeObserver(this);
-//            }
-//        });
     }
 
     private void createOrderObserver(int orderId) {
@@ -260,19 +252,4 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
         });
     }
 
-    public void createMenuPager(OrderResult orderResult) {
-
-        if(orderResult.orderLocationResults.size() > 0 &&
-                orderResult.orderLocationResults.get(orderResult.orderLocationResults.size()-1).menus.size() > 0) {
-
-            ViewPager menuPager = (ViewPager) findViewById(R.id.menu_view_pager);
-            orderMenuAdapter = new OrderMenuAdapter(getSupportFragmentManager());
-            orderMenuAdapter.setOrderResult(orderResult.orderLocationResults.get(0).menus);
-            menuPager.setAdapter(orderMenuAdapter);
-
-            TabLayout tabLayout = (TabLayout) findViewById(R.id.menu_tab_layout);
-            tabLayout.setupWithViewPager(menuPager);
-            menuPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        }
-    }
 }
