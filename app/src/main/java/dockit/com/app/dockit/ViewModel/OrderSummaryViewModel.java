@@ -6,12 +6,9 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import dockit.com.app.dockit.Entity.Decorator.MenuItemView;
 import dockit.com.app.dockit.Entity.Decorator.SummaryItemView;
 import dockit.com.app.dockit.Entity.MenuItem;
 import dockit.com.app.dockit.Entity.Result.MenuResult;
@@ -135,9 +132,11 @@ public class OrderSummaryViewModel extends AndroidViewModel {
                 // 4. loop through msr, retrieve list of menuItems mi
                 for (int k = 0; k<msr.size(); k++) {
                     SummaryItemView sectionView = new SummaryItemView(msr.get(k));
-                    //if (!groupMenu.contains(sectionView)) {
-                    groupMenu.add(sectionView);
-                    //}
+                    int sectionIndex = SummarySearch(groupMenu, sectionView);
+
+                    if (sectionIndex == -1) {
+                        groupMenu.add(sectionView);
+                    }
 
                     List<MenuItem> mi = msr.get(k).menuItemList;
 
@@ -145,19 +144,21 @@ public class OrderSummaryViewModel extends AndroidViewModel {
                     // after the correct section heading
                     for (int l = 0; l<mi.size(); l++) {
                         SummaryItemView menuItem = new SummaryItemView(mi.get(l));
-                        //int index = groupMenu.indexOf(menuItem);
-                        //if groupMenu does not already contain this item
-                        //if (index == -1) {
-                        //int sectionIndex = groupMenu.indexOf(sectionView);
-                        //groupMenu.add(sectionIndex+1, menuItem);
-                        if (menuItem.isSelected()) {
-                            groupMenu.add(menuItem);
+                        if(menuItem.isSelected()) {
+                            int index = SummarySearch(groupMenu, menuItem);
+                            //if groupMenu does not already contain this item
+                            if (index == -1) {
+                                sectionIndex = SummarySearch(groupMenu, sectionView);
+                                groupMenu.add(sectionIndex + 1, menuItem);
+                                //if (menuItem.isSelected()) {
+                                //groupMenu.add(menuItem);
+                                //}
+                            }
+                            //if it does, use index to retrieve item and double its count
+                            else {
+                                groupMenu.get(index).incrementCount();
+                            }
                         }
-                        //}
-                        //if it doesn't, use index to retrieve item and double its count
-                        //else {
-                        //  groupMenu.get(index).incrementCount();
-                        //}
                     }
                 }
             }
@@ -165,6 +166,17 @@ public class OrderSummaryViewModel extends AndroidViewModel {
         }
 
         return groupMenu;
+    }
+
+    //Searches the Summary List for an item, and if found returns the index, if not found returns -1
+    private int SummarySearch(List<SummaryItemView> summary, SummaryItemView item) {
+        for (int i = 0; i < summary.size(); i++) {
+            SummaryItemView next = summary.get(i);
+            if (next.getId() == item.getId()) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public String GetTime(OrderResult orderResult) {
