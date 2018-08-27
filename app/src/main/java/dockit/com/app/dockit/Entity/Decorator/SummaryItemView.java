@@ -9,6 +9,7 @@ public class SummaryItemView extends MenuItemResult {
     private int count = 0;
     private String sectionName;
     private boolean isSection = false;
+    private boolean isHighlighted = false;
 
     public SummaryItemView(MenuItemResult menuItem) {
         this.setId(menuItem.getId());
@@ -36,6 +37,10 @@ public class SummaryItemView extends MenuItemResult {
     public boolean isSection() {
         return isSection;
     }
+
+    public void setHighlighting(boolean highlighting) { isHighlighted = highlighting; }
+
+    public boolean isHighlighted() { return isHighlighted; }
 
     public void setSection(boolean section) {
         isSection = section;
