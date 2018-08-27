@@ -67,22 +67,18 @@ public class MenuFragment extends Fragment {
             }
         });
 
-        setCounterObserver();
+        setObserver();
 
         setMenuItemRecyclerView(rootView, menu);
 
         return rootView;
     }
 
-    private void setCounterObserver() {
-        //Used for counter implementation
+    private void setObserver() {
+
         menuItemViewModel.getLiveOrderByMenuId(menu.getId()).observe(this, new Observer<List<Order>>() {
             @Override
             public void onChanged(@Nullable List<Order> orders) {
-                if(orders != null && orders.get(0).getCounterSelection() != null) {
-//                    menuItemListAdapter.setCounter(orders.get(0).getCounterSelection());
-                }
-
                 menuItemListAdapter.notifyDataSetChanged();
                 Log.i(this.getClass().getSimpleName(), "Order change observed");
             }
@@ -111,5 +107,20 @@ public class MenuFragment extends Fragment {
 
     public MenuResult getMenuResult() {
         return menu;
+    }
+
+    private void setCounterObserver() {
+
+        menuItemViewModel.getLiveOrderByMenuId(menu.getId()).observe(this, new Observer<List<Order>>() {
+            @Override
+            public void onChanged(@Nullable List<Order> orders) {
+                if(orders != null && orders.get(0).getCounterSelection() != null) {
+//                    menuItemListAdapter.setCounter(orders.get(0).getCounterSelection());
+                }
+
+                menuItemListAdapter.notifyDataSetChanged();
+                Log.i(this.getClass().getSimpleName(), "Order change observed");
+            }
+        });
     }
 }

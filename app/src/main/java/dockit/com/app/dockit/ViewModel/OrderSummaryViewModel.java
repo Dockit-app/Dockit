@@ -8,7 +8,9 @@ import android.support.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import dockit.com.app.dockit.Entity.Decorator.MandatoryItemView;
 import dockit.com.app.dockit.Entity.Decorator.SummaryItemView;
+import dockit.com.app.dockit.Entity.MandatoryItem;
 import dockit.com.app.dockit.Entity.MenuItem;
 import dockit.com.app.dockit.Entity.Result.MenuItemResult;
 import dockit.com.app.dockit.Entity.Result.MenuResult;
@@ -93,6 +95,7 @@ public class OrderSummaryViewModel extends AndroidViewModel {
 
                     List<MenuItemResult> menuItems = menuSectionResults.get(k).menuItemResultList;
 
+
                     // 5. loop through mi, creating MenuItemView for each item and adding to the list
                     // after the correct section heading
                     for (int l = 0; l<menuItems.size(); l++) {
@@ -104,15 +107,16 @@ public class OrderSummaryViewModel extends AndroidViewModel {
                             if (index == -1) {
                                 sectionIndex = SummarySearch(groupMenu, sectionView);
                                 groupMenu.add(sectionIndex + 1, summaryItemView);
-                                //if (menuItem.isSelected()) {
-                                //groupMenu.add(menuItem);
-                                //}
+                                setMandatoryItemView(summaryItemView, menuItems.get(l));
                             }
                             //if it does, use index to retrieve item and double its count
                             else {
                                 groupMenu.get(index).incrementCount();
+                                setMandatoryItemView(groupMenu.get(index), menuItems.get(l));
                             }
                         }
+
+
                     }
                 }
             }
@@ -131,6 +135,33 @@ public class OrderSummaryViewModel extends AndroidViewModel {
             }
         }
         return -1;
+    }
+
+    private void setMandatoryItemView(SummaryItemView summaryItemView, MenuItemResult menuItemResult) {
+
+        for(MandatoryItem mandatoryItem : menuItemResult.mandatoryItems) {
+            if(mandatoryItem.isSelected()) {
+                MandatoryItemView mandatoryItemView = new MandatoryItemView();
+                mandatoryItemView.setName(mandatoryItem.getName());
+                mandatoryItemView.setCount(mandatoryItemView.getCount() + 1);
+
+                if(summaryItemView.mandatoryItemViewList.size() == 0) {
+                    summaryItemView.mandatoryItemViewList.add(mandatoryItemView);
+                }
+                else {
+                    for (int idx = 0; idx < summaryItemView.mandatoryItemViewList.size(); idx ++) {
+                        MandatoryItemView mandatoryItemViewExisting = summaryItemView.mandatoryItemViewList.get(idx);
+                        if (mandatoryItemViewExisting.getName().equals(mandatoryItemView.getName())) {
+                            mandatoryItemViewExisting.setCount(mandatoryItemViewExisting.getCount() + 1);
+                            break;
+                        } else {
+                            summaryItemView.mandatoryItemViewList.add(mandatoryItemView);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }

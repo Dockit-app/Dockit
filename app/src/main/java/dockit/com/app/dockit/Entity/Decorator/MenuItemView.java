@@ -8,7 +8,7 @@ import dockit.com.app.dockit.Entity.Result.MenuSectionResult;
  * Created by michael on 14/08/18.
  */
 
-public class MenuItemView extends MenuItem {
+public class MenuItemView extends MenuItemResult {
 
     public MenuItemView(MenuItemResult menuItem) {
         this.setId(menuItem.getId());
@@ -18,6 +18,9 @@ public class MenuItemView extends MenuItem {
         this.setSelected(menuItem.isSelected());
         this.setCounter(menuItem.getCounter());
         this.setComments(menuItem.getComments());
+        this.mandatoryItems = menuItem.mandatoryItems;
+        this.optionalItems = menuItem.optionalItems;
+        this.ingredientItems = menuItem.ingredientItems;
     }
 
     public MenuItemView(MenuSectionResult menuSectionResult) {

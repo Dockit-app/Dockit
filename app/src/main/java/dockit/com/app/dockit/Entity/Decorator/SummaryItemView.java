@@ -1,5 +1,8 @@
 package dockit.com.app.dockit.Entity.Decorator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dockit.com.app.dockit.Entity.MenuItem;
 import dockit.com.app.dockit.Entity.Result.MenuItemResult;
 import dockit.com.app.dockit.Entity.Result.MenuSectionResult;
@@ -9,6 +12,8 @@ public class SummaryItemView extends MenuItemResult {
     private int count = 0;
     private String sectionName;
     private boolean isSection = false;
+
+    public List<MandatoryItemView> mandatoryItemViewList = new ArrayList<>();
 
     public SummaryItemView(MenuItemResult menuItem) {
         this.setId(menuItem.getId());

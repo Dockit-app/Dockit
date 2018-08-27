@@ -77,11 +77,13 @@ public class InsertTemplatesAsync extends AsyncTask<Void, Void, Void> {
                     menuItemTemplate.setIngredients(menuItemIngredients[j]);
                     int id = (int)menuItemTemplateDao.create(menuItemTemplate);
 
-                    for(int l = 0; l < mandatoryItems.length; l++) {
-                        MandatoryItemTemplate mandatoryItemTemplate = new MandatoryItemTemplate();
-                        mandatoryItemTemplate.setMenuItemTemplateId(id);
-                        mandatoryItemTemplate.setName(mandatoryItems[l]);
-                        mandatoryItemTemplateDao.insert(mandatoryItemTemplate);
+                    if(menuItemTemplate.getDescription().equals("Country Style Terrine")) {
+                        for (int l = 0; l < mandatoryItems.length; l++) {
+                            MandatoryItemTemplate mandatoryItemTemplate = new MandatoryItemTemplate();
+                            mandatoryItemTemplate.setMenuItemTemplateId(id);
+                            mandatoryItemTemplate.setName(mandatoryItems[l]);
+                            mandatoryItemTemplateDao.insert(mandatoryItemTemplate);
+                        }
                     }
 
                     for(int m = 0; m < optionalItems.length; m++) {

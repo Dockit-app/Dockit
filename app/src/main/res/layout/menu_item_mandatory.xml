@@ -33,32 +33,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal" >
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rare"
-                    android:textAlignment="center"
-                    android:textSize="32sp"
-                    android:buttonTint="#000000"
-                    android:layout_margin="5dp"/>
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="32sp"
-                    android:text="Medium"
-                    android:textAlignment="center"
-                    android:buttonTint="#000000"
-                    android:layout_margin="5dp"/>
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="32sp"
-                    android:text="Well Done"
-                    android:textAlignment="center"
-                    android:buttonTint="#000000"
-                    android:layout_margin="5dp"/>
 
             </RadioGroup>
 

@@ -5,6 +5,9 @@ import android.arch.persistence.room.PrimaryKey;
 
 import java.io.Serializable;
 
+import dockit.com.app.dockit.Entity.Result.MenuItemResult;
+import dockit.com.app.dockit.Repository.MenuItemRepository;
+
 /**
  * Created by michael on 27/07/18.
  */
@@ -27,6 +30,15 @@ public class MenuItem implements Serializable {
         this.menuSectionId = menuSectionId;
         this.description = menuItemTemplate.getDescription();
         this.ingredients = menuItemTemplate.getIngredients();
+    }
+
+    public MenuItem(MenuItemResult menuItemResult) {
+        this.setId(menuItemResult.getId());
+        this.setDescription(menuItemResult.getDescription());
+        this.setMenuSectionId(menuItemResult.getMenuSectionId());
+        this.setSelected(menuItemResult.isSelected());
+        this.setComments(menuItemResult.getComments());
+        this.setCounter(menuItemResult.getCounter());
     }
 
     public int getId() {

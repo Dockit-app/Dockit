@@ -7,8 +7,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
+import dockit.com.app.dockit.Entity.MandatoryItem;
+import dockit.com.app.dockit.Entity.Result.MenuItemResult;
 import dockit.com.app.dockit.R;
+import dockit.com.app.dockit.ViewModel.MenuItemViewModel;
 
 /**
  * Created by michael on 22/08/18.
@@ -16,12 +21,39 @@ import dockit.com.app.dockit.R;
 
 public class MenuItemPopup {
 
-    public static void openMandatoryPopup(Context context, View parentView) {
+    public static void openMandatoryPopup(Context context, View parentView, MenuItemResult menuItemResult, MenuItemViewModel menuItemViewModel) {
+
         LayoutInflater inflater = LayoutInflater.from(context);
 
         int menuResourceId = R.layout.menu_item_mandatory;
 
         View menuOptions = inflater.inflate(menuResourceId, null, false);
+
+        RadioGroup radioGroup = menuOptions.findViewById(R.id.options);
+        for(MandatoryItem mandatoryItem : menuItemResult.mandatoryItems) {
+            RadioButton radioButton = (RadioButton)inflater.inflate(R.layout.radio_button, null, false);
+            radioButton.setText(mandatoryItem.getName());
+            radioButton.setId(mandatoryItem.getId());
+            radioGroup.addView(radioButton);
+        }
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                for(MandatoryItem mandatoryItem : menuItemResult.mandatoryItems) {
+                    if(checkedId == mandatoryItem.getId()) {
+                        mandatoryItem.setSelected(true);
+                    }
+                    else {
+                        mandatoryItem.setSelected(false);
+                    }
+                }
+
+                menuItemViewModel.update(menuItemResult.mandatoryItems);
+            }
+        });
 
         Display display = parentView.getDisplay();
         Point size = new Point();

@@ -16,6 +16,7 @@ public class MandatoryItem implements Serializable {
     private int id;
     private Integer menuItemId;
     private String name;
+    private boolean isSelected;
 
     public int getId() {
         return id;
@@ -39,5 +40,13 @@ public class MandatoryItem implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }
