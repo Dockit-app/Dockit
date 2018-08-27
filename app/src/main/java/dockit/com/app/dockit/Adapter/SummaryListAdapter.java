@@ -39,6 +39,7 @@ public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.
         }
     }
 
+    //List<SummaryItemView> menuItems;
     List<SummaryItemView> menuItems;
     LayoutInflater inflater;
 
