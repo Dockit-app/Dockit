@@ -15,7 +15,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center_vertical"
-            android:background="@drawable/menu_section_border" >
+            android:background="@drawable/menu_section_border"
+            android:paddingBottom="5dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -29,9 +30,12 @@
 
             <RadioGroup
                 android:id="@+id/options"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" >
+                android:layout_gravity="center_vertical|fill_horizontal"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layoutDirection="rtl">
 
 
             </RadioGroup>

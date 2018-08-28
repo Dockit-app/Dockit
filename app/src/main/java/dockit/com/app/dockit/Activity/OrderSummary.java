@@ -8,6 +8,9 @@ import android.support.v7.widget.RecyclerView;
 
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import java.util.List;
 
@@ -42,8 +45,9 @@ public class OrderSummary extends AppCompatActivity {
         orderId = orderResult.getId();
         setOrderSummaryViewModel(orderResult);
         tableName = orderSummaryViewModel.GetTable(orderResult);
-        covers = orderSummaryViewModel.GetCovers(orderResult) + "\nCovers";
+        covers = orderSummaryViewModel.GetCovers(orderResult);
 
+        String time = orderResult.getTimeStamp();
 
         TextView tableText = findViewById(R.id.table_text);
         tableText.setText(tableName);
@@ -56,7 +60,7 @@ public class OrderSummary extends AppCompatActivity {
         coversText.setText(covers);
 
         TextView timeText = findViewById(R.id.time_text);
-        timeText.setText(orderResult.getTimeStamp());
+        timeText.setText(getTimefromTimestamp(time));
 
         SetSummaryRecyclerView(orderResult);
 
@@ -76,6 +80,17 @@ public class OrderSummary extends AppCompatActivity {
         //orderSummaryViewModel.ValidOrder(groupMenu); REMOVE THIS LINE WHEN IMPLEMENTING VALIDATION
         summaryListAdapter = new SummaryListAdapter(this, groupMenu);
         recyclerView.setAdapter(summaryListAdapter);
+    }
+
+    private String getTimefromTimestamp(String timeStamp){
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm");
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(format.parse(timeStamp));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return format.format(c.getTime());
     }
 
 
