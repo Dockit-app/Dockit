@@ -77,7 +77,7 @@ public class OrderSummary extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         List<SummaryItemView> groupMenu = orderSummaryViewModel.GroupMenuItems(orderResult);
-        //orderSummaryViewModel.ValidOrder(groupMenu); REMOVE THIS LINE WHEN IMPLEMENTING VALIDATION
+        groupMenu = orderSummaryViewModel.ValidOrder(groupMenu); //REMOVE THIS LINE WHEN IMPLEMENTING VALIDATION
         summaryListAdapter = new SummaryListAdapter(this, groupMenu);
         recyclerView.setAdapter(summaryListAdapter);
     }

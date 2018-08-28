@@ -6,22 +6,33 @@ import dockit.com.app.dockit.Entity.Decorator.SummaryItemView;
 
 public class ValidateOrder {
 
+    public ValidateOrder() {
 
-    public int ValidateOrder(List<SummaryItemView> menu) {
-        int lowestSection = 100; //temporary value
-        int sectionIndex = 0;
+    }
+
+    public List<SummaryItemView> ValidateOrder(List<SummaryItemView> menu) {
+        //int lowestSection = 100; //temporary value
+        int highestSectionCount = 0;
+        int highestSectionIndex = 0;
         int currentSectionCount = 0;
         int currentSectionIndex = 0;
-        boolean allSectionsEqual = true;
+        //boolean allSectionsEqual = true;
         for (int i = 0; i < menu.size(); i++) {
             SummaryItemView item = menu.get(i);
             if (item.isSection()) {
                 if (i != 0) {
-                    if (currentSectionCount < lowestSection) {
-                        if (currentSectionIndex != 0) { allSectionsEqual = false; }
-                        lowestSection = currentSectionCount;
-                        sectionIndex = currentSectionIndex;
+                    if (currentSectionIndex == 0) {
+                        highestSectionCount = currentSectionCount;
                     }
+                    else if (currentSectionCount < highestSectionCount) {
+                        menu.get(currentSectionIndex).setHighlighting(true);
+                    }
+                    else if (currentSectionCount > highestSectionCount) {
+                        menu.get(highestSectionIndex).setHighlighting(true);
+                        highestSectionCount = currentSectionCount;
+                        highestSectionIndex = currentSectionIndex;
+                    }
+
                     currentSectionCount = 0;
                     currentSectionIndex = i;
                 }
@@ -31,12 +42,19 @@ public class ValidateOrder {
                 currentSectionCount += item.getCount();
             }
         }
-        if (allSectionsEqual) {
-            return -1;
+        //Done one more time at conclusion of loop to ensure the last section heading is highlighted if needed
+        if (currentSectionIndex == 0) {
+            highestSectionCount = currentSectionCount;
         }
-        else {
-            return sectionIndex;
+        else if (currentSectionCount < highestSectionCount) {
+            menu.get(currentSectionIndex).setHighlighting(true);
         }
+        else if (currentSectionCount > highestSectionCount) {
+            menu.get(highestSectionIndex).setHighlighting(true);
+            highestSectionCount = currentSectionCount;
+            highestSectionIndex = currentSectionIndex;
+        }
+        return menu;
     }
 
     //take in group menu

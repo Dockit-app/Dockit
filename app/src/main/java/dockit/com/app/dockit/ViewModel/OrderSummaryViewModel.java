@@ -36,6 +36,8 @@ public class OrderSummaryViewModel extends AndroidViewModel {
         this.orderRepository = new OrderRepository(application);
 
         liveOrderResults = orderRepository.getLiveAll();
+
+        validateOrder = new ValidateOrder();
     }
 
 
@@ -128,14 +130,15 @@ public class OrderSummaryViewModel extends AndroidViewModel {
         return groupMenu;
     }
 
-    public void ValidOrder (List<SummaryItemView> menu) {
-        int index = validateOrder.ValidateOrder(menu);
-        if (index == -1) {
+    public List<SummaryItemView> ValidOrder (List<SummaryItemView> menu) {
+        menu = validateOrder.ValidateOrder(menu);
+        //if (index == -1) {
 
-        }
-        else {
-            menu.get(index).setHighlighting(true);
-        }
+        //}
+        //else {
+          //  menu.get(index).setHighlighting(true);
+        //}
+        return menu;
     }
 
     //Searches the Summary List for an item, and if found returns the index, if not found returns -1
