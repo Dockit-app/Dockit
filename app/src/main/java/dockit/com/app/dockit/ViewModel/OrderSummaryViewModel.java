@@ -8,10 +8,11 @@ import android.support.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import dockit.com.app.dockit.Entity.Decorator.MandatoryItemView;
+import dockit.com.app.dockit.Entity.Decorator.OptionsItemView;
 import dockit.com.app.dockit.Entity.Decorator.SummaryItemView;
+import dockit.com.app.dockit.Entity.IngredientItem;
 import dockit.com.app.dockit.Entity.MandatoryItem;
-import dockit.com.app.dockit.Entity.MenuItem;
+import dockit.com.app.dockit.Entity.OptionalItem;
 import dockit.com.app.dockit.Entity.Result.MenuItemResult;
 import dockit.com.app.dockit.Entity.Result.MenuResult;
 import dockit.com.app.dockit.Entity.Result.MenuSectionResult;
@@ -109,15 +110,17 @@ public class OrderSummaryViewModel extends AndroidViewModel {
                             if (index == -1) {
                                 sectionIndex = SummarySearch(groupMenu, sectionView);
                                 groupMenu.add(sectionIndex + 1, summaryItemView);
-                                setMandatoryItemView(summaryItemView, menuItems.get(l));
                             }
                             //if it does, use index to retrieve item and double its count
                             else {
+                                summaryItemView = groupMenu.get(index);
                                 groupMenu.get(index).incrementCount();
-                                setMandatoryItemView(groupMenu.get(index), menuItems.get(l));
+
                             }
                         }
-
+                        setMandatoryItemView(summaryItemView, menuItems.get(l));
+                        setOptionalItemView(summaryItemView, menuItems.get(l));
+                        setIngredientItemView(summaryItemView, menuItems.get(l));
 
                     }
                 }
@@ -152,21 +155,75 @@ public class OrderSummaryViewModel extends AndroidViewModel {
 
         for(MandatoryItem mandatoryItem : menuItemResult.mandatoryItems) {
             if(mandatoryItem.isSelected()) {
-                MandatoryItemView mandatoryItemView = new MandatoryItemView();
-                mandatoryItemView.setName(mandatoryItem.getName());
-                mandatoryItemView.setCount(mandatoryItemView.getCount() + 1);
+                OptionsItemView optionsItemView = new OptionsItemView();
+                optionsItemView.setName(mandatoryItem.getName());
+                optionsItemView.setCount(optionsItemView.getCount() + 1);
 
-                if(summaryItemView.mandatoryItemViewList.size() == 0) {
-                    summaryItemView.mandatoryItemViewList.add(mandatoryItemView);
+                if(summaryItemView.optionsItemViewList.size() == 0) {
+                    summaryItemView.optionsItemViewList.add(optionsItemView);
                 }
                 else {
-                    for (int idx = 0; idx < summaryItemView.mandatoryItemViewList.size(); idx ++) {
-                        MandatoryItemView mandatoryItemViewExisting = summaryItemView.mandatoryItemViewList.get(idx);
-                        if (mandatoryItemViewExisting.getName().equals(mandatoryItemView.getName())) {
-                            mandatoryItemViewExisting.setCount(mandatoryItemViewExisting.getCount() + 1);
+                    for (int idx = 0; idx < summaryItemView.optionsItemViewList.size(); idx ++) {
+                        OptionsItemView optionsItemViewExisting = summaryItemView.optionsItemViewList.get(idx);
+                        if (optionsItemViewExisting.getName().equals(optionsItemView.getName())) {
+                            optionsItemViewExisting.setCount(optionsItemViewExisting.getCount() + 1);
                             break;
                         } else {
-                            summaryItemView.mandatoryItemViewList.add(mandatoryItemView);
+                            summaryItemView.optionsItemViewList.add(optionsItemView);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void setOptionalItemView(SummaryItemView summaryItemView, MenuItemResult menuItemResult) {
+
+        for(OptionalItem optionalItem : menuItemResult.optionalItems) {
+            if(optionalItem.isSelected()) {
+                OptionsItemView optionsItemView = new OptionsItemView();
+                optionsItemView.setName(optionalItem.getName());
+                optionsItemView.setCount(optionsItemView.getCount() + 1);
+
+                if(summaryItemView.optionsItemViewList.size() == 0) {
+                    summaryItemView.optionsItemViewList.add(optionsItemView);
+                }
+                else {
+                    for (int idx = 0; idx < summaryItemView.optionsItemViewList.size(); idx ++) {
+                        OptionsItemView optionsItemViewExisting = summaryItemView.optionsItemViewList.get(idx);
+                        if (optionsItemViewExisting.getName().equals(optionsItemView.getName())) {
+                            optionsItemViewExisting.setCount(optionsItemViewExisting.getCount() + 1);
+                            break;
+                        } else {
+                            summaryItemView.optionsItemViewList.add(optionsItemView);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void setIngredientItemView(SummaryItemView summaryItemView, MenuItemResult menuItemResult) {
+
+        for(IngredientItem ingredientItem : menuItemResult.ingredientItems) {
+            if(!ingredientItem.isSelected()) {
+                OptionsItemView optionsItemView = new OptionsItemView();
+                optionsItemView.setName("No "+ingredientItem.getName());
+                optionsItemView.setCount(optionsItemView.getCount() + 1);
+
+                if(summaryItemView.optionsItemViewList.size() == 0) {
+                    summaryItemView.optionsItemViewList.add(optionsItemView);
+                }
+                else {
+                    for (int idx = 0; idx < summaryItemView.optionsItemViewList.size(); idx ++) {
+                        OptionsItemView optionsItemViewExisting = summaryItemView.optionsItemViewList.get(idx);
+                        if (optionsItemViewExisting.getName().equals(optionsItemView.getName())) {
+                            optionsItemViewExisting.setCount(optionsItemViewExisting.getCount() + 1);
+                            break;
+                        } else {
+                            summaryItemView.optionsItemViewList.add(optionsItemView);
                             break;
                         }
                     }

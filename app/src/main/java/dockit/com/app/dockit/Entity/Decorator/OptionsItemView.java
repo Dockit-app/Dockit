@@ -4,7 +4,7 @@ package dockit.com.app.dockit.Entity.Decorator;
  * Created by michael on 27/08/18.
  */
 
-public class MandatoryItemView {
+public class OptionsItemView {
 
     private String name;
     private int count;

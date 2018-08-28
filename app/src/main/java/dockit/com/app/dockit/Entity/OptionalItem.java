@@ -16,6 +16,7 @@ public class OptionalItem implements Serializable {
     private int id;
     private Integer menuItemId;
     private String name;
+    private boolean isSelected;
 
     public int getId() {
         return id;
@@ -41,4 +42,11 @@ public class OptionalItem implements Serializable {
         this.menuItemId = menuItemId;
     }
 
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 }

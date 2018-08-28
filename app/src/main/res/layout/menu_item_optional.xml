@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        card_view:cardCornerRadius="6dp"
-        card_view:cardElevation="10dp">
+<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    card_view:cardCornerRadius="6dp"
+    card_view:cardElevation="10dp">
 
         <ScrollView
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,38 +31,45 @@
                     android:background="#000000"
                     android:textSize="35sp"/>
 
-                <Switch
-                    android:layout_width="match_parent"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/ingredient_item_list"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Foie Gras"
-                    android:textAlignment="center"
-                    android:checked="true"
-                    android:textSize="32sp"
-                    android:theme="@style/SwitchMenuOptionalTheme"
-                    android:layout_margin="5dp"
-                    android:switchMinWidth="56dp"/>
+                    tools:listItem="@layout/optional_switch">
+                </android.support.v7.widget.RecyclerView>
 
-                <Switch
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Walnuts"
-                    android:textAlignment="center"
-                    android:checked="true"
-                    android:textSize="32sp"
-                    android:theme="@style/SwitchMenuOptionalTheme"
-                    android:layout_margin="5dp"
-                    android:switchMinWidth="56dp"/>
+                <!--<Switch-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Foie Gras"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:checked="true"-->
+                    <!--android:textSize="32sp"-->
+                    <!--android:theme="@style/SwitchMenuOptionalTheme"-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:switchMinWidth="56dp"/>-->
 
-                <Switch
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Pickled Cucumber"
-                    android:textAlignment="center"
-                    android:checked="true"
-                    android:textSize="32sp"
-                    android:theme="@style/SwitchMenuOptionalTheme"
-                    android:layout_margin="5dp"
-                    android:switchMinWidth="56dp"/>
+                <!--<Switch-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Walnuts"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:checked="true"-->
+                    <!--android:textSize="32sp"-->
+                    <!--android:theme="@style/SwitchMenuOptionalTheme"-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:switchMinWidth="56dp"/>-->
+
+                <!--<Switch-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Pickled Cucumber"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:checked="true"-->
+                    <!--android:textSize="32sp"-->
+                    <!--android:theme="@style/SwitchMenuOptionalTheme"-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:switchMinWidth="56dp"/>-->
 
                 <TextView
                     android:layout_width="match_parent"
@@ -74,60 +81,67 @@
                     android:background="#000000"
                     android:textSize="35sp" />
 
-                <Switch
-                    android:layout_width="match_parent"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/optional_item_list"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sauce On Side"
-                    android:textAlignment="center"
-                    android:checked="false"
-                    android:textSize="32sp"
-                    android:theme="@style/SwitchMenuOptionalTheme"
-                    android:layout_margin="5dp"
-                    android:switchMinWidth="56dp"/>
+                    tools:listItem="@layout/optional_switch">
+                </android.support.v7.widget.RecyclerView>
 
-                <Switch
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Gluten"
-                    android:textAlignment="center"
-                    android:checked="false"
-                    android:textSize="32sp"
-                    android:theme="@style/SwitchMenuOptionalTheme"
-                    android:layout_margin="5dp"
-                    android:switchMinWidth="56dp"/>
+                <!--<Switch-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Sauce On Side"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:checked="false"-->
+                    <!--android:textSize="32sp"-->
+                    <!--android:theme="@style/SwitchMenuOptionalTheme"-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:switchMinWidth="56dp"/>-->
 
-                <Switch
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Vegan"
-                    android:textAlignment="center"
-                    android:checked="false"
-                    android:textSize="32sp"
-                    android:theme="@style/SwitchMenuOptionalTheme"
-                    android:layout_margin="5dp"
-                    android:switchMinWidth="56dp"/>
+                <!--<Switch-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Gluten"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:checked="false"-->
+                    <!--android:textSize="32sp"-->
+                    <!--android:theme="@style/SwitchMenuOptionalTheme"-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:switchMinWidth="56dp"/>-->
 
-                <Switch
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Vegetarian"
-                    android:textAlignment="center"
-                    android:checked="false"
-                    android:textSize="32sp"
-                    android:theme="@style/SwitchMenuOptionalTheme"
-                    android:layout_margin="5dp"
-                    android:switchMinWidth="56dp"/>
+                <!--<Switch-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Vegan"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:checked="false"-->
+                    <!--android:textSize="32sp"-->
+                    <!--android:theme="@style/SwitchMenuOptionalTheme"-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:switchMinWidth="56dp"/>-->
 
-                <Switch
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Coeliac"
-                    android:textAlignment="center"
-                    android:checked="false"
-                    android:textSize="32sp"
-                    android:theme="@style/SwitchMenuOptionalTheme"
-                    android:layout_margin="5dp"
-                    android:switchMinWidth="56dp"/>
+                <!--<Switch-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Vegetarian"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:checked="false"-->
+                    <!--android:textSize="32sp"-->
+                    <!--android:theme="@style/SwitchMenuOptionalTheme"-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:switchMinWidth="56dp"/>-->
+
+                <!--<Switch-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Coeliac"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:checked="false"-->
+                    <!--android:textSize="32sp"-->
+                    <!--android:theme="@style/SwitchMenuOptionalTheme"-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:switchMinWidth="56dp"/>-->
 
             </LinearLayout>
         </ScrollView>

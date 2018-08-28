@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public interface IngredientItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(IngredientItem ingredientItem);
 
-    @Query("Select * from ingredient_item where menuItemId = :menuItemId")
-    List<IngredientItem> getByMenuItemId(int menuItemId);
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    void update(IngredientItem ingredientItem);
+
 }

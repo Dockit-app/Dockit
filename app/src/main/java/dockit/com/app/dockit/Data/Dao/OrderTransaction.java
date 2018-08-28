@@ -155,6 +155,7 @@ public abstract class OrderTransaction {
                 IngredientItem ingredientItem = new IngredientItem();
                 ingredientItem.setName(ingredientItemTemplate.getName());
                 ingredientItem.setMenuItemId(id);
+                ingredientItem.setSelected(true);
 
                 ingredientItems.add(ingredientItem);
             }
