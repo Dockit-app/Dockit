@@ -8,6 +8,7 @@ import android.arch.lifecycle.MutableLiveData;
 import java.util.List;
 
 import dockit.com.app.dockit.Entity.Order;
+import dockit.com.app.dockit.Entity.Result.OrderResult;
 import dockit.com.app.dockit.Repository.TableRepository;
 
 public class TableSelectionViewModel extends AndroidViewModel {
@@ -28,6 +29,10 @@ public class TableSelectionViewModel extends AndroidViewModel {
 
     public LiveData<List<Order>> createNewTable(String table){
         return tableRepository.getTablesWithInputNumber(table);
+    }
+
+    public LiveData<List<OrderResult>> getOrderSelected(String table){
+        return tableRepository.getOrder(table);
     }
 
 

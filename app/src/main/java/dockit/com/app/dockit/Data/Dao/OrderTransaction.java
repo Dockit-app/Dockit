@@ -134,6 +134,9 @@ public abstract class OrderTransaction {
                 MandatoryItem mandatoryItem = new MandatoryItem();
                 mandatoryItem.setName(mandatoryItemTemplate.getName());
                 mandatoryItem.setMenuItemId(id);
+                if(mandatoryItem.getName().equals("Well Done")) {
+                    mandatoryItem.setSelected(true);
+                }
 
                 mandatoryItems.add(mandatoryItem);
 

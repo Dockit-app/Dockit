@@ -37,6 +37,7 @@
                     android:id="@+id/ingredient_item_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     tools:listItem="@layout/optional_switch">
                 </android.support.v7.widget.RecyclerView>
 
@@ -54,6 +55,7 @@
                     android:id="@+id/optional_item_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     tools:listItem="@layout/optional_switch">
                 </android.support.v7.widget.RecyclerView>
 

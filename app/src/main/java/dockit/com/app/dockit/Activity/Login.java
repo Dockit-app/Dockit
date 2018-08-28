@@ -87,6 +87,7 @@ public class Login extends AppCompatActivity {
                 //Send to the next Activity
                 Intent i = new Intent(this, TableSelection.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                //i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 this.startActivity(i);
             }
         });

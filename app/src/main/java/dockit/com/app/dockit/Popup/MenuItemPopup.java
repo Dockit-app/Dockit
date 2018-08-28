@@ -8,6 +8,8 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -29,23 +31,16 @@ import dockit.com.app.dockit.ViewModel.MenuItemViewModel;
 
 public class MenuItemPopup {
 
-    public static void openMandatoryPopup(Context context, View parentView, MenuItemResult menuItemResult, MenuItemViewModel menuItemViewModel) {
+    public static void openMandatoryPopup(Context context,View parentView, MenuItemResult menuItemResult, MenuItemViewModel menuItemViewModel) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
-
         int menuResourceId = R.layout.menu_item_mandatory;
-
         View menuOptions = inflater.inflate(menuResourceId, null, false);
-
-        RadioGroup radioGroup = menuOptions.findViewById(R.id.options);
-
-        setRadioButtonListener(radioGroup, menuItemResult, menuItemViewModel, inflater);
-
         Display display = parentView.getDisplay();
         Point size = new Point();
         display.getSize(size);
 
-        PopupWindow popupWindow = new PopupWindow(menuOptions, size.x / 2, size.y / 5, true);
+        final PopupWindow popupWindow = new PopupWindow(menuOptions, size.x / 2, size.y / 5, true);
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.showAtLocation(parentView, Gravity.CENTER, 0,0);
@@ -53,18 +48,26 @@ public class MenuItemPopup {
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                ((View)parentView).setAlpha(1f);
+                ((View) parentView).setAlpha(1f);
             }
         });
+
+
+        RadioGroup radioGroup = menuOptions.findViewById(R.id.options);
+
+        setRadioButtonListener(radioGroup, menuItemResult, menuItemViewModel, inflater, popupWindow, parentView);
+
 
         ((View)parentView).setAlpha(0.3f);
     }
 
-    private static void setRadioButtonListener(RadioGroup radioGroup, MenuItemResult menuItemResult, MenuItemViewModel menuItemViewModel, LayoutInflater inflater) {
+    private static void setRadioButtonListener(RadioGroup radioGroup, MenuItemResult menuItemResult, MenuItemViewModel menuItemViewModel, LayoutInflater inflater, final PopupWindow popupWindow, final View parentView) {
         for(MandatoryItem mandatoryItem : menuItemResult.mandatoryItems) {
-            RadioButton radioButton = (RadioButton)inflater.inflate(R.layout.radio_button, null, false);
+            RadioButton radioButton = (RadioButton)inflater.inflate(R.layout.radio_button, null);
+            radioButton.setGravity(Gravity.CENTER);
             radioButton.setText(mandatoryItem.getName());
             radioButton.setId(mandatoryItem.getId());
+            radioButton.setChecked(mandatoryItem.isSelected());
             radioGroup.addView(radioButton);
         }
 
@@ -73,7 +76,9 @@ public class MenuItemPopup {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
+
                 for(MandatoryItem mandatoryItem : menuItemResult.mandatoryItems) {
+
                     if(checkedId == mandatoryItem.getId()) {
                         mandatoryItem.setSelected(true);
                     }
@@ -107,6 +112,7 @@ public class MenuItemPopup {
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
+
                 ((View)parentView).setAlpha(1f);
             }
         });

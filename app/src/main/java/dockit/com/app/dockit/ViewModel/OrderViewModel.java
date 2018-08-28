@@ -104,6 +104,9 @@ public class OrderViewModel extends AndroidViewModel {
     public LiveData<OrderLocationResult> getOrderLocationById(int id) {
         return orderLocationRepository.getLiveById(id);
     }
+    public LiveData<OrderLocation> getOrderLocation(int id) {
+        return orderLocationRepository.getOrderLocation(id);
+    }
 
     public LiveData<OrderLocation> getLiveSelectedOrderLocation() {
         return liveSelectedOrderLocation;

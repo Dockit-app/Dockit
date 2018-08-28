@@ -49,11 +49,10 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
         setContentView(R.layout.activity_ordering);
         Intent intent = getIntent();
         tableName = intent.getStringExtra("table");
-
-        //TODO: Receive order id for existing
+        OrderResult existingOrder = null;
+        existingOrder = (OrderResult) getIntent().getSerializableExtra("Order");
 
         TextView textView = findViewById(R.id.table_text);
-        textView.setText(tableName);
 
         orderLocationListAdapter = new OrderLocationListAdapter(this);
 
@@ -62,9 +61,21 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
         orderLocationClickBuilder = new OrderLocationClickBuilder(orderViewModel, orderLocationListAdapter);
         setOrderLocationRecycler();
 
-        createNewOrder();
+        if(tableName != null) {
+            textView.setText(tableName);
+            createNewOrder();
+            Log.d("order", "Created table " + tableName);
+        } else {
+            Log.d("order", "ID: " + existingOrder.getId() + " Table: " + existingOrder.getOrderTable());
+            textView.setText(existingOrder.getOrderTable());
+            //will retrieve order location
+            getOrderLocation(existingOrder.getId());
+        }
+
 
         setOrderFinishButton();
+
+
 
     }
 
@@ -127,6 +138,7 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
             @Override
             public void onChanged(@Nullable List<OrderResult> orderResults) {
                 orderViewModel.setLiveOrderResult(orderResults.get(0));
+                orderViewModel.getLiveOrderById(orderId).removeObserver(this);
             }
         });
     }
@@ -250,6 +262,18 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
                     }
 
                 }
+            }
+        });
+    }
+
+    public void getOrderLocation(int id){
+        orderViewModel.getOrderLocation(id).observe(this, new Observer<OrderLocation>() {
+            @Override
+            public void onChanged(@Nullable OrderLocation result) {
+                if (result != null){
+                    onResult(result);
+                }
+                orderViewModel.getOrderLocation(id).removeObserver(this);
             }
         });
     }

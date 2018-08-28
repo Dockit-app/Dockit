@@ -34,6 +34,10 @@ public class OrderLocationRepository {
         return orderLocationDao.getById(id);
     }
 
+    public LiveData<OrderLocation> getOrderLocation(int id) {
+        return orderLocationDao.getOrderLocationById(id);
+    }
+
 
     public void update(OrderLocation orderLocation) {
 
