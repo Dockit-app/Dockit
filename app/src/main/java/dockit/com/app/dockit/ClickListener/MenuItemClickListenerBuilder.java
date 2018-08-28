@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import dockit.com.app.dockit.Adapter.MenuItemListAdapter;
+import dockit.com.app.dockit.Entity.Decorator.MenuItemView;
 import dockit.com.app.dockit.Entity.MenuItem;
 import dockit.com.app.dockit.Entity.Result.MenuItemResult;
 import dockit.com.app.dockit.Popup.MenuItemPopup;
@@ -31,26 +32,29 @@ public class MenuItemClickListenerBuilder {
             public void onItemClick(View view, int position) {
 
                 MenuItemResult menuItemResult = menuItemListAdapter.getItemAtPosition(position);
-                boolean isMandatoryOptionItem = menuItemResult.mandatoryItems.size() > 0;
 
-                if(menuItemResult.isSelected()) {
-                    menuItemResult.setSelected(false);
-                }
-                else if(isMandatoryOptionItem) {
-                    MenuItemPopup.openMandatoryPopup(view.getContext(), recyclerView, menuItemResult, menuItemViewModel);
-                    menuItemResult.setSelected(true);
-                }
-                else {
-                    menuItemResult.setSelected(true);
-                }
+                if(!((MenuItemView)menuItemResult).isSection()) {
+                    boolean isMandatoryOptionItem = menuItemResult.mandatoryItems.size() > 0;
 
-                menuItemViewModel.updateMandatory(new MenuItem(menuItemResult));
+                    if (menuItemResult.isSelected()) {
+                        menuItemResult.setSelected(false);
+                    } else if (isMandatoryOptionItem) {
+                        MenuItemPopup.openMandatoryPopup(view.getContext(), recyclerView, menuItemResult, menuItemViewModel);
+                        menuItemResult.setSelected(true);
+                    } else {
+                        menuItemResult.setSelected(true);
+                    }
+
+                    menuItemViewModel.updateMandatory(new MenuItem(menuItemResult));
+                }
             }
 
             @Override
             public void onDoubleClick(View view, int position) {
                 MenuItemResult menuItemResult = menuItemListAdapter.getItemAtPosition(position);
-                MenuItemPopup.openOptionalPopup(view.getContext(), recyclerView, menuItemResult, menuItemViewModel);
+                if(!((MenuItemView)menuItemResult).isSection()) {
+                    MenuItemPopup.openOptionalPopup(view.getContext(), recyclerView, menuItemResult, menuItemViewModel);
+                }
             }
 
             @Override
