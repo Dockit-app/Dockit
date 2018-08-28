@@ -218,15 +218,13 @@ public class OrderSummaryViewModel extends AndroidViewModel {
                 isOptionalItems = true;
                 String appendedName = optionsItemView.getName() + " No " + ingredientItem.getName();
                 optionsItemView.setName(appendedName);
-
-
             }
         }
 
         if(isOptionalItems) {
             optionsItemView.setCount(optionsItemView.getCount() + 1);
+            groupOptionsItemView(summaryItemView, optionsItemView);
         }
-        groupOptionsItemView(summaryItemView, optionsItemView);
 
     }
 
@@ -235,15 +233,18 @@ public class OrderSummaryViewModel extends AndroidViewModel {
             summaryItemView.optionsItemViewList.add(optionsItemView);
         }
         else {
+            boolean isExisting = false;
             for (int idx = 0; idx < summaryItemView.optionsItemViewList.size(); idx ++) {
                 OptionsItemView optionsItemViewExisting = summaryItemView.optionsItemViewList.get(idx);
                 if (optionsItemViewExisting.getName().equals(optionsItemView.getName())) {
                     optionsItemViewExisting.setCount(optionsItemViewExisting.getCount() + 1);
-                    break;
-                } else {
-                    summaryItemView.optionsItemViewList.add(optionsItemView);
+                    isExisting = true;
                     break;
                 }
+            }
+
+            if(!isExisting) {
+                summaryItemView.optionsItemViewList.add(optionsItemView);
             }
         }
     }

@@ -3,7 +3,6 @@
     android:id="@+id/pop_radio_button"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
     android:buttonTint="#000000"
-    android:textAlignment="gravity"
+    android:textAlignment="textStart"
     android:textSize="32sp" />
