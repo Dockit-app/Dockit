@@ -15,6 +15,7 @@ public class IngredientItem implements Serializable {
     private int id;
     private int menuItemId;
     private String name;
+    private boolean selected;
 
     public int getId() {
         return id;
@@ -41,4 +42,11 @@ public class IngredientItem implements Serializable {
     }
 
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 }

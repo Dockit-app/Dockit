@@ -159,9 +159,9 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
 
                 if(orderLocationListAdapter.setOrderLocationResults(orderLocations)) {
 
-                    Log.i(this.getClass().getSimpleName(), "Begin update menu pager");
+                    Log.i(this.getClass().getSimpleName(), "Begin updateMandatory menu pager");
                     updateMenuPager(orderLocationListAdapter.getSelectedOrderLocationId());
-                    Log.i(this.getClass().getSimpleName(), "End update menu pager");
+                    Log.i(this.getClass().getSimpleName(), "End updateMandatory menu pager");
                 }
             }
         });

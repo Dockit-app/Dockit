@@ -72,12 +72,13 @@ public class MenuItemCounterClickListenerBuilder {
                     }
                 }
 
-                menuItemViewModel.update(new MenuItem((menuItem)));
+                menuItemViewModel.updateMandatory(new MenuItem((menuItem)));
             }
 
             @Override
             public void onDoubleClick(View view, int position) {
-                MenuItemPopup.openOptionalPopup(view.getContext(), recyclerView);
+                MenuItemResult menuItem = menuItemListAdapter.getItemAtPosition(position);
+                MenuItemPopup.openOptionalPopup(view.getContext(), recyclerView, menuItem, menuItemViewModel);
             }
 
             @Override

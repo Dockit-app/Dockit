@@ -3,7 +3,6 @@ package dockit.com.app.dockit.Entity.Decorator;
 import java.util.ArrayList;
 import java.util.List;
 
-import dockit.com.app.dockit.Entity.MenuItem;
 import dockit.com.app.dockit.Entity.Result.MenuItemResult;
 import dockit.com.app.dockit.Entity.Result.MenuSectionResult;
 
@@ -14,7 +13,7 @@ public class SummaryItemView extends MenuItemResult {
     private boolean isSection = false;
     private boolean isHighlighted = false;
 
-    public List<MandatoryItemView> mandatoryItemViewList = new ArrayList<>();
+    public List<OptionsItemView> optionsItemViewList = new ArrayList<>();
 
     public SummaryItemView(MenuItemResult menuItem) {
         this.setId(menuItem.getId());

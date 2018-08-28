@@ -11,12 +11,9 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
-import dockit.com.app.dockit.Entity.Decorator.MandatoryItemView;
-import dockit.com.app.dockit.Entity.Decorator.MenuItemView;
+import dockit.com.app.dockit.Entity.Decorator.OptionsItemView;
 import dockit.com.app.dockit.Entity.Decorator.SummaryItemView;
 import dockit.com.app.dockit.R;
 
@@ -67,7 +64,7 @@ public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.
             holder.menuSection.setVisibility(View.VISIBLE);
             holder.name.setText(menuItem.getDescription());
             if(menuItem.isHighlighted()) {
-                holder.menuItemBackground.setBackgroundColor(Color.RED);
+                holder.menuSection.setBackgroundColor(Color.RED);
             }
         }
         else {
@@ -76,8 +73,8 @@ public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.
             holder.description.setText(Integer.toString(menuItem.getCount()) + " x " + menuItem.getDescription());
 
             String options = "";
-            for(MandatoryItemView mandatoryItemView : menuItem.mandatoryItemViewList) {
-                options = options.concat(Integer.toString(mandatoryItemView.getCount()) + " x " + mandatoryItemView.getName() + "  ");
+            for(OptionsItemView optionsItemView : menuItem.optionsItemViewList) {
+                options = options.concat(Integer.toString(optionsItemView.getCount()) + " x " + optionsItemView.getName() + "  ");
             }
 
             holder.options.setText(options);

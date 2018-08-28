@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,6 +64,7 @@ public class TableSelection extends AppCompatActivity {
 
             final EditText tableNumberEditText = new EditText(this);
             tableNumberEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+
             AlertDialog dialog = new AlertDialog.Builder(this)
                     .setTitle("Table number:")
                     .setView(tableNumberEditText)
@@ -69,11 +72,34 @@ public class TableSelection extends AppCompatActivity {
                         //Get user input and send value to createTableNumber
                         String numberTable = String.valueOf(tableNumberEditText.getText().toString());
 
-                        setTableValidationObserver(numberTable);
+                        if(numberTable.contentEquals("")) {
+                            dialog1.dismiss();
+                        }
+                        else {
+                            setTableValidationObserver(numberTable);
+                        }
                     })
                     .setNegativeButton("Cancel", null)
                     .create();
             dialog.show();
+
+            tableNumberEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+                    if((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+
+                        String numberTable = String.valueOf(tableNumberEditText.getText().toString());
+
+                        if(!numberTable.contentEquals("")) {
+                            setTableValidationObserver(numberTable);
+                        }
+
+                        dialog.dismiss();
+
+                    }
+                    return true;
+                }
+            });
 
         });
 

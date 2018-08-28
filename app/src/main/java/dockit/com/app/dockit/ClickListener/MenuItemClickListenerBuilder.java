@@ -44,12 +44,13 @@ public class MenuItemClickListenerBuilder {
                     menuItemResult.setSelected(true);
                 }
 
-                menuItemViewModel.update(new MenuItem(menuItemResult));
+                menuItemViewModel.updateMandatory(new MenuItem(menuItemResult));
             }
 
             @Override
             public void onDoubleClick(View view, int position) {
-                MenuItemPopup.openOptionalPopup(view.getContext(), recyclerView);
+                MenuItemResult menuItemResult = menuItemListAdapter.getItemAtPosition(position);
+                MenuItemPopup.openOptionalPopup(view.getContext(), recyclerView, menuItemResult, menuItemViewModel);
             }
 
             @Override
