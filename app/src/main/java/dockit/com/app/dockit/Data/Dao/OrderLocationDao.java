@@ -28,6 +28,9 @@ public interface OrderLocationDao {
     @Query("Select * From order_location Where id = :id")
     LiveData<OrderLocationResult> getById(int id);
 
+    @Query("Select * From order_location Where id = :id")
+    LiveData<OrderLocation> getOrderLocationById(int id);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<OrderLocation> orderLocations);
 

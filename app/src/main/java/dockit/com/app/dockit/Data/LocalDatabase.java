@@ -64,7 +64,6 @@ public abstract class LocalDatabase extends RoomDatabase {
                             .addCallback(insertTemplatesCallback)
                             .addCallback(insertOrderLocationAmount)
                             .addCallback(insertUserCallback)
-                            .addCallback(insertOrderCallback)
                             .build();
         }
         return instance;
@@ -125,16 +124,6 @@ public abstract class LocalDatabase extends RoomDatabase {
                 public void onOpen (@NonNull SupportSQLiteDatabase db){
                     super.onOpen(db);
                     new InsertUserAsync(instance).execute();
-                }
-            };
-    //following code populate the order table for testing
-    private static LocalDatabase.Callback insertOrderCallback =
-            new LocalDatabase.Callback(){
-
-                @Override
-                public void onOpen (@NonNull SupportSQLiteDatabase db){
-                    super.onOpen(db);
-                    new InsertOrderAsync(instance).execute();
                 }
             };
 }

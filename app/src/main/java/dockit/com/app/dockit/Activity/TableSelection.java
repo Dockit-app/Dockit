@@ -3,6 +3,7 @@ package dockit.com.app.dockit.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,13 +16,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import dockit.com.app.dockit.Entity.Order;
+import dockit.com.app.dockit.Entity.Result.OrderResult;
 import dockit.com.app.dockit.R;
 import dockit.com.app.dockit.Tasks.SharedPreferencesManager;
 import dockit.com.app.dockit.ViewModel.TableSelectionViewModel;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_DOCUMENT;
 
 public class TableSelection extends AppCompatActivity {
     private Button newOrder, existingOrder;
@@ -47,7 +52,7 @@ public class TableSelection extends AppCompatActivity {
 
         tableSelectionViewModel = ViewModelProviders.of(this).get(TableSelectionViewModel.class);
 
-        setClickListeners();;
+        setClickListeners();
 
     }
 
@@ -93,7 +98,7 @@ public class TableSelection extends AppCompatActivity {
                 .setTitle("Select Table:")
                 .setAdapter(adapter, (dialogInterface, i) -> {
                     String tableSelected = adapter.getItem(i);
-                    createOrderActivity(tableSelected);
+                    getOrderFromTable(tableSelected);
                     Log.i(this.getClass().getSimpleName(), "Create ordering activity from existing");
                 })
                 .create();
@@ -126,20 +131,36 @@ public class TableSelection extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable Boolean isValidated) {
                 if(isValidated) {
-                    createOrderActivity(table);
+                    createOrderActivity(table, null);
                     tableSelectionViewModel.isTableNameValidated.removeObserver(this);
                 }
             }
         });
     }
 
-    public void createOrderActivity(String table) {
+    private void getOrderFromTable(String table){
+        tableSelectionViewModel.getOrderSelected(table).observe(this, new Observer<List<OrderResult>>() {
+            @Override
+            public void onChanged(@Nullable List<OrderResult> orders) {
+                if (orders != null){
+                    for (OrderResult order:orders) {
+                        createOrderActivity(null, order);
+                    }
+                }
+                tableSelectionViewModel.getOrderSelected(table).removeObserver(this);
+            }
+        });
+    }
+
+    public void createOrderActivity(String table, OrderResult orderResult) {
         //the free table is sent to Ordering to create a new order
         Log.i(this.getClass().getSimpleName(), "Create ordering activity from new");
         Toast.makeText(this, "Order for table " + table, Toast.LENGTH_LONG).show();
         Intent i = new Intent(this, Ordering.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setFlags(FLAG_ACTIVITY_NEW_DOCUMENT);
         i.putExtra("table", table);
+        i.putExtra("Order", orderResult);
         startActivity(i);
     }
 
