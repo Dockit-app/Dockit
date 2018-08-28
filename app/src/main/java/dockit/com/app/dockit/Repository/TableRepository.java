@@ -9,6 +9,7 @@ import java.util.List;
 import dockit.com.app.dockit.Data.Dao.OrderDao;
 import dockit.com.app.dockit.Data.LocalDatabase;
 import dockit.com.app.dockit.Entity.Order;
+import dockit.com.app.dockit.Entity.Result.OrderResult;
 
 //Functions that connect to database
 public class TableRepository {
@@ -27,4 +28,6 @@ public class TableRepository {
     public LiveData<List<Order>> getExistingTables() {
         return orderDao.getExistingTables();
     }
+
+    public LiveData<List<OrderResult>> getOrder(String table){ return orderDao.getOrderByTable(table); }
 }
