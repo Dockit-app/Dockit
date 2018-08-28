@@ -1,0 +1,27 @@
+package dockit.com.app.dockit.Entity.Decorator;
+
+/**
+ * Created by michael on 27/08/18.
+ */
+
+public class MandatoryItemView {
+
+    private String name;
+    private int count;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+}

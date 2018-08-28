@@ -6,6 +6,7 @@ import android.view.View;
 
 import dockit.com.app.dockit.Adapter.MenuItemListAdapter;
 import dockit.com.app.dockit.Entity.MenuItem;
+import dockit.com.app.dockit.Entity.Result.MenuItemResult;
 import dockit.com.app.dockit.Popup.MenuItemPopup;
 import dockit.com.app.dockit.R;
 import dockit.com.app.dockit.ViewModel.MenuItemViewModel;
@@ -31,7 +32,7 @@ public class MenuItemCounterClickListenerBuilder {
             @Override
             public void onItemClick(View view, int position) {
 
-                MenuItem menuItem = menuItemListAdapter.getItemAtPosition(position);
+                MenuItemResult menuItem = menuItemListAdapter.getItemAtPosition(position);
                 boolean isMandatoryOptionItem = menuItem.getDescription().equals("Country Style Terrine") ? true : false;
 
                 int counterValue = menuItem.getCounter() == null ? 0 : menuItem.getCounter();
@@ -71,7 +72,7 @@ public class MenuItemCounterClickListenerBuilder {
                     }
                 }
 
-                menuItemViewModel.update(menuItem);
+                menuItemViewModel.update(new MenuItem((menuItem)));
             }
 
             @Override

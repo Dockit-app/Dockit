@@ -3,13 +3,16 @@ package dockit.com.app.dockit.ViewModel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
 import java.util.List;
 
+import dockit.com.app.dockit.Entity.MandatoryItem;
 import dockit.com.app.dockit.Entity.MenuItem;
 import dockit.com.app.dockit.Entity.Order;
 import dockit.com.app.dockit.Repository.MenuItemRepository;
+import dockit.com.app.dockit.Repository.OptionsRepository;
 import dockit.com.app.dockit.Repository.OrderRepository;
 
 /**
@@ -20,12 +23,14 @@ public class MenuItemViewModel extends AndroidViewModel {
 
     private OrderRepository orderRepository;
     private MenuItemRepository menuItemRepository;
+    private OptionsRepository optionsRepository;
 
     public MenuItemViewModel(@NonNull Application application) {
         super(application);
 
         menuItemRepository = new MenuItemRepository(application);
         orderRepository = new OrderRepository(application);
+        optionsRepository = new OptionsRepository(application);
     }
 
     public void update(MenuItem menuItem) {
@@ -38,5 +43,9 @@ public class MenuItemViewModel extends AndroidViewModel {
 
     public LiveData<List<Order>> getLiveOrderByMenuId(int menuId) {
         return orderRepository.getLiveByMenuId(menuId);
+    }
+
+    public void update(List<MandatoryItem>mandatoryItems) {
+        optionsRepository.updateAllMandatory(mandatoryItems);
     }
 }

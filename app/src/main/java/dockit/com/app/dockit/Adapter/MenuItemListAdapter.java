@@ -15,6 +15,7 @@ import java.util.List;
 
 import dockit.com.app.dockit.Entity.Decorator.MenuItemView;
 import dockit.com.app.dockit.Entity.MenuItem;
+import dockit.com.app.dockit.Entity.Result.MenuItemResult;
 import dockit.com.app.dockit.R;
 
 /**
@@ -105,7 +106,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
         return 0;
     }
 
-    public MenuItem getItemAtPosition(int position) {
+    public MenuItemResult getItemAtPosition(int position) {
         return menuItems.get(position);
     }
 }

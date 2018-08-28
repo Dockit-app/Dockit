@@ -1,20 +1,12 @@
 package dockit.com.app.dockit.ClickListener;
 
-import android.content.Context;
-import android.graphics.Point;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.PopupWindow;
 
 import dockit.com.app.dockit.Adapter.MenuItemListAdapter;
 import dockit.com.app.dockit.Entity.MenuItem;
+import dockit.com.app.dockit.Entity.Result.MenuItemResult;
 import dockit.com.app.dockit.Popup.MenuItemPopup;
-import dockit.com.app.dockit.R;
 import dockit.com.app.dockit.ViewModel.MenuItemViewModel;
 
 /**
@@ -38,21 +30,21 @@ public class MenuItemClickListenerBuilder {
             @Override
             public void onItemClick(View view, int position) {
 
-                MenuItem menuItem = menuItemListAdapter.getItemAtPosition(position);
-                boolean isMandatoryOptionItem = menuItem.getDescription().equals("Country Style Terrine") ? true : false;
+                MenuItemResult menuItemResult = menuItemListAdapter.getItemAtPosition(position);
+                boolean isMandatoryOptionItem = menuItemResult.mandatoryItems.size() > 0;
 
-                if(menuItem.isSelected()) {
-                    menuItem.setSelected(false);
+                if(menuItemResult.isSelected()) {
+                    menuItemResult.setSelected(false);
                 }
                 else if(isMandatoryOptionItem) {
-                    MenuItemPopup.openMandatoryPopup(view.getContext(), recyclerView);
-                    menuItem.setSelected(true);
+                    MenuItemPopup.openMandatoryPopup(view.getContext(), recyclerView, menuItemResult, menuItemViewModel);
+                    menuItemResult.setSelected(true);
                 }
                 else {
-                    menuItem.setSelected(true);
+                    menuItemResult.setSelected(true);
                 }
 
-                menuItemViewModel.update(menuItem);
+                menuItemViewModel.update(new MenuItem(menuItemResult));
             }
 
             @Override

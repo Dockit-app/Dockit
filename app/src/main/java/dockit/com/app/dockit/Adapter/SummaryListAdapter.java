@@ -15,6 +15,7 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
+import dockit.com.app.dockit.Entity.Decorator.MandatoryItemView;
 import dockit.com.app.dockit.Entity.Decorator.MenuItemView;
 import dockit.com.app.dockit.Entity.Decorator.SummaryItemView;
 import dockit.com.app.dockit.R;
@@ -27,6 +28,7 @@ public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.
         private CardView menuItem;
         private TextView description;
         private RelativeLayout menuItemBackground;
+        private TextView options;
 
         public SummaryItemViewHolder(View itemView) {
             super(itemView);
@@ -36,10 +38,10 @@ public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.
             this.menuItem = itemView.findViewById(R.id.menu_item);
             this.description = itemView.findViewById(R.id.description);
             this.menuItemBackground = itemView.findViewById(R.id.menu_item_background);
+            this.options = itemView.findViewById(R.id.options);
         }
     }
 
-    //List<SummaryItemView> menuItems;
     List<SummaryItemView> menuItems;
     LayoutInflater inflater;
 
@@ -64,11 +66,21 @@ public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.
             holder.menuItem.setVisibility(View.GONE);
             holder.menuSection.setVisibility(View.VISIBLE);
             holder.name.setText(menuItem.getDescription());
+            if(menuItem.isHighlighted()) {
+                holder.menuItemBackground.setBackgroundColor(Color.RED);
+            }
         }
         else {
             holder.menuSection.setVisibility(View.GONE);
             holder.menuItem.setVisibility(View.VISIBLE);
             holder.description.setText(Integer.toString(menuItem.getCount()) + " x " + menuItem.getDescription());
+
+            String options = "";
+            for(MandatoryItemView mandatoryItemView : menuItem.mandatoryItemViewList) {
+                options = options.concat(Integer.toString(mandatoryItemView.getCount()) + " x " + mandatoryItemView.getName() + "  ");
+            }
+
+            holder.options.setText(options);
 
             if(position % 2 != 0 && !menuItem.isSection()) {
                 holder.menuItemBackground.setBackgroundColor(Color.LTGRAY);
