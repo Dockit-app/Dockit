@@ -9,4 +9,6 @@
     android:textSize="32sp"
     android:theme="@style/SwitchMenuOptionalTheme"
     android:layout_margin="5dp"
-    android:switchMinWidth="56dp"/>
+    android:switchMinWidth="56dp"
+    android:paddingRight="15dp"
+    android:paddingLeft="15dp"/>

@@ -6,7 +6,7 @@ package dockit.com.app.dockit.Entity.Decorator;
 
 public class OptionsItemView {
 
-    private String name;
+    private String name = "";
     private int count;
 
     public String getName() {
