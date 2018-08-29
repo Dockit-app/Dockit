@@ -169,11 +169,23 @@ public class TableSelection extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable List<OrderResult> orders) {
                 if (orders != null){
-                    for (OrderResult order:orders) {
-                        createOrderActivity(null, order);
-                    }
+//                    for (OrderResult order : orders) {
+//                        createOrderActivity(null, orders.get(0));
+//                    }
+                    tableSelectionViewModel.selectedExistingOrder.setValue(orders.get(0));
                 }
                 tableSelectionViewModel.getOrderSelected(table).removeObserver(this);
+            }
+        });
+
+        tableSelectionViewModel.selectedExistingOrder.observe(this, new Observer<OrderResult>() {
+            @Override
+            public void onChanged(@Nullable OrderResult orderResult) {
+                if(orderResult != null) {
+                    createOrderActivity(table, orderResult);
+                    tableSelectionViewModel.selectedExistingOrder.removeObserver(this);
+                }
+                tableSelectionViewModel.selectedExistingOrder.removeObserver(this);
             }
         });
     }
@@ -184,7 +196,7 @@ public class TableSelection extends AppCompatActivity {
         Toast.makeText(this, "Order for table " + table, Toast.LENGTH_LONG).show();
         Intent i = new Intent(this, Ordering.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.setFlags(FLAG_ACTIVITY_NEW_DOCUMENT);
+//        i.setFlags(FLAG_ACTIVITY_NEW_DOCUMENT);
         i.putExtra("table", table);
         i.putExtra("Order", orderResult);
         startActivity(i);

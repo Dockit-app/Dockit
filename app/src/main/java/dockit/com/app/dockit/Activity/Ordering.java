@@ -53,6 +53,7 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
         existingOrder = (OrderResult) getIntent().getSerializableExtra("Order");
 
         TextView textView = findViewById(R.id.table_text);
+        textView.setText(tableName);
 
         orderLocationListAdapter = new OrderLocationListAdapter(this);
 
@@ -61,8 +62,7 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
         orderLocationClickBuilder = new OrderLocationClickBuilder(orderViewModel, orderLocationListAdapter);
         setOrderLocationRecycler();
 
-        if(tableName != null) {
-            textView.setText(tableName);
+        if(existingOrder == null) {
             createNewOrder();
             Log.d("order", "Created table " + tableName);
         } else {
@@ -133,6 +133,20 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
         });
     }
 
+    private void createExistingMenuPageObserver(int orderId) {
+        orderViewModel.getLiveOrderById(orderId).observe(this, new Observer<List<OrderResult>>() {
+            @Override
+            public void onChanged(@Nullable List<OrderResult> orderResults) {
+                if(orderResults.size() > 0) {
+                    OrderResult orderResult = orderResults.get(orderResults.size()-1);
+                    Log.i(this.getClass().getSimpleName(), "Creating menu pager for order "+orderResults.get(orderResults.size()-1).getId());
+                    createMenuPager(orderResult.orderLocationResults.get(orderResult.orderLocationResults.size()-1));
+                    orderViewModel.getLiveOrderResults().removeObserver(this);
+                }
+            }
+        });
+    }
+
     private void createOrderObserver(int orderId) {
         orderViewModel.getLiveOrderById(orderId).observe(this, new Observer<List<OrderResult>>() {
             @Override
@@ -180,6 +194,19 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
         createMenuPageObserver();
         createOrderLocationObserver();
         createOrderObserver(orderId);
+    }
+
+    public void onExistingResult(OrderLocation result) {
+
+        orderId = result.getOrderId();
+        orderLocationClickBuilder.setOrderId(orderId);
+        orderLocationListAdapter.setFirstSelectedOrderLocationId(result.getId());
+
+        createExistingMenuPageObserver(orderId);
+        createOrderLocationObserver();
+        createOrderObserver(orderId);
+
+//        updateMenuPager(result.getLocationNumber());
     }
 
     public void createMenuPager(OrderLocationResult orderLocationResult) {
@@ -271,7 +298,8 @@ public class Ordering extends AppCompatActivity implements ResultHandler<OrderLo
             @Override
             public void onChanged(@Nullable OrderLocation result) {
                 if (result != null){
-                    onResult(result);
+//                    onResult(result);
+                    onExistingResult(result);
                 }
                 orderViewModel.getOrderLocation(id).removeObserver(this);
             }

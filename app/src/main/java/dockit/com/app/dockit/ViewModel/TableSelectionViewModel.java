@@ -15,12 +15,14 @@ public class TableSelectionViewModel extends AndroidViewModel {
 
     private TableRepository tableRepository;
     public MutableLiveData<Boolean> isTableNameValidated;
+    public MutableLiveData<OrderResult> selectedExistingOrder;
 
     public TableSelectionViewModel(Application application) {
         super(application);
         tableRepository = new TableRepository(application);
         isTableNameValidated = new MutableLiveData();
         isTableNameValidated.setValue(false);
+        selectedExistingOrder = new MutableLiveData<>();
     }
 
     public LiveData<List<Order>> getTables(){

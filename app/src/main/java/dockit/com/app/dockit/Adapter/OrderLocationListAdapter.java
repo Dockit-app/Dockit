@@ -149,13 +149,4 @@ public class OrderLocationListAdapter extends RecyclerView.Adapter<OrderLocation
         return selectedOrderLocationId;
     }
 
-
-//    public void notifyCustomChanged() {
-//        notifyDataSetChanged();
-//        for(OrderLocation orderLocation : orderLocations) {
-//            if(orderLocation.getSelected() == 1) {
-//                selectedOrderLocationId = orderLocation.getId();
-//            }
-//        }
-//    }
 }
