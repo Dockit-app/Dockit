@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -43,6 +44,16 @@ public class TableSelection extends AppCompatActivity {
         //Update the textView to show the name of the user
         nameUser = findViewById(R.id.nameUser);
         nameUser.setText(name);
+
+        nameUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(view.getContext(), Login.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+
+            }
+        });
 
         //buttons shows dialogs
         newOrder = findViewById(R.id.newOrder);

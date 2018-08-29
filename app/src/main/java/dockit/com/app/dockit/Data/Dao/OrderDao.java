@@ -45,7 +45,7 @@ public interface OrderDao {
     LiveData<List<Order>> getTablesNumbers(String table);
 
     //get open tables
-    @Query("Select orderTable from order_item")
+    @Query("Select orderTable from order_item order by orderTable")
     LiveData<List<Order>> getExistingTables();
 
     //get the table with the selected id
