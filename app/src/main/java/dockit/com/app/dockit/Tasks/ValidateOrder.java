@@ -25,12 +25,12 @@ public class ValidateOrder {
                         highestSectionCount = currentSectionCount;
                     }
                     else if (currentSectionCount < highestSectionCount) {
-                        menu.get(currentSectionIndex).setHighlighting(true);
+                            menu.get(currentSectionIndex).setHighlighting(true);
                     }
                     else if (currentSectionCount > highestSectionCount) {
-                        menu.get(highestSectionIndex).setHighlighting(true);
-                        highestSectionCount = currentSectionCount;
-                        highestSectionIndex = currentSectionIndex;
+                            menu.get(highestSectionIndex).setHighlighting(true);
+                            highestSectionCount = currentSectionCount;
+                            highestSectionIndex = currentSectionIndex;
                     }
 
                     currentSectionCount = 0;
@@ -44,16 +44,15 @@ public class ValidateOrder {
         }
         //Done one more time at conclusion of loop to ensure the last section heading is highlighted if needed
         if (currentSectionIndex == 0) {
-            highestSectionCount = currentSectionCount;
         }
         else if (currentSectionCount < highestSectionCount) {
             menu.get(currentSectionIndex).setHighlighting(true);
         }
         else if (currentSectionCount > highestSectionCount) {
             menu.get(highestSectionIndex).setHighlighting(true);
-            highestSectionCount = currentSectionCount;
-            highestSectionIndex = currentSectionIndex;
         }
+
+
         return menu;
     }
 

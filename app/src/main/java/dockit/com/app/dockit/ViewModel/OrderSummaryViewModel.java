@@ -3,6 +3,7 @@ package dockit.com.app.dockit.ViewModel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class OrderSummaryViewModel extends AndroidViewModel {
     private int maxOrderLocations = 50; //TODO: Persist in DB
     private int orderId = 1;
     List<String> groupedItems;
+    private MutableLiveData<Boolean> orderSpacing;
 
     private OrderRepository orderRepository;
     private ValidateOrder validateOrder;
@@ -38,12 +40,11 @@ public class OrderSummaryViewModel extends AndroidViewModel {
         liveOrderResults = orderRepository.getLiveAll();
 
         validateOrder = new ValidateOrder();
+
+        orderSpacing = new MutableLiveData<>();
+        //setting value to true to test order spacing display
+        orderSpacing.setValue(true);
     }
-
-
-//    public LiveData<OrderResult> RetrieveOrderInfo(int id) {
-//        return orderRepository.retrieveOrder(id);
-//    }
 
     public String GetTable(OrderResult order) {
         return order.getOrderTable();
@@ -130,14 +131,28 @@ public class OrderSummaryViewModel extends AndroidViewModel {
         return groupMenu;
     }
 
+
+    public MutableLiveData<Boolean> isOrderSpaced() {
+        return orderSpacing;
+    }
+
     public List<SummaryItemView> ValidOrder (List<SummaryItemView> menu) {
         menu = validateOrder.ValidateOrder(menu);
-        //if (index == -1) {
+        return menu;
+    }
 
-        //}
-        //else {
-          //  menu.get(index).setHighlighting(true);
-        //}
+    public List<SummaryItemView> removeEmptySections (List<SummaryItemView> menu) {
+        for (int i = 0; i < menu.size()-1; i++) {
+            SummaryItemView item1 = menu.get(i);
+            SummaryItemView item2 = menu.get(i+1);
+            if (item1.isSection() && item2.isSection()) {
+                menu.remove(i);
+            }
+        }
+        SummaryItemView item = menu.get(menu.size()-1);
+        if (item.isSection()) {
+            menu.remove(menu.size()-1);
+        }
         return menu;
     }
 
