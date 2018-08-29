@@ -13,6 +13,7 @@ import dockit.com.app.dockit.Entity.Decorator.OptionsItemView;
 import dockit.com.app.dockit.Entity.Decorator.SummaryItemView;
 import dockit.com.app.dockit.Entity.IngredientItem;
 import dockit.com.app.dockit.Entity.MandatoryItem;
+import dockit.com.app.dockit.Entity.MenuItem;
 import dockit.com.app.dockit.Entity.OptionalItem;
 import dockit.com.app.dockit.Entity.Result.MenuItemResult;
 import dockit.com.app.dockit.Entity.Result.MenuResult;
@@ -147,6 +148,7 @@ public class OrderSummaryViewModel extends AndroidViewModel {
             SummaryItemView item2 = menu.get(i+1);
             if (item1.isSection() && item2.isSection()) {
                 menu.remove(i);
+                i -= 1;
             }
         }
         SummaryItemView item = menu.get(menu.size()-1);
