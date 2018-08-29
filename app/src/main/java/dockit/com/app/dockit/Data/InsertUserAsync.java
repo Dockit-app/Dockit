@@ -16,9 +16,9 @@ public class InsertUserAsync extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(final Void... params) {
         uDao.deleteAll();
-        User user = new User("1","12345","User");
+        User user = new User("1","12","Peter");
         uDao.insert(user);
-        User user2 = new User("2","54321","User2");
+        User user2 = new User("2","54321","Deirdre");
         uDao.insert(user2);
         return null;
     }

@@ -14,14 +14,13 @@ import dockit.com.app.dockit.Repository.TableRepository;
 public class TableSelectionViewModel extends AndroidViewModel {
 
     private TableRepository tableRepository;
-    public MutableLiveData<Boolean> isTableNameValidated;
+    public MutableLiveData<String> validTableName;
     public MutableLiveData<OrderResult> selectedExistingOrder;
 
     public TableSelectionViewModel(Application application) {
         super(application);
         tableRepository = new TableRepository(application);
-        isTableNameValidated = new MutableLiveData();
-        isTableNameValidated.setValue(false);
+        validTableName = new MutableLiveData<>();
         selectedExistingOrder = new MutableLiveData<>();
     }
 

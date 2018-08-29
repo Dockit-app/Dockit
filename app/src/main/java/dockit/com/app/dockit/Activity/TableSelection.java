@@ -3,7 +3,6 @@ package dockit.com.app.dockit.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +17,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +25,6 @@ import dockit.com.app.dockit.Entity.Result.OrderResult;
 import dockit.com.app.dockit.R;
 import dockit.com.app.dockit.Tasks.SharedPreferencesManager;
 import dockit.com.app.dockit.ViewModel.TableSelectionViewModel;
-
-import static android.content.Intent.FLAG_ACTIVITY_NEW_DOCUMENT;
 
 public class TableSelection extends AppCompatActivity {
     private Button newOrder, existingOrder;
@@ -131,35 +127,32 @@ public class TableSelection extends AppCompatActivity {
         dialog.show();
     }
 
-    private void setTableValidationObserver(String table) {
+    private void setTableValidationObserver(final String table) {
 
         tableSelectionViewModel.createNewTable(table).observe(this, new Observer<List<Order>>() {
             @Override
             public void onChanged(@Nullable List<Order> orders) {
+                char alphabet= 'A';
                 String updatedTable = table;
-                char alphabet = 'A';
                 //If there are results, search for the first one not used
                 if (orders != null) {
                     for (Order orderTables : orders) {
                         if (updatedTable.equals(orderTables.getOrderTable())) { //find
-                            alphabet++;
                             updatedTable = table + alphabet;
-                            break;
+                            alphabet++;
                         }
                     }
                 }
-                tableSelectionViewModel.isTableNameValidated.setValue(true);
+                tableSelectionViewModel.validTableName.setValue(updatedTable);
                 tableSelectionViewModel.createNewTable(updatedTable).removeObserver(this);
             }
         });
 
-        tableSelectionViewModel.isTableNameValidated.observe(this, new Observer<Boolean>() {
+        tableSelectionViewModel.validTableName.observe(this, new Observer<String>() {
             @Override
-            public void onChanged(@Nullable Boolean isValidated) {
-                if(isValidated) {
-                    createOrderActivity(table, null);
-                    tableSelectionViewModel.isTableNameValidated.removeObserver(this);
-                }
+            public void onChanged(@Nullable String validTable) {
+                createOrderActivity(validTable, null);
+                tableSelectionViewModel.validTableName.removeObserver(this);
             }
         });
     }
