@@ -64,6 +64,7 @@ public class MenuFragment extends Fragment {
             @Override
             public void onChanged(@Nullable List<MenuItem> menuItems) {
                 menuItemListAdapter.notifyDataSetChanged();
+                Log.i(this.getClass().getSimpleName(), "Menu item change observed");
             }
         });
 

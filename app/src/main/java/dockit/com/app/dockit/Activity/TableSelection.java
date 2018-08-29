@@ -169,9 +169,6 @@ public class TableSelection extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable List<OrderResult> orders) {
                 if (orders != null){
-//                    for (OrderResult order : orders) {
-//                        createOrderActivity(null, orders.get(0));
-//                    }
                     tableSelectionViewModel.selectedExistingOrder.setValue(orders.get(0));
                 }
                 tableSelectionViewModel.getOrderSelected(table).removeObserver(this);

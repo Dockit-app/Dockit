@@ -16,8 +16,8 @@ import dockit.com.app.dockit.ViewModel.MenuItemViewModel;
 
 public class MenuItemClickListenerBuilder {
 
-    MenuItemViewModel menuItemViewModel;
-    MenuItemListAdapter menuItemListAdapter;
+    private MenuItemViewModel menuItemViewModel;
+    private MenuItemListAdapter menuItemListAdapter;
 
     public MenuItemClickListenerBuilder(MenuItemViewModel menuItemViewModel, MenuItemListAdapter menuItemListAdapter) {
         this.menuItemListAdapter = menuItemListAdapter;

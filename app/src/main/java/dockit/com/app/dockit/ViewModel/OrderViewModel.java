@@ -2,6 +2,7 @@ package dockit.com.app.dockit.ViewModel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
@@ -30,7 +31,6 @@ public class OrderViewModel extends AndroidViewModel {
     private LiveData<List<OrderResult>> liveOrderResults;
     private MutableLiveData<OrderLocation> liveSelectedOrderLocation;
     private MutableLiveData<OrderResult> liveOrderResult;
-    private LiveData<OrderResult> liveGetOrderResult;
 
     private OrderRepository orderRepository;
     private OrderLocationRepository orderLocationRepository;
@@ -40,15 +40,12 @@ public class OrderViewModel extends AndroidViewModel {
     public OrderViewModel(@NonNull Application application) {
         super(application);
 
-        this.orderRepository = new OrderRepository(application);
-        this.orderLocationRepository = new OrderLocationRepository(application);
-
-        this.createOrderAsync = new CreateOrderAsync(application);
+        orderRepository = new OrderRepository(application);
+        orderLocationRepository = new OrderLocationRepository(application);
+        menuItemRepository = new MenuItemRepository(application);
+        createOrderAsync = new CreateOrderAsync(application);
 
         liveOrderResults = orderRepository.getLiveAll();
-
-        menuItemRepository = new MenuItemRepository(application);
-
         liveSelectedOrderLocation = new MutableLiveData();
         liveOrderResult = new MutableLiveData<>();
     }
@@ -122,5 +119,10 @@ public class OrderViewModel extends AndroidViewModel {
 
     public void setLiveOrderResult(OrderResult liveOrderResult) {
         this.liveOrderResult.setValue(liveOrderResult);
+    }
+
+    public void removeAllObservers(LifecycleOwner lifecycleOwner, int orderId) {
+        this.getLiveOrderResults().removeObservers(lifecycleOwner);
+        this.getLiveOrderById(orderId).removeObservers(lifecycleOwner);
     }
 }
