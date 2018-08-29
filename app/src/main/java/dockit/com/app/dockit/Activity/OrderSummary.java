@@ -1,5 +1,6 @@
 package dockit.com.app.dockit.Activity;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -111,12 +112,12 @@ public class OrderSummary extends AppCompatActivity {
             }
         });
         fab.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NewApi")
             @Override
             public void onClick(View v) {
                 final int status = (Integer) v.getTag();
                 if (status == 0) {
-                    //couldn't get image to change, but the logic works
-                    fab.setImageResource(R.drawable.tick_icon);
+                    fab.setForeground(getResources().getDrawable(R.drawable.tick_icon));
                     String newTime = (String) timeText.getText();
                     newTime += "\n(+5 mins) ";
                     timeText.setText(newTime);
